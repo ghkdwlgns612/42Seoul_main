@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 void	*ft_memccpy(void *dest, const void *src, int val, size_t size)
 {
 	unsigned char* dest_cpy;
@@ -14,10 +16,19 @@ void	*ft_memccpy(void *dest, const void *src, int val, size_t size)
 		if (src_cpy[i] == val_cpy)
 		{
 			dest_cpy[i] = val_cpy;
-			return (&dest_cpy[i+1]);
+			return (&dest_cpy[i + 1]);
 		}
 		dest_cpy[i] = src_cpy[i];
 		i++;
 	}
 	return (NULL);
+}
+
+int	main()
+{
+	char str[] = "abcdeftttsx";
+	char str_cp[20];
+	ft_memccpy(str_cp, str, 't', 4);
+	printf("%s\n",str_cp);
+	return 0;
 }
