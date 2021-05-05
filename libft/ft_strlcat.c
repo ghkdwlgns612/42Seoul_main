@@ -20,7 +20,7 @@ size_t		ft_strlcat(char *dest, const char *src, size_t size)
 		return (d_len + s_len);
 	return (size + s_len);
 }
-
+strlen -> ft_strlen
 int	main()
 {
 	char str1[] = "abcde";
