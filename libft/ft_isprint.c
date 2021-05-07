@@ -6,13 +6,13 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 18:32:18 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/05 18:32:30 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/07 14:19:51 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_isprint(int c)
+int		ft_isprint(int c)
 {
 	return (' ' <= c && c <= '~');
 }

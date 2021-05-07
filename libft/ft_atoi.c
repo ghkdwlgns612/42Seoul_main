@@ -6,13 +6,13 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 16:35:21 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/05 18:28:07 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/07 13:58:22 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_atoi(const char *str)
+int		ft_atoi(const char *str)
 {
 	int i;
 	int minus;

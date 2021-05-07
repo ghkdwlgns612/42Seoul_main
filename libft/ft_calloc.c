@@ -6,13 +6,13 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 18:28:51 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/05 18:30:17 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/07 13:52:27 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void *ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
 	void *ret;
 

@@ -6,13 +6,13 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 18:30:29 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/05 18:30:44 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/07 13:58:44 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_isalnum(int c)
+int		ft_isalnum(int c)
 {
 	if (c >= '0' && c <= '9')
 		return (1);

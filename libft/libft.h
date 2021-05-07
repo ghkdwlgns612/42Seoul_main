@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 18:19:28 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/05 18:19:28 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/07 15:25:36 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,8 @@ char *ft_strrchr(const char *s, int ch);
 int ft_tolower(int c);
 int ft_toupper(int c);
 char *ft_substr(char const *s, unsigned int start, size_t len);
+int		ft_memcmp(const void *str1, const void *str2, size_t num);
+size_t	ft_strlen(const char *str);
+void	*ft_memchr(const void *str, int c, size_t num);
 
 #endif

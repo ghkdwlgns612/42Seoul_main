@@ -6,16 +6,16 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 21:55:23 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/05 21:57:41 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/07 14:19:14 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_bzero(void *ptr, size_t size)
+void	ft_bzero(void *ptr, size_t size)
 {
-	int i;
-	unsigned char *startptr;
+	int				i;
+	unsigned char	*startptr;
 
 	startptr = (unsigned char *)ptr;
 	i = 0;
