@@ -1,10 +1,22 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/05 16:35:21 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/05/05 18:28:07 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_atoi(const char *str)
+#include "libft.h"
+
+int ft_atoi(const char *str)
 {
-	int	i;
-	int	minus;
-	int	res;
+	int i;
+	int minus;
+	int res;
 
 	i = 0;
 	minus = 1;
@@ -13,7 +25,7 @@ int	ft_atoi(const char *str)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
-		if(str[i] == '-')
+		if (str[i] == '-')
 			minus = -1;
 		i++;
 	}
@@ -24,12 +36,4 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (minus * res);
-}
-
-int	main()
-{
-	printf("%d\n",ft_atoi("  -1234"));
-	printf("%d\n",ft_atoi("		234"));
-	printf("%d\n",ft_atoi("- 12345"));
-	return 0;
 }

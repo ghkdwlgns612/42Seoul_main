@@ -1,11 +1,25 @@
-void	*ft_memmove(void *dest, const void* src, size_t num)
-{
-	unsigned char*		dest_cpy;
-	unsigned char*		src_cpy;
-	size_t			i;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/05 18:34:34 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/05/05 18:34:49 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-	dest_cpy = (unsigned char*)dest;
-	src_cpy = (unsigned char*)src;
+#include "libft.h"
+
+void *ft_memmove(void *dest, const void *src, size_t num)
+{
+	unsigned char *dest_cpy;
+	unsigned char *src_cpy;
+	size_t i;
+
+	dest_cpy = (unsigned char *)dest;
+	src_cpy = (unsigned char *)src;
 	i = 0;
 	if (dest_cpy == src_cpy || num == 0)
 		return (dest);
@@ -17,7 +31,7 @@ void	*ft_memmove(void *dest, const void* src, size_t num)
 		}
 	else
 	{
-		while(i < num)
+		while (i < num)
 		{
 			dest_cpy[num - i - 1] = src_cpy[num - i - 1];
 			i++;

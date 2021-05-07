@@ -1,6 +1,20 @@
-int	ft_strncmp(const char *str1, const char *str2, size_t num)
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/05 18:39:01 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/05/05 18:39:32 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int ft_strncmp(const char *str1, const char *str2, size_t num)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	if (num == 0)
