@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 20:42:02 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/06 20:42:02 by jihuhwan         ###   ########.fr       */
+/*   Created: 2021/05/08 12:34:09 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/05/08 12:34:09 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_substr(char const *str, unsigned int start, size_t len)
+char    *ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-    char *ret;
-    size_t size;
+    char    *str;
+    size_t  len;
+    size_t  i;
 
-    ret = (char *)malloc(sizeof(char) * (len + 1));
-    size = ft_strlen(str);
-    if (ret == 0 || str == 0)
+    i = 0;
+    len = ft_strlen(s);
+    if (s == 0) //입력 문자열이 0일 때
         return (0);
-    if (start >= size)
+    if ((str = (char *)malloc(sizeof(char) * (len + 1))) == 0)//할당이 안됬을 때
+        return (0);
+    while (i < len)
     {
-        ret[0] = '\0';
-        return (ret);
+        str[i] = f(i, s[i]);
+        i++;
     }
-    ft_strlcpy(ret, str + start, len + 1);
-    return (ret);
+    str[i] = '\0';
+    return (str);
 }

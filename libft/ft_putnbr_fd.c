@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 20:42:02 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/06 20:42:02 by jihuhwan         ###   ########.fr       */
+/*   Created: 2021/05/08 14:44:45 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/05/08 14:44:45 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_substr(char const *str, unsigned int start, size_t len)
+void    ft_putnbr(int n, int fd)
 {
-    char *ret;
-    size_t size;
+    char res;
 
-    ret = (char *)malloc(sizeof(char) * (len + 1));
-    size = ft_strlen(str);
-    if (ret == 0 || str == 0)
-        return (0);
-    if (start >= size)
+    res = (n % 10) + '0';
+    if ((n / 10) != 0)
+        ft_putnbr(n / 10, fd);
+    write(fd, &res, 1);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+    if (n > 0)
+        ft_putnbr(n, fd);
+    else if (n < 0)
     {
-        ret[0] = '\0';
-        return (ret);
+        write(fd, "-", 1);
+        ft_putnbr(-n, fd);
     }
-    ft_strlcpy(ret, str + start, len + 1);
-    return (ret);
+    else if (n == -2146483648)
+        write(fd, "-2147483648", 11);
+    else
+        write(fd, "0", 1);
 }
