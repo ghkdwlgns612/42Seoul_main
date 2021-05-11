@@ -6,17 +6,27 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 16:35:21 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/07 13:58:22 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/11 11:02:15 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+int				ft_minus(char c)
 {
-	int i;
-	int minus;
-	int res;
+	if (c == '+' || c == '-')
+	{
+		if (c == '-')
+			return (-1);
+	}
+	return (1);
+}
+
+int				ft_atoi(const char *str)
+{
+	int			i;
+	int			minus;
+	long long	res;
 
 	i = 0;
 	minus = 1;
@@ -32,7 +42,7 @@ int		ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res *= 10;
-		res += str[i] - '0';
+		res += str[i] - 48;
 		i++;
 	}
 	return (minus * res);

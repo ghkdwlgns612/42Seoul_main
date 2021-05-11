@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 11:48:49 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/09 11:50:36 by jihuhwan         ###   ########.fr       */
+/*   Created: 2021/05/10 11:04:12 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/05/10 11:29:48 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void		ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	size_t	len;
+	t_list	*temp;
 
-	if (s == 0 || fd < 0)
+	if (lst == 0 || del == 0)
 		return ;
-	len = ft_strlen(s);
-	write(fd, s, len);
-	write(fd, "\n", 1);
+	if (*lst == 0)
+		return ;
+	while (*lst != 0)
+	{
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free((*lst));
+		*lst = temp;
+	}
+	*lst = 0;
 }

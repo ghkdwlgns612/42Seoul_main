@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:39:51 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/09 15:11:59 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/10 16:11:38 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,21 @@
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*str;
-	size_t	start;
-	size_t	end;
+	size_t	len;
+	char	*res;
 
-	start = 0;
-	end = ft_strlen(s1);
-	if (s1 == NULL)
-		return (NULL);
-	if (set == NULL)
+	if (!s1)
+		return (0);
+	if (!set)
 		return (ft_strdup(s1));
-	while (s1[start] && ft_strchr(set, s1[start]))
-		start++;
-	while (s1[end - 1] && ft_strchr(set, s1[end - 1]))
-	{
-		if (end == 1)
-			break ;
-		end--;
-	}
-	if (start > end)
-		return (ft_strdup(""));
-	if ((str = (char *)malloc((end - start + 1))) == 0)
-		return (NULL);
-	ft_strlcpy(str, s1 + start, end - start + 1);
-	return (str);
+	while (*s1 && ft_strchr(set, *s1) != 0)
+		s1++;
+	len = ft_strlen(s1);
+	while (len && s1[len - 1] && ft_strchr(set, s1[len - 1]) != 0)
+		len--;
+	if (!(res = (char *)malloc(sizeof(char) * (len + 1))))
+		return (0);
+	ft_memcpy(res, s1, len);
+	res[len] = '\0';
+	return (res);
 }

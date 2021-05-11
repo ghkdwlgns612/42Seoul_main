@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 12:08:07 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/09 12:08:57 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/11 11:27:10 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 char		*ft_substr(char const *str, unsigned int start, size_t len)
 {
-	char	*ret;
-	size_t	size;
+	char	*res;
+	size_t	new_len;
 
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	size = ft_strlen(str);
-	if (ret == 0 || str == 0)
+	if (str == 0)
 		return (0);
-	if (start >= size)
-	{
-		ret[0] = '\0';
-		return (ret);
-	}
-	ft_strlcpy(ret, str + start, len + 1);
-	return (ret);
+	if ((unsigned int)ft_strlen(str) < start)
+		return (ft_strdup(""));
+	new_len = ft_strlen(str + start);
+	if (new_len < len)
+		len = new_len;
+	if (!(res = (char *)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	ft_strlcpy(res, str + start, len + 1);
+	return (res);
 }
