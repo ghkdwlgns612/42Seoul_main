@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:46:56 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/17 15:12:41 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/18 14:08:20 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5000
+#  define BUFFER_SIZE 5
 # endif
 
 #include <limits.h>
@@ -31,6 +31,6 @@ int         ft_newline(char *str);
 int         get_next_line(int fd, char **line);
 char        *ft_strdup(char *str);
 int         ft_return(char **static_str, char **line);
-int         ft_split_line(int read_index, char **static_str, char **line);
+int         ft_split_line(char **line, char **static_str, int flag);
 
 # endif

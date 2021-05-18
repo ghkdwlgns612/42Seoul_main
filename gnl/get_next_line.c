@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 14:02:52 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/17 15:12:42 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/18 15:06:40 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int		ft_newline(char *str)
 	return (-1);
 }
 
-int		ft_split_line(int read_index, char **static_str, char **line)
+int		ft_split_line(char **line, char **static_str, int flag)
 {
 	char	*temp;
 	int		len;
 
-	(*static_str)[read_index] = '\0';
-	len = ft_strlen(*static_str + read_index + 1);
+	(*static_str)[flag] = 0;
+	len = ft_strlen(*static_str + flag + 1);
 	*line = ft_strdup(*static_str);
 	if (len == 0)
 	{
@@ -40,7 +40,7 @@ int		ft_split_line(int read_index, char **static_str, char **line)
 		*static_str = 0;
 		return (1);
 	}
-	temp = ft_strdup(*static_str + read_index + 1);
+	temp = ft_strdup(*static_str + flag + 1);
 	free(*static_str);
 	*static_str = temp;
 	return (1);
@@ -50,9 +50,8 @@ int		ft_return(char **static_str, char **line)
 {
 	int		flag;
 
-	flag = ft_newline(*static_str);
-	if (*static_str && flag >= 0)
-		return (ft_split_line(flag, static_str, line));
+	if (*static_str && (flag = ft_newline(*static_str)) >= 0)
+		return (ft_split_line(line, static_str, flag));
 	else if(*static_str)
 	{
 		*line = *static_str;
@@ -73,15 +72,15 @@ int     get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0) 
         return (-1);
-    while ((read_index = read(fd, buf, BUFFER_SIZE)) >= 0)
+    while ((read_index = read(fd, buf, BUFFER_SIZE)) > 0)
     {
 		if (str[fd] == 0)
 			str[fd] = ft_strdup("");
 		buf[read_index] = '\0';
-		flag = ft_newline(buf);
 		str[fd] = ft_strjoin(str[fd], buf);
+		flag = ft_newline(str[fd]);
 		if (flag >= 0)
-			return (ft_split_line(flag, &str[fd], line));
+			return (ft_split_line(line, &str[fd], flag));
     }
 	if (read_index < 0)
 		return (-1);
