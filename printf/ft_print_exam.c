@@ -162,7 +162,7 @@ void    ft_int_print(inform_list *inform, char *str)
 {
     int temp = inform->num;
     int len = inform->length;
-    int i = 0;
+    int i = -1;
     str[len--] = '\0';
     if (inform->flag == 3)
     {
