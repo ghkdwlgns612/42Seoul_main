@@ -3,20 +3,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef struct data{
-    int num;
-    char alpha;
-    char *str;
-}   type_variable;
-
 typedef struct inform {
     int type;
     int length;
     int flag;
     int width;
     int num;
-    char alpha;
-    char *str;
+    int cnt;
+    int result_cnt;
 }   inform_list;
 
 int	ft_strlen(const char *str)
@@ -81,8 +75,7 @@ void    ft_init(inform_list *inform)
     inform->flag = 0;
     inform->width = 0;
     inform->num = 0;
-    inform->alpha = 0;
-    inform->str = 0;
+    inform->cnt = 0;
 }
 
 void    ft_type(inform_list *inform, char *buf)
@@ -111,14 +104,14 @@ void    ft_length(inform_list *inform, char *buf, va_list ap)
             else
                 inform->length = ft_int_length(inform->num);
             break;
-        case 2 :
-            inform->str = va_arg(ap,char *);
-            inform->length = 1;
-            break;
-        case 3 :
-            inform->str = va_arg(ap,char *);
-            inform->length = ft_strlen(inform->str);
-            break;
+        // case 2 :
+        //     inform->str = va_arg(ap,char *);
+        //     inform->length = 1;
+        //     break;
+        // case 3 :
+        //     inform->str = va_arg(ap,char *);
+        //     inform->length = ft_strlen(inform->str);
+        //     break;
         default:
             break;
     }
@@ -161,7 +154,6 @@ void    ft_width(inform_list *inform, char *buf, va_list ap)
         {
         //    출력
         }
-        
         i++;
     }
 }
@@ -170,17 +162,33 @@ void    ft_int_print(inform_list *inform, char *str)
 {
     int temp = inform->num;
     int len = inform->length;
+    int i = 0;
     str[len--] = '\0';
-    while (temp)
+    if (inform->flag == 3)
     {
-        str[len--] = (temp % 10) + '0';
-        temp /= 10;
+        while (temp)
+        {
+            str[len--] = (temp % 10) + '0';
+            temp /= 10;
+        }
+    }
+    else if (inform->flag == 2)
+    {
+        while (i < len)
+        {
+            str[len--] = (temp % 10) + '0';
+            temp /= 10;
+            inform->cnt++;
+            printf("%s\n",str);
+        }
+        inform->cnt++;
+        while (inform->cnt < inform->width)
+            str[inform->cnt++] = '0';
+        str[inform->cnt++] = '\0';
     }
     while (*str)
-    {
-        write(1,str,1);
-        str++;
-    }
+        write(1,str++,1);
+    write(1,"\n",1);
 }
 
 int     ft_printf(const char *str, ...)
@@ -190,18 +198,16 @@ int     ft_printf(const char *str, ...)
     char *buf = ft_strdup(str);
     char *res;
     va_start(ap,str);
-
-    // printf("%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
-    // printf("%d\n",my_inform->length); // 문자 및 숫자의 길이
-    // printf("%d\n",my_inform->width); // 중간 인자에 대한 것
-    // printf("%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.  
+    
+    printf("%s",buf);
     while (*buf)
     {
         ft_init(my_inform);
         ft_type(my_inform, buf);
         ft_width(my_inform, buf,ap);
         ft_length(my_inform,buf,ap);
-        ft_flag(my_inform, buf); break ;
+        ft_flag(my_inform, buf);
+
 
         if (my_inform->type == 1)
         {
@@ -210,18 +216,28 @@ int     ft_printf(const char *str, ...)
                 res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
                 ft_int_print(my_inform, res);
             }
+            else
+            {
+                res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
+                ft_int_print(my_inform, res);
+            }
             buf = ft_forward(buf);
         }
         buf++;
         free(res);
+        break ;
     }
-    printf("1");
+    // printf("%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
+    // printf("%d\n",my_inform->length); // 문자 및 숫자의 길이
+    // printf("%d\n",my_inform->width); // 중간 인자에 대한 것
+    // printf("%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
+    // printf("%d\n",my_inform->num);
+
     return (1);
 }
 
 int main()
 {
-    ft_printf("%0d",-1234566);
-//    printf("%05d",123);
+    ft_printf("%-6d",1234);
     return 0;
 }
