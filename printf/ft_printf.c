@@ -1,25 +1,4 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-
-typedef struct inform {
-    int num;
-    char alpha;
-    char *str;
-    double dot;
-}   inform_list;
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != 0)
-		i++;
-	return (i);
-}
+#inlcl
 
 char	*ft_strdup(const char *str)
 {
@@ -44,76 +23,33 @@ char	*ft_strdup(const char *str)
 }
 
 
-void    ft_print011(char *res, void *data, char *str)
+char     *ft_buffer(char *buf, va_list ap)
 {
-    int mod = 0;
-    int i;
+    char ret;
     int len;
-    int temp;
     
-    if (str == "int")
+    len = 0;
+    while (1)
     {
-        temp = data;
-        while (temp)
+        if (*buf == 'c' ||*buf == 's' ||*buf == 'p' ||*buf == 'd' ||*buf == 'i' ||*buf == 'u' ||*buf == 'x' ||*buf == 'X')
+            break;
+        else
         {
-            temp /= 10;
-            len++;
         }
-        res[len--] = '\0';
-        while (len)
-        {
-            mod = data % 10;
-            res[len--] = mod;
-        }
+        buf++;
     }
-    else
-    {}
+    ret = *buf;
+    buf++;
 }
 
-
-char    *ft_write(char *res, char *type, void *data, char *str)
-{
-    if (type[0] == '1' && type[1] == '1' && type[2] == '1')
-        ft_print011(res,data,str);
-    else if (type[0] == '1' && type[1] == '1' && type[2] == '0')
-        ft_print011(res,data,str);
-    else if (type[0] == '1' && type[1] == '0' && type[2] == '0')
-        ft_print011(res,data,str);
-    else if (type[0] == '1' && type[1] == '0' && type[2] == '1')
-        ft_print011(res,data,str);
-    else if (type[0] == '0' && type[1] == '1' && type[2] == '1')
-        ft_print011(res,data,str);
-    else if (type[0] == '0' && type[1] == '0' && type[2] == '1')
-        ft_print011(res,data,str);
-    else if (type[0] == '0' && type[1] == '1' && type[2] == '0')
-        ft_print011(res,data,str);
-    else if (type[0] == '0' && type[1] == '0' && type[2] == '0')
-        ft_print011(res,data,str);
-    return (res);
-}
-
-
-int     ft_width(char *str)
-{
-    int num = 0;
-    
-    while (*str >= '1' && *str <= '9')
-    {
-        num *= 10;
-        num += *str - '0';
-        str++;
-    }
-    return (num);
-}
 
 int     ft_printf(const char *str, ...)
 {
     va_list ap;
     char type[3] = {'0','0','0'};
-    char *res;
+    char *str1;
     int i = 0;
-    int len = 0;
-    int temp = 0;
+    int arg;
     char *buf = ft_strdup(str);
     inform_list abc;
     
@@ -122,71 +58,40 @@ int     ft_printf(const char *str, ...)
     {
         if (*buf == '%' && *(buf + 1) != '\0')
         {
+//            str1 = ft_buffer(buf, ap);
             while (*buf && *buf != 'c'&& *buf != 's'&& *buf != 'p'&& *buf != 'd'&& *buf != 'i'&& *buf != 'u'&& *buf != 'x'&& *buf != 'X')
             {
-                if (*buf == '*')
+                if (*buf == '0')
                     type[0] = '1';
                 else if(*buf == '-')
                     type[1] = '1';
-                else if(*buf == '0')
+                else if(*buf == '*')
                     type[2] = '1';
-                else if(*buf >= '1' && *buf <= '9')
-                {
-                    len = ft_width(buf);
-                    while (*buf >= '1' && *buf <= '9')
-                        buf++;
-                }
-                else
-                    write(1,&(*buf),1);
                 buf++;
             }
-            if (*buf == 'd') //int형
-            {
+            if (*buf == 'd')
                 abc.num = va_arg(ap, int);
-                temp = abc.num;
-                if (len == 0)
-                {
-                    while (temp)
-                    {
-                        temp /= 10;
-                        len++;
-                    }
-                }
-                res = (char *)malloc(sizeof(char) *(len + 1));
-                res = ft_write(res,type,&abc.num, "int");
-            }
-            else if (*buf == 's') // str형
-            {
+            else if (*buf == 's')
                 abc.str = va_arg(ap, char *);
-                if (len == 0)
-                    len = ft_strlen(abc.str);
-                res = (char *)malloc(sizeof(char) *(len + 1));
-                res = ft_write(res,type,abc.str,"str");
-            }
-            if (*buf == 's' || *buf == 'd')
-                free(res);
             if (*(buf + 1) != '\0')
                 buf++;
         }
         else if(*buf != '%')
         {
-          write(1,buf,1);
-          printf("\n");
+           write(1,buf,1);
+           printf("\n");
         }
         buf++;
     }
     va_end(ap);
-    return (len);
+    return (i);
 }
 
 
 
 int main()
 {
-//    ft_printf("[  %0-s123156]", "1234");
-    int num;
-    num = printf("%-5\n","123");
-    printf("num : %d\n",num);
+   ft_printf("[  %0*s123156]","123133");
+//    printf("%*s",-5 ,"123");
     return 0;
 }
-
