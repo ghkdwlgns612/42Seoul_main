@@ -32,5 +32,6 @@ void    ft_int_flag_arr(inform_list *inform, int temp, int len, char *str);
 void    ft_int_put_value(inform_list *inform, int temp, int len, char *str);
 int    ft_int_print(inform_list *inform, char *str);
 int     ft_printf(const char *str, ...);
+void    ft_int_zero(inform_list *inform, char *str);
 
 #endif

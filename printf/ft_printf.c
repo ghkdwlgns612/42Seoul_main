@@ -42,7 +42,7 @@ int     ft_printf(const char *str, ...)
     int len;
     va_start(ap,str);
     
-    while (1)
+    while (*buf)
     {
         my_inform = (inform_list *)malloc(sizeof(inform_list));
         ft_init(my_inform);
@@ -50,20 +50,13 @@ int     ft_printf(const char *str, ...)
         ft_width(my_inform, buf,ap);
         ft_length(my_inform,buf,ap);
         ft_flag(my_inform, buf);
-
-
         if (my_inform->type == 1)
         {
             if (my_inform->width == 0)
-            {
                 res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
-                len = ft_int_print(my_inform, res);
-            }
             else
-            {
                 res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
-                len = ft_int_print(my_inform, res);
-            }
+            len = ft_int_print(my_inform, res);
             buf = ft_forward(buf);
         }
         // printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
@@ -83,28 +76,28 @@ int main()
 {
     int num1;
     int num2;
-    num1 = ft_printf("%d\n",1234);
-    num2 = printf("%d\n",1234);
+    num1 = ft_printf("%5d\n",0);
+    num2 = printf("%5d\n",0);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%6d\n",1234);
-    num2 = printf("%6d\n",1234);
+    num1 = ft_printf("%5d\n",0);
+    num2 = printf("%5d\n",0);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%-6d\n",1234);
-    num2 = printf("%-6d\n",1234);
+    num1 = ft_printf("%-5d\n",0);
+    num2 = printf("%-5d\n",0);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%06d\n",1234);
-    num2 =printf("%06d\n",1234);
+    num1 = ft_printf("%05d\n",0);
+    num2 =printf("%05d\n",0);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%0-6d\n",1234);
-    num2 = printf("%0-6d\n",1234);
+    num1 = ft_printf("%0-5d\n",0);
+    num2 = printf("%0-5d\n",0);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%-06d\n",1234);
-    num2 = printf("%-06d\n",1234);
+    num1 = ft_printf("%-05d\n",0);
+    num2 = printf("%-05d\n",0);
     printf("%d\n",num1);
     printf("%d\n",num2);
     return 0;
