@@ -1,4 +1,19 @@
-#include "ft_printf.h"
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+typedef struct inform {
+    int type;
+    int length;
+    int flag;
+    int width;
+    int num;
+    int cnt;
+    int result_cnt;
+}   inform_list;
+
+
 
 void    ft_write(char *str)
 {
@@ -248,9 +263,9 @@ int     ft_printf(const char *str, ...)
     char *res;
     va_start(ap,str);
     
-   printf("%s",buf);
     while (1)
     {
+        my_inform = (inform_list *)malloc(sizeof(inform_list));
         ft_init(my_inform);
         ft_type(my_inform, buf);
         ft_width(my_inform, buf,ap);
@@ -273,6 +288,7 @@ int     ft_printf(const char *str, ...)
             buf = ft_forward(buf);
         }
         free(res);
+        free(my_inform);
         break ;
     }
 // printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
