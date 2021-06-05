@@ -2,14 +2,14 @@
 
 void    ft_init(inform_list *inform)
 {
-    inform->type = 0;
-    inform->length = 0;
-    inform->flag = 0;
-    inform->width = 0;
-    inform->num = 0;
     inform->cnt = 0;
+    inform->flag = 0;
+    inform->length = 0;
+    inform->num = 0;
+    inform->result_cnt = 0;
+    inform->type = 0;
+    inform->width = 0;
 }
-
 void    ft_type(inform_list *inform, char *buf)
 {
     int i = 0;

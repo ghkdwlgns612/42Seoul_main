@@ -52,7 +52,7 @@ int     ft_printf(const char *str, ...)
         ft_flag(my_inform, buf);
         if (my_inform->type == 1)
         {
-            if (my_inform->width == 0)
+            if (my_inform->width == 2147483647)
                 res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
             else
                 res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
@@ -76,28 +76,28 @@ int main()
 {
     int num1;
     int num2;
-    num1 = ft_printf("%5d\n",0);
-    num2 = printf("%5d\n",0);
+    num1 = ft_printf("%20d\n",2147483647);
+    num2 = printf("%20d\n",2147483647);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%5d\n",0);
-    num2 = printf("%5d\n",0);
+    num1 = ft_printf("%20d\n",2147483647);
+    num2 = printf("%20d\n",2147483647);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%-5d\n",0);
-    num2 = printf("%-5d\n",0);
+    num1 = ft_printf("%-20d\n",2147483647);
+    num2 = printf("%-20d\n",2147483647);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%05d\n",0);
-    num2 =printf("%05d\n",0);
+    num1 = ft_printf("%020d\n",2147483647);
+    num2 =printf("%020d\n",2147483647);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%0-5d\n",0);
-    num2 = printf("%0-5d\n",0);
+    num1 = ft_printf("%0-20d\n",2147483647);
+    num2 = printf("%0-20d\n",2147483647);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%-05d\n",0);
-    num2 = printf("%-05d\n",0);
+    num1 = ft_printf("%-020d\n",2147483647);
+    num2 = printf("%-020d\n",2147483647);
     printf("%d\n",num1);
     printf("%d\n",num2);
     return 0;
