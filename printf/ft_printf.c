@@ -1,97 +1,111 @@
-#inlcl
+#include "ft_printf.h"
 
-char	*ft_strdup(const char *str)
+int    ft_res_strlen(inform_list *inform, char *str)
 {
-	size_t	len;
-	size_t	i;
-	char	*ret;
-
-	len = 0;
-	while (str[len])
-		len++;
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (ret == 0)
-		return (0);
-	i = 0;
-	while (i < len)
-	{
-		ret[i] = str[i];
-		i++;
-	}
-	ret[i] = '\0';
-	return (ret);
+    if (inform->flag == 2)
+        return (inform->width + 1);
+    else
+        return (ft_strlen(str) + 1);
 }
 
-
-char     *ft_buffer(char *buf, va_list ap)
+int    ft_int_print(inform_list *inform, char *str)
 {
-    char ret;
+    int temp = inform->num;
     int len;
-    
-    len = 0;
-    while (1)
-    {
-        if (*buf == 'c' ||*buf == 's' ||*buf == 'p' ||*buf == 'd' ||*buf == 'i' ||*buf == 'u' ||*buf == 'x' ||*buf == 'X')
-            break;
-        else
-        {
-        }
-        buf++;
-    }
-    ret = *buf;
-    buf++;
-}
 
+    if (inform->flag == 3) //아무것도 없을 경우.
+    {
+        len = ft_int_setting_printf(inform,str);
+        ft_int_put_value(inform,temp,len,str);
+    }
+    else if (inform->flag == 2) //왼쪽정렬
+    {
+        len = ft_int_setting_printf(inform,str) + 1;
+        ft_int_put_value(inform,temp,len,str);
+    }
+    else if (inform->flag == 1) //0채우기
+    {
+        len = ft_int_setting_printf(inform,str);
+        ft_int_put_value(inform,temp,len,str);
+    }
+    len = ft_res_strlen(inform, str);
+    ft_write(str);
+    return(len);
+}
 
 int     ft_printf(const char *str, ...)
 {
     va_list ap;
-    char type[3] = {'0','0','0'};
-    char *str1;
-    int i = 0;
-    int arg;
+    inform_list *my_inform;
     char *buf = ft_strdup(str);
-    inform_list abc;
-    
+    char *res;
+    int len;
     va_start(ap,str);
-    while (*buf)
+    
+    while (1)
     {
-        if (*buf == '%' && *(buf + 1) != '\0')
+        my_inform = (inform_list *)malloc(sizeof(inform_list));
+        ft_init(my_inform);
+        ft_type(my_inform, buf);
+        ft_width(my_inform, buf,ap);
+        ft_length(my_inform,buf,ap);
+        ft_flag(my_inform, buf);
+
+
+        if (my_inform->type == 1)
         {
-//            str1 = ft_buffer(buf, ap);
-            while (*buf && *buf != 'c'&& *buf != 's'&& *buf != 'p'&& *buf != 'd'&& *buf != 'i'&& *buf != 'u'&& *buf != 'x'&& *buf != 'X')
+            if (my_inform->width == 0)
             {
-                if (*buf == '0')
-                    type[0] = '1';
-                else if(*buf == '-')
-                    type[1] = '1';
-                else if(*buf == '*')
-                    type[2] = '1';
-                buf++;
+                res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
+                len = ft_int_print(my_inform, res);
             }
-            if (*buf == 'd')
-                abc.num = va_arg(ap, int);
-            else if (*buf == 's')
-                abc.str = va_arg(ap, char *);
-            if (*(buf + 1) != '\0')
-                buf++;
+            else
+            {
+                res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
+                len = ft_int_print(my_inform, res);
+            }
+            buf = ft_forward(buf);
         }
-        else if(*buf != '%')
-        {
-           write(1,buf,1);
-           printf("\n");
-        }
-        buf++;
+        // printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
+        // printf("len :%d\n",my_inform->length); // 문자 및 숫자의 길이
+        // printf("width :%d\n",my_inform->width); // 중간 인자에 대한 것
+        // printf("flag :%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
+        // printf("%d\n",my_inform->num);
+
+        free(res);
+        free(my_inform);
+        break ;
     }
-    va_end(ap);
-    return (i);
+    return (len);
 }
-
-
 
 int main()
 {
-   ft_printf("[  %0*s123156]","123133");
-//    printf("%*s",-5 ,"123");
+    int num1;
+    int num2;
+    num1 = ft_printf("%d\n",1234);
+    num2 = printf("%d\n",1234);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%6d\n",1234);
+    num2 = printf("%6d\n",1234);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%-6d\n",1234);
+    num2 = printf("%-6d\n",1234);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%06d\n",1234);
+    num2 =printf("%06d\n",1234);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%0-6d\n",1234);
+    num2 = printf("%0-6d\n",1234);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%-06d\n",1234);
+    num2 = printf("%-06d\n",1234);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
     return 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:46:56 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/18 15:26:44 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/18 20:51:36 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
+# endif
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 10200
 # endif
 
 # include <limits.h>

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 14:02:52 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/18 15:32:46 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/05/18 21:21:09 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int					ft_split_line(char **line, char **static_str, int flag)
 	int				len;
 
 	(*static_str)[flag] = 0;
-	len = ft_strlen(*static_str + flag + 1);
+	len = ft_strlen(*static_str + flag + 1); // str[fd] = *static_str
 	*line = ft_strdup(*static_str);
 	if (len == 0)
 	{
@@ -84,4 +84,15 @@ int					get_next_line(int fd, char **line)
 	if (read_index < 0)
 		return (-1);
 	return (ft_return(&str[fd], line));
+}
+
+int	main()
+{
+	int fd = open("test.txt", O_RDONLY);
+	char *str;
+
+	get_next_line(fd, &str);
+//	printf("%s\n", str);
+	close(fd);
+	return 0;
 }
