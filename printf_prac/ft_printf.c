@@ -13,17 +13,17 @@ int    ft_int_print(inform_list *inform, char *str)
     int temp = inform->num;
     int len;
 
-    if (inform->flag == 3) //아무것도 없을 경우.
+    if (inform->flag == 3)
     {
         len = ft_int_setting_printf(inform,str);
         ft_int_put_value(inform,temp,len,str);
     }
-    else if (inform->flag == 2) //왼쪽정렬
+    else if (inform->flag == 2)
     {
         len = ft_int_setting_printf(inform,str) + 1;
         ft_int_put_value(inform,temp,len,str);
     }
-    else if (inform->flag == 1) //0채우기
+    else if (inform->flag == 1)
     {
         len = ft_int_setting_printf(inform,str);
         ft_int_put_value(inform,temp,len,str);
@@ -49,12 +49,20 @@ int     ft_printf(const char *str, ...)
     inform_list *my_inform;
     char *buf = ft_strdup(str);
     char *res;
+    int res_len;
+    int i;
     int len;
     va_start(ap,str);
-    while (*buf)
+
+    i = 0;
+    res_len = 0;
+    while (buf[i])
     {
         my_inform = (inform_list *)malloc(sizeof(inform_list));
-        ft_inform(my_inform,buf,ap);
+        ft_inform(my_inform,&buf[i],ap);
+        while (buf[i] != '%' && buf[i] != '\0')
+            write(1,&buf[i++],1);
+        i++;
         if (my_inform->type == 1)
         {
             if (my_inform->num < 0)
@@ -73,20 +81,20 @@ int     ft_printf(const char *str, ...)
                     res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
                 len = ft_int_print(my_inform, res);
             }
-            buf = ft_forward(buf);
         }
-        // printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
-        // printf("len :%d\n",my_inform->length); // 문자 및 숫자의 길이
-        // printf("width :%d\n",my_inform->width); // 중간 인자에 대한 것
-        // printf("flag :%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
-        // printf("num : %d\n",my_inform->num);
-        // printf("dot : %d\n",my_inform->dot);
-        // printf("dot_num : %d\n", my_inform->dot_num);
+        while (buf[i] != '\0' && buf[i] != 'd' && buf[i] != 'c' && buf[i] != 's')
+            i++;
+        i++;
+        while (buf[i] != '\0' && buf[i] != '%')
+        {
+            write(1,&buf[i++],1);
+        }
         free(res);
         free(my_inform);
-        break ;
+        res_len += len;
     }
-    return (len);
+    free(buf);
+    return (res_len);
 }
 
 int main()
@@ -94,8 +102,8 @@ int main()
     int num1;
     int num2;
 
-    num1 = ft_printf("%20d\n",2147483647);
-    num2 = printf("%20d\n",2147483647);
+    num1 = ft_printf("%20d  %010d %d\n",2147483647,12345,-123);
+    num2 = printf("%20d  %010d %d\n",2147483647,12345,-123);
     printf("%d\n",num1);
     printf("%d\n",num2);
     num1 = ft_printf("%20d\n",2147483647);

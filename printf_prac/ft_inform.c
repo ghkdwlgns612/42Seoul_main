@@ -38,14 +38,6 @@ void    ft_length(inform_list *inform, char *buf, va_list ap)
             else
                 inform->length = ft_int_length(inform->num);
             break;
-        // case 2 :
-        //     inform->str = va_arg(ap,char *);
-        //     inform->length = 1;
-        //     break;
-        // case 3 :
-        //     inform->str = va_arg(ap,char *);
-        //     inform->length = ft_strlen(inform->str);
-        //     break;
         default:
             break;
     }
@@ -58,11 +50,11 @@ void    ft_flag(inform_list *inform, char *buf)
         i++;
     i++;
     if (buf[i] == '-' || (buf[i] == '-' && buf[i + 1] == '0') || (buf[i] == '0' && buf[i + 1] == '-'))
-        inform->flag = 2; //왼쪽 정렬
+        inform->flag = 2;
     else if (buf[i] == '0')
-        inform->flag = 1; //- 채우기
+        inform->flag = 1;
     else
-        inform->flag = 3; //아무 플래그 없음
+        inform->flag = 3;
 }
 
 void    ft_width(inform_list *inform, char *buf, va_list ap)
