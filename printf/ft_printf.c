@@ -7,7 +7,7 @@ int    ft_res_strlen(inform_list *inform, char *str)
     else
         return (ft_strlen(str) + 1);
 }
-
+hello
 int    ft_int_print(inform_list *inform, char *str)
 {
     int temp = inform->num;
@@ -41,7 +41,7 @@ int     ft_printf(const char *str, ...)
     char *res;
     int len;
     va_start(ap,str);
-    
+    hello;
     while (*buf)
     {
         my_inform = (inform_list *)malloc(sizeof(inform_list));
