@@ -41,5 +41,7 @@ int    ft_minus_int_setting_printf(inform_list *inform, char *str);
 void    ft_minus_int_flag_arr(inform_list *inform, int temp, int len, char *str);
 void    ft_dot(inform_list *inform, char *buf);
 void    ft_inform(inform_list *inform, char *buf ,va_list ap);
+void    ft_dot_flag(inform_list *inform);
+void    ft_dot(inform_list *inform, char *buf);
 
 #endif
