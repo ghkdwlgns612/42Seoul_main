@@ -12,6 +12,8 @@ typedef struct inform {
     int flag;
     int width;
     int num;
+    int dot;
+    int dot_num;
     int cnt;
     int result_cnt;
 }   inform_list;
@@ -37,6 +39,7 @@ int    ft_minus(inform_list *inform, char *res);
 int    ft_minus_int_print(inform_list *inform, char *str);
 int    ft_minus_int_setting_printf(inform_list *inform, char *str);
 void    ft_minus_int_flag_arr(inform_list *inform, int temp, int len, char *str);
-
+void    ft_dot(inform_list *inform, char *buf);
+void    ft_inform(inform_list *inform, char *buf ,va_list ap);
 
 #endif

@@ -1,5 +1,5 @@
 #include "ft_printf.h"
-123
+
 int    ft_res_strlen(inform_list *inform, char *str)
 {
     if (inform->flag == 2)
@@ -7,6 +7,7 @@ int    ft_res_strlen(inform_list *inform, char *str)
     else
         return (ft_strlen(str) + 1);
 }
+
 int    ft_int_print(inform_list *inform, char *str)
 {
     int temp = inform->num;
@@ -32,6 +33,16 @@ int    ft_int_print(inform_list *inform, char *str)
     return(len);
 }
 
+void    ft_inform(inform_list *inform, char *buf ,va_list ap)
+{
+        ft_init(inform);
+        ft_type(inform, buf);
+        ft_width(inform, buf,ap);
+        ft_length(inform,buf,ap);
+        ft_flag(inform, buf);
+        ft_dot(inform, buf);
+}
+
 int     ft_printf(const char *str, ...)
 {
     va_list ap;
@@ -43,11 +54,13 @@ int     ft_printf(const char *str, ...)
     while (*buf)
     {
         my_inform = (inform_list *)malloc(sizeof(inform_list));
-        ft_init(my_inform);
-        ft_type(my_inform, buf);
-        ft_width(my_inform, buf,ap);
-        ft_length(my_inform,buf,ap);
-        ft_flag(my_inform, buf);
+        // ft_init(my_inform);
+        // ft_type(my_inform, buf);
+        // ft_width(my_inform, buf,ap);
+        // ft_length(my_inform,buf,ap);
+        // ft_flag(my_inform, buf);
+        // ft_dot(my_inform, buf);
+        ft_inform(my_inform,buf,ap);
         if (my_inform->type == 1)
         {
             if (my_inform->num < 0)
@@ -58,7 +71,6 @@ int     ft_printf(const char *str, ...)
                     res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
                 len = ft_minus_int_print(my_inform, res);
             }
-                // len = ft_minus(my_inform,res);
             else
             {
                 if (my_inform->width == 0)
@@ -73,8 +85,9 @@ int     ft_printf(const char *str, ...)
         // printf("len :%d\n",my_inform->length); // 문자 및 숫자의 길이
         // printf("width :%d\n",my_inform->width); // 중간 인자에 대한 것
         // printf("flag :%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
-        // printf("%d\n",my_inform->num);
-
+        // printf("num : %d\n",my_inform->num);
+        // printf("dot : %d\n",my_inform->dot);
+        // printf("dot_num : %d\n", my_inform->dot_num);
         free(res);
         free(my_inform);
         break ;
@@ -86,6 +99,7 @@ int main()
 {
     int num1;
     int num2;
+
     num1 = ft_printf("%20d\n",2147483647);
     num2 = printf("%20d\n",2147483647);
     printf("%d\n",num1);
@@ -156,6 +170,30 @@ int main()
     printf("%d\n",num2);
     num1 = ft_printf("%-020d\n",-123456);
     num2 = printf("%-020d\n",-123456);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%.3d\n",123456);
+    num2 = printf("%.3d\n",123456);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%.9d\n",123456);
+    num2 = printf("%.9d\n",123456);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%.3d\n",0);
+    num2 = printf("%.3d\n",0);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%.9d\n",0);
+    num2 = printf("%.9d\n",0);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%.3d\n",-123456);
+    num2 = printf("%.3d\n",-123456);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = ft_printf("%.9d\n",-123456);
+    num2 = printf("%.9d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
     return 0;

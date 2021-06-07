@@ -9,6 +9,8 @@ void    ft_init(inform_list *inform)
     inform->result_cnt = 0;
     inform->type = 0;
     inform->width = 0;
+    inform->dot = 0;
+    inform->dot_num = 0;
 }
 
 void    ft_type(inform_list *inform, char *buf)
@@ -68,6 +70,11 @@ void    ft_width(inform_list *inform, char *buf, va_list ap)
     int i = 0;
     while (buf[i])
     {
+        if (inform->dot == 1)
+        {
+            inform->width = inform->dot_num + 1;
+            break ;
+        }
         if (buf[i] == '*')
         {
             inform->width = va_arg(ap,int);
@@ -86,3 +93,46 @@ void    ft_width(inform_list *inform, char *buf, va_list ap)
     }
 }
 
+void    ft_dot(inform_list *inform, char *buf)
+{
+    while (*buf)
+    {
+        if (*buf == '.')
+        {
+            inform->dot = 1;
+            buf++;
+            while (*buf >= '0' && *buf <= '9')
+            {
+                inform->dot_num *= 10;
+                inform->dot_num += *buf - '0';
+                buf++;
+            }
+        if (inform->num > 0  && inform->dot == 1)
+        {
+            if (inform->dot_num < ft_int_length(inform->num))
+            {
+                inform->flag = 3;
+                inform->width = inform->length;
+            }
+            else
+                inform->flag = 1;
+        }
+        else if (inform->num < 0  && inform->dot == 1)
+        {
+            if (inform->dot_num < ft_int_length(-inform->num) + 1)
+            {
+                inform->flag = 3;
+                inform->width = inform->length;
+            }
+            else
+            {
+                inform->flag = 1;
+                inform->width += 1;
+            }
+        }
+        else if (inform->num == 0  && inform->dot == 1)
+            inform->flag = 1;
+        }
+        buf++;
+    }
+}
