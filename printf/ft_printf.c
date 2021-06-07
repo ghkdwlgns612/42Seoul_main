@@ -1,5 +1,5 @@
 #include "ft_printf.h"
-
+123
 int    ft_res_strlen(inform_list *inform, char *str)
 {
     if (inform->flag == 2)
