@@ -17,7 +17,7 @@ typedef struct inform {
 }   inform_list;
 
 void    ft_write(char *str);
-int	ft_strlen(char *str);
+int     ft_strlen(char *str);
 char	*ft_strdup(const char *str);
 char    *ft_forward(char *str);
 int     ft_int_length(int num);
@@ -33,5 +33,10 @@ void    ft_int_put_value(inform_list *inform, int temp, int len, char *str);
 int    ft_int_print(inform_list *inform, char *str);
 int     ft_printf(const char *str, ...);
 void    ft_int_zero(inform_list *inform, char *str);
+int    ft_minus(inform_list *inform, char *res);
+int    ft_minus_int_print(inform_list *inform, char *str);
+int    ft_minus_int_setting_printf(inform_list *inform, char *str);
+void    ft_minus_int_flag_arr(inform_list *inform, int temp, int len, char *str);
+
 
 #endif

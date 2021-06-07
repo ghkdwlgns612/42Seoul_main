@@ -10,6 +10,7 @@ void    ft_init(inform_list *inform)
     inform->type = 0;
     inform->width = 0;
 }
+
 void    ft_type(inform_list *inform, char *buf)
 {
     int i = 0;
@@ -84,3 +85,4 @@ void    ft_width(inform_list *inform, char *buf, va_list ap)
         i++;
     }
 }
+

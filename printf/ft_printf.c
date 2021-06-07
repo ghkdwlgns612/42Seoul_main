@@ -52,11 +52,23 @@ int     ft_printf(const char *str, ...)
         ft_flag(my_inform, buf);
         if (my_inform->type == 1)
         {
-            if (my_inform->width == 2147483647)
-                res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
+            if (my_inform->num < 0)
+            {
+                if (my_inform->width == 0)
+                    res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
+                else
+                    res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
+                len = ft_minus_int_print(my_inform, res);
+            }
+                // len = ft_minus(my_inform,res);
             else
-                res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
-            len = ft_int_print(my_inform, res);
+            {
+                if (my_inform->width == 0)
+                    res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
+                else
+                    res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
+                len = ft_int_print(my_inform, res);
+            }
             buf = ft_forward(buf);
         }
         // printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
@@ -76,28 +88,76 @@ int main()
 {
     int num1;
     int num2;
-    num1 = ft_printf("%20d\n",2147483647);
-    num2 = printf("%20d\n",2147483647);
+    // num1 = ft_printf("%20d\n",2147483647);
+    // num2 = printf("%20d\n",2147483647);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%20d\n",2147483647);
+    // num2 = printf("%20d\n",2147483647);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%-20d\n",2147483647);
+    // num2 = printf("%-20d\n",2147483647);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%020d\n",2147483647);
+    // num2 =printf("%020d\n",2147483647);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%0-20d\n",2147483647);
+    // num2 = printf("%0-20d\n",2147483647);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%-020d\n",2147483647);
+    // num2 = printf("%-020d\n",2147483647);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%20d\n",0);
+    // num2 = printf("%20d\n",0);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%20d\n",0);
+    // num2 = printf("%20d\n",0);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%-20d\n",0);
+    // num2 = printf("%-20d\n",0);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%020d\n",0);
+    // num2 =printf("%020d\n",0);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%0-20d\n",0);
+    // num2 = printf("%0-20d\n",0);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    // num1 = ft_printf("%-020d\n",0);
+    // num2 = printf("%-020d\n",0);
+    // printf("%d\n",num1);
+    // printf("%d\n",num2);
+    num1 = ft_printf("%20d\n",-123456);
+    num2 = printf("%20d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",2147483647);
-    num2 = printf("%20d\n",2147483647);
+    num1 = ft_printf("%20d\n",-123456);
+    num2 = printf("%20d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",2147483647);
-    num2 = printf("%-20d\n",2147483647);
+    num1 = ft_printf("%-20d\n",-123456);
+    num2 = printf("%-20d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",2147483647);
-    num2 =printf("%020d\n",2147483647);
+    num1 = ft_printf("%020d\n",-123456);
+    num2 =printf("%020d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",2147483647);
-    num2 = printf("%0-20d\n",2147483647);
+    num1 = ft_printf("%0-20d\n",-123456);
+    num2 = printf("%0-20d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",2147483647);
-    num2 = printf("%-020d\n",2147483647);
+    num1 = ft_printf("%-020d\n",-123456);
+    num2 = printf("%-020d\n",-123456);
     printf("%d\n",num1);
     printf("%d\n",num2);
     return 0;
