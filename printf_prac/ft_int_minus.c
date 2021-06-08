@@ -4,6 +4,7 @@ int    ft_minus_int_setting_printf(inform_list *inform, char *str)
 {
     int len;
 
+    len = 0;
     if (inform->flag == 1)
     {
         len = inform->width;

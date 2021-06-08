@@ -43,6 +43,8 @@ void    ft_dot(inform_list *inform, char *buf)
                 inform->dot_num += *buf - '0';
                 buf++;
             }
+            if (*buf == '*')
+                inform->flag = 1;
             ft_dot_flag(inform);
         }
         buf++;

@@ -38,7 +38,7 @@ void    ft_inform(inform_list *inform, char *buf ,va_list ap)
         ft_init(inform);
         ft_type(inform, buf);
         ft_width(inform, buf,ap);
-        ft_length(inform,buf,ap);
+        ft_length(inform, ap);
         ft_flag(inform, buf);
         ft_dot(inform, buf);
 }
@@ -93,6 +93,13 @@ int     ft_printf(const char *str, ...)
         free(my_inform);
         result_cnt++;
         res_len += len;
+        printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
+        printf("len :%d\n",my_inform->length); // 문자 및 숫자의 길이
+        printf("width :%d\n",my_inform->width); // 중간 인자에 대한 것
+        printf("flag :%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
+        printf("num : %d\n",my_inform->num);
+        printf("dot : %d\n",my_inform->dot);
+        printf("dot_num : %d\n", my_inform->dot_num);
     }
     if (result_cnt > 1)
         res_len++;
@@ -100,107 +107,33 @@ int     ft_printf(const char *str, ...)
     return (res_len);
 }
 
-int main()
+int     main()
 {
-    int num1;
-    int num2;
-
-    num1 = ft_printf("%20d  %010d\n",2147483647,-12345);
-    num2 = printf("%20d  %010d\n",2147483647,-12345);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",2147483647);
-    num2 = printf("%20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",2147483647);
-    num2 = printf("%-20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",2147483647);
-    num2 =printf("%020d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",2147483647);
-    num2 = printf("%0-20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",2147483647);
-    num2 = printf("%-020d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",0);
-    num2 = printf("%20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",0);
-    num2 = printf("%20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",0);
-    num2 = printf("%-20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",0);
-    num2 =printf("%020d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",0);
-    num2 = printf("%0-20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",0);
-    num2 = printf("%-020d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",-123456);
-    num2 = printf("%20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",-123456);
-    num2 = printf("%20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",-123456);
-    num2 = printf("%-20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",-123456);
-    num2 =printf("%020d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",-123456);
-    num2 = printf("%0-20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",-123456);
-    num2 = printf("%-020d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.3d\n",123456);
-    num2 = printf("%.3d\n",123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.9d\n",123456);
-    num2 = printf("%.9d\n",123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.3d\n",0);
-    num2 = printf("%.3d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.9d\n",0);
-    num2 = printf("%.9d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.3d\n",-123456);
-    num2 = printf("%.3d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.9d\n",-123456);
-    num2 = printf("%.9d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
+    // ft_printf("-->|%-4.d|<--\n", -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", -4, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", -3, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", -2, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", -1, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", 0, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", 1, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", 2, -135); //-->|-135|<--
+    // ft_printf("-->|%-4.*d|<--\n", 3, -135); //-->|-135|<--
+    ft_printf("-->|%-4.*d|<--\n", 4, -135);	 //->|-0135|<--
+    // ft_printf("-->|%-4.0d|<--\n", -135); //-->|-135|<--
+    // ft_printf("-->|%-4.1d|<--\n", -135); //-->|-135|<--
+    // ft_printf("-->|%-4.2d|<--\n", -135); //-->|-135|<--
+    // ft_printf("-->|%-4.3d|<--\n", -135); //-->|-135|<--
+     ft_printf("-->|%-4.4d|<--\n", -135);	 //->|-0135|<--
+    // ft_printf("-->|%-4d|<--\n", -135); //-->|-135|<--
+    // ft_printf("-->|%-3.d|<--\n", -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", -4, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", -3, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", -2, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", -1, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", 0, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", 1, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", 2, -135); //-->|-135|<--
+    // ft_printf("-->|%-3.*d|<--\n", 3, -135); //-->|-135|<--
+    ft_printf("-->|%-3.*d|<--\n", 4, -135);	 //->|-0135|<--
     return 0;
 }
-

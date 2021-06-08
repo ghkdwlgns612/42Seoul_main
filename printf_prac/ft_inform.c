@@ -16,18 +16,17 @@ void    ft_init(inform_list *inform)
 void    ft_type(inform_list *inform, char *buf)
 {
     int i = 0;
-
-    while (buf[i] && (buf[i] != 'c' || buf[i] != 's' || buf[i] != 'd'))
+    while (buf[i] && buf[i] != 'd')
         i++;
-    if (buf[i - 2] == 'd')
+    if (buf[i] == 'd')
         inform->type = 1;
-    else if (buf[i - 2] == 'c')
+    else if (buf[i] == 'c')
         inform->type = 2;
-    else if (buf[i - 2] == 's')
+    else if (buf[i] == 's')
         inform->type = 3;
 }
 
-void    ft_length(inform_list *inform, char *buf, va_list ap)
+void    ft_length(inform_list *inform, va_list ap)
 {
     switch (inform->type)
     {
@@ -67,9 +66,16 @@ void    ft_width(inform_list *inform, char *buf, va_list ap)
         if (buf[i] == '*')
         {
             inform->width = va_arg(ap,int);
+            if (inform->width  <= 0)
+                inform->width = 0;
             break ;
         }
-        else if (buf[i] >= '1' && buf[i] <= '9')
+        i++;
+    }
+    i = 0;
+    while (buf[i])
+    {
+        if (buf[i] >= '1' && buf[i] <= '9')
         {
             while (buf[i] >= '0' && buf[i] <= '9')
             {

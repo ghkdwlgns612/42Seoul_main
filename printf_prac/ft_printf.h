@@ -25,7 +25,7 @@ char    *ft_forward(char *str);
 int     ft_int_length(int num);
 void    ft_init(inform_list *inform);
 void    ft_type(inform_list *inform, char *buf);
-void    ft_length(inform_list *inform, char *buf, va_list ap);
+void    ft_length(inform_list *inform, va_list ap);
 void    ft_flag(inform_list *inform, char *buf);
 void    ft_width(inform_list *inform, char *buf, va_list ap);
 int    ft_res_strlen(inform_list *inform, char *str);
