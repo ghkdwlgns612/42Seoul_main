@@ -51,11 +51,13 @@ int     ft_printf(const char *str, ...)
     char *res;
     int res_len;
     int i;
+    int result_cnt;
     int len;
     va_start(ap,str);
 
     i = 0;
     res_len = 0;
+    result_cnt = 0;
     while (buf[i])
     {
         my_inform = (inform_list *)malloc(sizeof(inform_list));
@@ -86,13 +88,14 @@ int     ft_printf(const char *str, ...)
             i++;
         i++;
         while (buf[i] != '\0' && buf[i] != '%')
-        {
             write(1,&buf[i++],1);
-        }
         free(res);
         free(my_inform);
+        result_cnt++;
         res_len += len;
     }
+    if (result_cnt > 1)
+        res_len++;
     free(buf);
     return (res_len);
 }
@@ -102,8 +105,8 @@ int main()
     int num1;
     int num2;
 
-    num1 = ft_printf("%20d  %010d %d\n",2147483647,12345,-123);
-    num2 = printf("%20d  %010d %d\n",2147483647,12345,-123);
+    num1 = ft_printf("%20d  %010d\n",2147483647,-12345);
+    num2 = printf("%20d  %010d\n",2147483647,-12345);
     printf("%d\n",num1);
     printf("%d\n",num2);
     num1 = ft_printf("%20d\n",2147483647);
