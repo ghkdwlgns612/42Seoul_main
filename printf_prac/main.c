@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:49:18 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/06/09 16:11:27 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/06/09 16:57:02 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,14 +220,14 @@ void    ft_minus_allocate(char **res,inform_list *inform){
     }
 }
 
-void    ft_left_alloc(char *res,inform_list *inform)
+void    ft_left_alloc(char *res,inform_list *inform, int r_len)
 {
     int temp;
     int len;
 
+    len = r_len;
     temp = inform->num;
-    len = inform->num_len - 1;
-    if (inform->num < 0)
+    if (temp < 0)
     {}
     else
     {
@@ -243,14 +243,14 @@ void    ft_left_alloc(char *res,inform_list *inform)
     }
 }
 
-void    ft_zero_alloc(char *res,inform_list *inform)
+void    ft_zero_alloc(char *res,inform_list *inform, int r_len)
 {
     int temp;
     int len;
 
+    len = r_len;
     temp = inform->num;
-    len = inform->width;
-    if (inform->num < 0)
+    if (temp < 0)
     {}
     else
     {
@@ -261,18 +261,18 @@ void    ft_zero_alloc(char *res,inform_list *inform)
             temp /= 10;
         }
         while (len > -1)
-            res[len++] = '0';
+            res[len--] = '0';
     }
 }
 
-void    ft_right_alloc(char *res,inform_list *inform)
+void    ft_right_alloc(char *res,inform_list *inform, int r_len)
 {
     int temp;
     int len;
 
+    len = r_len;
     temp = inform->num;
-    len = inform->width;
-    if (inform->num < 0)
+    if (temp < 0)
     {}
     else
     {
@@ -289,17 +289,27 @@ void    ft_right_alloc(char *res,inform_list *inform)
 
 char    *ft_width_plus_value(char *res,inform_list *inform)
 {
-    int i;
-
-    i = 0;
     if (inform->minus_flag == 1 && inform->zero_flag == 1)
-        ft_left_alloc(res, inform);//왼쪽정렬
-    else if (inform->zero_flag == 1)
-        ft_zero_alloc(res, inform);//0채우기
+        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
     else if(inform->minus_flag == 1)
-        ft_left_alloc(res, inform);//왼쪽정렬
+        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+    else if (inform->zero_flag == 1)
+        ft_zero_alloc(res, inform, inform->width);//0채우기
     else
-        ft_right_alloc(res, inform);//오른쪽정렬
+        ft_right_alloc(res, inform, inform->width);//오른쪽정렬
+    return (res);
+}
+
+char    *ft_precision_plus_value(char *res,inform_list *inform)
+{
+    if (inform->minus_flag == 1 && inform->zero_flag == 1)
+        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+    else if(inform->minus_flag == 1)
+        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+    else if (inform->zero_flag == 1)
+        ft_zero_alloc(res, inform, inform->precision);//0채우기
+    else
+        ft_right_alloc(res, inform, inform->precision);//오른쪽정렬
     return (res);
 }
 
@@ -316,6 +326,9 @@ void    ft_plus_allocate(char **res,inform_list *inform){
     else
     {
         *res = (char *)malloc(sizeof(char) * (inform->precision + 1));
+        inform->zero_flag = 1;
+        inform->minus_flag = 0;
+        *res = ft_precision_plus_value(*res, inform);
     }
 }
 
