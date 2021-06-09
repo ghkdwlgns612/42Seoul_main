@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:49:18 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/06/09 15:52:37 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/06/09 16:11:27 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void    ft_zero_alloc(char *res,inform_list *inform)
     int len;
 
     temp = inform->num;
-    len = inform->width - 1;
+    len = inform->width;
     if (inform->num < 0)
     {}
     else
@@ -271,7 +271,7 @@ void    ft_right_alloc(char *res,inform_list *inform)
     int len;
 
     temp = inform->num;
-    len = inform->width - 1;
+    len = inform->width;
     if (inform->num < 0)
     {}
     else
@@ -308,14 +308,14 @@ void    ft_plus_allocate(char **res,inform_list *inform){
     {
         *res = (char *)malloc(sizeof(char) * (inform->num_len + 1));
     }
-    else if ((inform->precision < inform->num_len) && (inform->width > inform->num_len))
+    else if ((inform->precision <= inform->num_len) && (inform->width > inform->num_len))
     {
         *res = (char *)malloc(sizeof(char) * (inform->width + 1));
         *res = ft_width_plus_value(*res, inform);
     }
     else
     {
-        *res = (char *)malloc(sizeof(char) * (inform->precision + 2));
+        *res = (char *)malloc(sizeof(char) * (inform->precision + 1));
     }
 }
 
@@ -347,12 +347,12 @@ int     ft_printf(const char *str, ...)
             ft_minus_allocate(&res,inform);
         else
             ft_plus_allocate(&res,inform);
-        // res_len = ft_input_value(inform,res);
         // printf("width : %d\n",inform->width);
         // printf("precis : %d\n",inform->precision);
         // printf("num : %d\n",inform->num);
         // printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-        printf(">%s<\n",res);
+        printf("%s<\n",res);
+
         free(inform);
         free(res);
         break ;
@@ -386,7 +386,6 @@ int main()
     ft_printf(">%5.3d<\n",1234); // prcision < length, width > length
     ft_printf(">%5.4d<\n",1234); // prcision < length, width > length
     ft_printf(">%5.5d<\n",1234); // prcision < length, width > length
-
 
     return (0);
 }
