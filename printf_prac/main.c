@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student2seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 10:49:18 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/06/09 16:57:02 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:17:53 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,25 @@ int     ft_int_length(int num)
         cnt++;
     }
     return (cnt);
+}
+
+int     ft_strlen(const char *str)
+{
+	int     i;
+
+	i = 0;
+	while (str[i] != 0)
+		i++;
+	return (i);
+}
+
+void    ft_write(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+        write(1,&str[i++],1);
 }
 
 int				ft_atoi(const char *str)
@@ -200,24 +219,9 @@ int     ft_width(char *str, va_list ap)
     return(num);
 }
 
-int     ft_num(char *str, va_list ap)
+int     ft_num(va_list ap)
 {
     return (va_arg(ap,int));
-}
-
-void    ft_minus_allocate(char **res,inform_list *inform){
-    if ((inform->precision < inform->num_len) && (inform->width <= inform->num_len))
-    {
-        *res = (char *)malloc(sizeof(char) * (inform->num_len + 1));
-    }
-    else if ((inform->precision < inform->num_len) && (inform->width > inform->num_len))
-    {
-        *res = (char *)malloc(sizeof(char) * (inform->width + 1));
-    }
-    else
-    {
-        *res = (char *)malloc(sizeof(char) * (inform->precision + 1));
-    }
 }
 
 void    ft_left_alloc(char *res,inform_list *inform, int r_len)
@@ -228,39 +232,40 @@ void    ft_left_alloc(char *res,inform_list *inform, int r_len)
     len = r_len;
     temp = inform->num;
     if (temp < 0)
-    {}
-    else
+        temp *= -1;
+    while (temp)
     {
-        while (temp)
-        {
-            res[len--] = (temp % 10) + '0';
-            temp /= 10;
-        }
-        len = inform->num_len;
-        while (len < inform->width)
-            res[len++] = ' ';
-        res[len] = '\0';
+        res[len--] = (temp % 10) + '0';
+        temp /= 10;
     }
+    if (inform->num < 0)
+        res[len] = '-';
+    len = inform->num_len;
+    while (len < inform->width)
+        res[len++] = ' ';
+    res[len] = '\0';
 }
 
 void    ft_zero_alloc(char *res,inform_list *inform, int r_len)
 {
     int temp;
     int len;
-
+    
     len = r_len;
     temp = inform->num;
     if (temp < 0)
-    {}
-    else
+        temp *= -1;
+    res[len--] = '\0';
+    while (temp)
     {
-        res[len--] = '\0';
-        while (temp)
-        {
-            res[len--] = (temp % 10) + '0';
-            temp /= 10;
-        }
-        while (len > -1)
+        res[len--] = (temp % 10) + '0';
+        temp /= 10;
+    }
+    while (len > -1)
+    {
+        if (inform->num < 0 && len == 0)
+            res[len--] = '-';
+        else
             res[len--] = '0';
     }
 }
@@ -269,67 +274,121 @@ void    ft_right_alloc(char *res,inform_list *inform, int r_len)
 {
     int temp;
     int len;
-
+    
     len = r_len;
     temp = inform->num;
     if (temp < 0)
-    {}
-    else
+        temp *= -1;
+    res[len--] = '\0';
+    while (temp)
     {
-        res[len--] = '\0';
-        while (temp)
-        {
-            res[len--] = (temp % 10) + '0';
-            temp /= 10;
-        }
-        while (len > -1)
-            res[len--] = ' ';
+        res[len--] = (temp % 10) + '0';
+        temp /= 10;
     }
+    if (inform->precision == inform->num_len)
+        res[len--] = '0';
+    if (inform->num < 0)
+        res[len--] = '-';
+    while (len > -1)
+        res[len--] = ' ';
 }
 
-char    *ft_width_plus_value(char *res,inform_list *inform)
+void    ft_width_plus_value(char *res,inform_list *inform)
 {
     if (inform->minus_flag == 1 && inform->zero_flag == 1)
-        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+        ft_left_alloc(res, inform, inform->num_len - 1);//왼쪽정렬
     else if(inform->minus_flag == 1)
-        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+        ft_left_alloc(res, inform, inform->num_len - 1);//왼쪽정렬
     else if (inform->zero_flag == 1)
         ft_zero_alloc(res, inform, inform->width);//0채우기
     else
         ft_right_alloc(res, inform, inform->width);//오른쪽정렬
-    return (res);
 }
 
-char    *ft_precision_plus_value(char *res,inform_list *inform)
+void    ft_precision_plus_value(char *res,inform_list *inform)
 {
     if (inform->minus_flag == 1 && inform->zero_flag == 1)
-        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+        ft_left_alloc(res, inform, inform->num_len - 1);//왼쪽정렬
     else if(inform->minus_flag == 1)
-        ft_left_alloc(res, inform, inform->num - 1);//왼쪽정렬
+        ft_left_alloc(res, inform, inform->num_len - 1);//왼쪽정렬
     else if (inform->zero_flag == 1)
-        ft_zero_alloc(res, inform, inform->precision);//0채우기
+        ft_zero_alloc(res, inform, inform->precision + 1);//0채우기
     else
         ft_right_alloc(res, inform, inform->precision);//오른쪽정렬
-    return (res);
 }
 
-void    ft_plus_allocate(char **res,inform_list *inform){
-    if ((inform->precision < inform->num_len) && (inform->width <= inform->num_len))
+void    ft_numlen_value(char *res,inform_list *inform)
+{
+    int temp;
+    int len;
+  
+    temp = inform->num;
+    len = inform->num_len;
+    res[len--] = '\0';
+    if (temp < 0)
+        temp *= -1;
+    while (temp)
+    {
+        res[len--] = (temp % 10) + '0';
+        temp /= 10;
+    }
+    if (len == 0 && inform->num < 0)
+        res[0] = '-';
+}
+
+void    ft_plus_allocate(char **res,inform_list *inform)
+{
+    if ((inform->precision <= inform->num_len) && (inform->width <= inform->num_len))
     {
         *res = (char *)malloc(sizeof(char) * (inform->num_len + 1));
+        ft_numlen_value(*res, inform);
     }
-    else if ((inform->precision <= inform->num_len) && (inform->width > inform->num_len))
+    else if ((inform->precision <= inform->num_len) && (inform->width >= inform->num_len))
     {
         *res = (char *)malloc(sizeof(char) * (inform->width + 1));
-        *res = ft_width_plus_value(*res, inform);
+        ft_width_plus_value(*res, inform);
     }
     else
     {
         *res = (char *)malloc(sizeof(char) * (inform->precision + 1));
         inform->zero_flag = 1;
         inform->minus_flag = 0;
-        *res = ft_precision_plus_value(*res, inform);
+        ft_precision_plus_value(*res, inform);
     }
+}
+
+void    ft_minus_allocate(char **res,inform_list *inform)
+{
+    if ((inform->precision < inform->num_len) && (inform->width <= inform->num_len))
+    {
+        *res = (char *)malloc(sizeof(char) * (inform->num_len + 1));
+        ft_numlen_value(*res, inform);
+    }
+    else if ((inform->precision <= inform->num_len) && (inform->width > inform->num_len))
+    {
+        *res = (char *)malloc(sizeof(char) * (inform->width + 1));
+        ft_width_plus_value(*res, inform);
+    }
+    else
+    {
+        *res = (char *)malloc(sizeof(char) * (inform->precision + 2));
+        inform->zero_flag = 1;
+        inform->minus_flag = 0;
+        ft_precision_plus_value(*res, inform);
+    }
+}
+
+void    free_malloc(char **res)
+{
+    free(*res);
+}
+
+int    ft_forward(char *str,int i)
+{
+    while (str[i] != 'd')
+        i++;
+    i++;
+    return (i);
 }
 
 int     ft_printf(const char *str, ...)
@@ -344,8 +403,9 @@ int     ft_printf(const char *str, ...)
     buf = ft_strdup(str);
     va_start(ap,str);
     i = 0;
-    while (buf[i])
-    {
+    res_len = 0;
+   while (buf[i])
+   {
         inform = (inform_list *)(malloc)(sizeof(inform_list));
         ft_init(inform);
         while (buf[i] != '%' && buf[i] != '\0')
@@ -354,51 +414,199 @@ int     ft_printf(const char *str, ...)
         i = ft_flag(i, buf, inform);
         inform->width = ft_width(&buf[i], ap);
         inform->precision = ft_chk_precision(&buf[i], ap);
-        inform->num = ft_num(&buf[i], ap);
+        inform->num = ft_num(ap);
         inform->num_len = ft_int_length(inform->num);
+        // printf("width : %d\n", inform->width);
+        // printf("preci : %d\n", inform->precision);
+        // printf("num : %d\n", inform->num);
+        // printf("length : %d\n", inform->num_len);
         if (inform->num < 0)
             ft_minus_allocate(&res,inform);
         else
             ft_plus_allocate(&res,inform);
-        // printf("width : %d\n",inform->width);
-        // printf("precis : %d\n",inform->precision);
-        // printf("num : %d\n",inform->num);
-        // printf("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
-        printf("%s<\n",res);
-
+        res_len += ft_strlen(res);
+        ft_write(res);
+        i = ft_forward(buf, i);
         free(inform);
-        free(res);
-        break ;
-    }
+        free_malloc(&res);
+        while (buf[i] != '%' && buf[i] != '\0')
+            write(1,&buf[i++],1);
+   } 
     free(buf);
-    return (1);
+    return (res_len);
 }
 
 int main()
 {
-    // ft_printf("%-*.d",15,-1234);
-    // ft_printf("%-*.*d",10,15,-1234);
-    // ft_printf("%-*.0d",15,-1234);
-    // ft_printf("%-*.1d",15,-1234);
-    // ft_printf("%-*.2d",15,-1234);
-    // ft_printf("%-*.3d",15,-1234);
-    // ft_printf("%-*.4d",15,-1234);
-    // ft_printf("%-*d",15,-1234);
-    // printf(">%3d<\n",1234); //width만
-    // printf(">%4d<\n",1234); //width만
-    // printf(">%-5d<\n",1234); //width만
-    // printf(">%.3d<\n",1234); //precision만
-    // printf(">%.4d<\n",1234); //precision만
-    // printf(">%.5d<\n",1234); //precision만
-    // printf(">%3.3d<\n",1234); //width,precision < length
-    // printf(">%4.4d<\n",1234); //width,precision < length
-    // printf(">%5.5d<\n",1234); //width,precision < length
-    printf(">%5.3d<\n",1234); // prcision < length, width > length
-    printf(">%5.4d<\n",1234); // prcision < length, width > length
-    printf(">%5.5d<\n",1234); // prcision < length, width > length
-    ft_printf(">%5.3d<\n",1234); // prcision < length, width > length
-    ft_printf(">%5.4d<\n",1234); // prcision < length, width > length
-    ft_printf(">%5.5d<\n",1234); // prcision < length, width > length
-
+    // printf(">%-4.d<\n",-135);
+    // ft_printf(">%-4.d<\n",-135);
+    // printf(">%-4.*d<\n",6,-135);
+    // ft_printf(">%-4.*d<\n",6,-135);
+    // printf(">%-4.1d<\n",-135);
+    // ft_printf(">%-4.1d<\n",-135);
+    // printf(">%-4.2d<\n",-135);
+    // ft_printf(">%-4.2d<\n",-135);
+    // printf(">%-4.3d<\n",-135);
+    // ft_printf(">%-4.3d<\n",-135);
+    // printf(">%-4.4d<\n",-135);
+    // ft_printf(">%-4.4d<\n",-135);
+    // printf(">%-4d<\n",-135);
+    // ft_printf(">%-4d<\n",-135);
+    // printf(">%-3.d<\n",-135);
+    // ft_printf(">%-3.d<\n",-135);
+    // printf(">%-3.*d<\n",6,-135);
+    // ft_printf(">%-3.*d<\n",6,-135);
+    // printf(">%-3.1d<\n",-135);
+    // ft_printf(">%-3.1d<\n",-135);
+    // printf(">%-3.2d<\n",-135);
+    // ft_printf(">%-3.2d<\n",-135);
+    // printf(">%-3.3d<\n",-135);
+    // ft_printf(">%-3.3d<\n",-135);
+    // printf(">%-3.4d<\n",-135);
+    // ft_printf(">%-3.4d<\n",-135);
+    // printf(">%-3d<\n",-135);
+    // ft_printf(">%-3d<\n",-135);
+    // printf(">%-2.d<\n",-135);
+    // ft_printf(">%-2.d<\n",-135);
+    // printf(">%-2.*d<\n",6,-135);
+    // ft_printf(">%-2.*d<\n",6,-135);
+    // printf(">%-2.1d<\n",-135);
+    // ft_printf(">%-2.1d<\n",-135);
+    // printf(">%-2.2d<\n",-135);
+    // ft_printf(">%-2.2d<\n",-135);
+    // printf(">%-2.3d<\n",-135);
+    // ft_printf(">%-2.3d<\n",-135);
+    // printf(">%-2.4d<\n",-135);
+    // ft_printf(">%-2.4d<\n",-135);
+    // printf(">%-2d<\n",-135);
+    // ft_printf(">%-2d<\n",-135);
+    // printf(">%-1.d<\n",-135);
+    // ft_printf(">%-1.d<\n",-135);
+    // printf(">%-1.*d<\n",6,-135);
+    // ft_printf(">%-1.*d<\n",6,-135);
+    // printf(">%-1.1d<\n",-135);
+    // ft_printf(">%-1.1d<\n",-135);
+    // printf(">%-1.2d<\n",-135);
+    // ft_printf(">%-1.2d<\n",-135);
+    // printf(">%-1.3d<\n",-135);
+    // ft_printf(">%-1.3d<\n",-135);
+    // printf(">%-1.4d<\n",-135);
+    // ft_printf(">%-1.4d<\n",-135);
+    // printf(">%-1d<\n",-135);
+    // ft_printf(">%-1d<\n",-135);
+    // printf(">%.d<\n",-135);
+    // ft_printf(">%.d<\n",-135);
+    // printf(">%.*d<\n",6,-135);
+    // ft_printf(">%.*d<\n",6,-135);
+    // printf(">%.1d<\n",-135);
+    // ft_printf(">%.1d<\n",-135);
+    // printf(">%.2d<\n",-135);
+    // ft_printf(">%.2d<\n",-135);
+    // printf(">%.3d<\n",-135);
+    // ft_printf(">%.3d<\n",-135);
+    // printf(">%.4d<\n",-135);
+    // ft_printf(">%.4d<\n",-135);
+    // printf(">%.0d<\n",-135);
+    // ft_printf(">%.0d<\n",-135);
+    // printf(">%*.d<\n", 10,-135);
+    // ft_printf(">%*.d<\n", 10,-135);
+    // printf(">%*.*d<\n",6, 10,-135);
+    // ft_printf(">%*.*d<\n",6, 10,-135);
+    // printf(">%*.1d<\n", 10,-135);
+    // ft_printf(">%*.1d<\n", 10,-135);
+    // printf(">%*.2d<\n", 10,-135);
+    // ft_printf(">%*.2d<\n", 10,-135);
+    // printf(">%*.3d<\n", 10,-135);
+    // ft_printf(">%*.3d<\n", 10,-135);
+    // printf(">%*.4d<\n", 10,-135);
+    // ft_printf(">%*.4d<\n", 10,-135);
+    // printf(">%*.0d<\n", 10,-135);
+    // ft_printf(">%*.0d<\n", 10,-135);
+    // printf(">%0.d<\n", -135);
+    // ft_printf(">%0.d<\n", -135);
+    // printf(">%0.*d<\n",6, -135);
+    // ft_printf(">%0.*d<\n",6, -135);
+    // printf(">%0.1d<\n", -135);
+    // ft_printf(">%0.1d<\n", -135);
+    // printf(">%0.2d<\n", -135);
+    // ft_printf(">%0.2d<\n", -135);
+    // printf(">%0.3d<\n", -135);
+    // ft_printf(">%0.3d<\n", -135);
+    // printf(">%0.4d<\n", -135);
+    // ft_printf(">%0.4d<\n", -135);
+    // printf(">%0.0d<\n", -135);
+    // ft_printf(">%0.0d<\n", -135);
+    // printf(">%1.d<\n", -135);
+    // ft_printf(">%1.d<\n", -135);
+    // printf(">%1.*d<\n",6, -135);
+    // ft_printf(">%1.*d<\n",6, -135);
+    // printf(">%1.1d<\n", -135);
+    // ft_printf(">%1.1d<\n", -135);
+    // printf(">%1.2d<\n", -135);
+    // ft_printf(">%1.2d<\n", -135);
+    // printf(">%1.3d<\n", -135);
+    // ft_printf(">%1.3d<\n", -135);
+    // printf(">%1.4d<\n", -135);
+    // ft_printf(">%1.4d<\n", -135);
+    // printf(">%1.0d<\n", -135);
+    // ft_printf(">%1.0d<\n", -135);
+    // printf(">%2.d<\n", -135);
+    // ft_printf(">%2.d<\n", -135);
+    // printf(">%2.*d<\n",6, -135);
+    // ft_printf(">%2.*d<\n",6, -135);
+    // printf(">%2.1d<\n", -135);
+    // ft_printf(">%2.1d<\n", -135);
+    // printf(">%2.2d<\n", -135);
+    // ft_printf(">%2.2d<\n", -135);
+    // printf(">%2.3d<\n", -135);
+    // ft_printf(">%2.3d<\n", -135);
+    // printf(">%2.4d<\n", -135);
+    // ft_printf(">%2.4d<\n", -135);
+    // printf(">%2.2d<\n", -135);
+    // ft_printf(">%2.2d<\n", -135);
+    // printf(">%3.d<\n", -135);
+    // ft_printf(">%3.d<\n", -135);
+    // printf(">%3.*d<\n",6, -135);
+    // ft_printf(">%3.*d<\n",6, -135);
+    // printf(">%3.1d<\n", -135);
+    // ft_printf(">%3.1d<\n", -135);
+    // printf(">%3.2d<\n", -135);
+    // ft_printf(">%3.2d<\n", -135);
+    // printf(">%3.3d<\n", -135);
+    // ft_printf(">%3.3d<\n", -135);
+    // printf(">%3.4d<\n", -135);
+    // ft_printf(">%3.4d<\n", -135);
+    // printf(">%3.2d<\n", -135);
+    // ft_printf(">%3.2d<\n", -135);
+	// printf(">%4.d<\n", -135);
+    // ft_printf(">%4.d<\n", -135);
+    // printf(">%4.*d<\n",6, -135);
+    // ft_printf(">%4.*d<\n",6, -135);
+    // printf(">%4.1d<\n", -135);
+    // ft_printf(">%4.1d<\n", -135);
+    // printf(">%4.2d<\n", -135);
+    // ft_printf(">%4.2d<\n", -135);
+    // printf(">%4.3d<\n", -135);
+    // ft_printf(">%4.3d<\n", -135);
+    // printf(">%4.4d<\n", -135);
+    // ft_printf(">%4.4d<\n", -135);
+    // printf(">%4.0d<\n", -135);
+    // ft_printf(">%4.0d<\n", -135);
+    printf(">%0*.d<\n",10,-135);
+    ft_printf(">%0*.d<\n",10,-135);
+	printf(">%0*.*d<\n",10,6,-135);
+    ft_printf(">%0*.*d<\n",10,6,-135);
+	printf(">%0*.0d<\n",10,-135);
+    ft_printf(">%0*.0d<\n",10,-135);
+	printf(">%0*.1d<\n",10,-135);
+    ft_printf(">%0*.1d<\n",10,-135);
+	printf(">%0*.2d<\n",10,-135);
+    ft_printf(">%0*.2d<\n",10,-135);
+	printf(">%0*.3d<\n",10,-135);
+    ft_printf(">%0*.3d<\n",10,-135);
+	printf(">%0*.4d<\n",10,-135);
+    ft_printf(">%0*.4d<\n",10,-135);
+	printf(">%0*d<\n",10,-135);
+    ft_printf(">%0*d<\n",10,-135);
     return (0);
 }
