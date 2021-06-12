@@ -1,139 +1,928 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_pre.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student2seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/09 10:49:18 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/09 21:17:53 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "ft_printf.h"
 
-int    ft_res_strlen(inform_list *inform, char *str)
+void    ft_setting(inform_list *inform, va_list ap, char *buf)
 {
-    if (inform->flag == 2)
-        return (inform->width + 1);
-    else
-        return (ft_strlen(str) + 1);
+    inform->width = ft_width(buf, ap, inform);
+    inform->precision = ft_precision(buf, ap, inform);
+    inform->num = ft_num(ap);
+    inform->num_len = ft_int_length(inform->num);
+    if (inform->width < 0)
+            inform->width *= -1;
 }
 
-int    ft_int_print(inform_list *inform, char *str)
+int    ft_int_main(va_list ap, inform_list *inform, char *str)
 {
-    int temp = inform->num;
+    char *buf;
+    char *res;
+    int i;
     int len;
 
-    if (inform->flag == 3)
+    i = 0;
+    buf = ft_strdup(str);
+    ft_init(inform);
+    len = inform->res_len;
+    while (buf[i] != '%' && buf[i] != '\0')
+        write(1,&buf[i++],1);
+    i++;
+    i = ft_flag(i, buf, inform);
+    ft_setting(inform,ap,&buf[i]);
+    if (inform->num == 0)
+        ft_zero_printf(&res,inform);
+    else
     {
-        len = ft_int_setting_printf(inform,str);
-        ft_int_put_value(inform,temp,len,str);
+        if (inform->is_dot == 1)
+            ft_ignore_zero(&res,inform);
+        else
+            ft_zero_minus(&res,inform);
     }
-    else if (inform->flag == 2)
-    {
-        len = ft_int_setting_printf(inform,str) + 1;
-        ft_int_put_value(inform,temp,len,str);
-    }
-    else if (inform->flag == 1)
-    {
-        len = ft_int_setting_printf(inform,str);
-        ft_int_put_value(inform,temp,len,str);
-    }
-    len = ft_res_strlen(inform, str);
-    ft_write(str);
+    ft_write(res);
+    len += ft_strlen(res);
+    i = ft_forward(buf, i);
+    free(inform);
+    free(res);
+    while (buf[i] != '%' && buf[i] != '\0')
+        write(1,&buf[i++],1);
+    free(buf);
     return(len);
 }
 
-void    ft_inform(inform_list *inform, char *buf ,va_list ap)
+void    ft_type(inform_list *inform, char *str)
 {
-        ft_init(inform);
-        ft_type(inform, buf);
-        ft_width(inform, buf,ap);
-        ft_length(inform, ap);
-        ft_flag(inform, buf);
-        ft_dot(inform, buf);
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == 'd')
+            inform->type = 1;
+        else if (str[i] == 'c')
+            inform->type = 2;
+        else if (str[i] == 's')
+            inform->type = 2;
+        i++;
+    }
+}
+
+int    ft_select(inform_list *inform, va_list ap, char *str)
+{
+    ft_type(inform,str);
+    if (inform->type == 1)
+        return (ft_int_main(ap,inform,str));
 }
 
 int     ft_printf(const char *str, ...)
 {
     va_list ap;
-    inform_list *my_inform;
-    char *buf = ft_strdup(str);
-    char *res;
-    int res_len;
-    int i;
-    int result_cnt;
-    int len;
+    inform_list *inform;
+    int result;
+
+    inform = (inform_list *)(malloc)(sizeof(inform_list));
     va_start(ap,str);
-
-    i = 0;
-    res_len = 0;
-    result_cnt = 0;
-    while (buf[i])
-    {
-        my_inform = (inform_list *)malloc(sizeof(inform_list));
-        ft_inform(my_inform,&buf[i],ap);
-        while (buf[i] != '%' && buf[i] != '\0')
-            write(1,&buf[i++],1);
-        i++;
-        if (my_inform->type == 1)
-        {
-            if (my_inform->num < 0)
-            {
-                if (my_inform->width == 0)
-                    res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
-                else
-                    res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
-                len = ft_minus_int_print(my_inform, res);
-            }
-            else
-            {
-                if (my_inform->width == 0)
-                    res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
-                else
-                    res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
-                len = ft_int_print(my_inform, res);
-            }
-        }
-        while (buf[i] != '\0' && buf[i] != 'd' && buf[i] != 'c' && buf[i] != 's')
-            i++;
-        i++;
-        while (buf[i] != '\0' && buf[i] != '%')
-            write(1,&buf[i++],1);
-        free(res);
-        free(my_inform);
-        result_cnt++;
-        res_len += len;
-        printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
-        printf("len :%d\n",my_inform->length); // 문자 및 숫자의 길이
-        printf("width :%d\n",my_inform->width); // 중간 인자에 대한 것
-        printf("flag :%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
-        printf("num : %d\n",my_inform->num);
-        printf("dot : %d\n",my_inform->dot);
-        printf("dot_num : %d\n", my_inform->dot_num);
-    }
-    if (result_cnt > 1)
-        res_len++;
-    free(buf);
-    return (res_len);
+    result = ft_select(inform,ap,(char *)str);
+    va_end(ap);
+    return (result);
 }
+        // printf("width : %d\n", inform->width);
+        // printf("preci : %d\n", inform->precision);
+        // printf("num : %d\n", inform->num);
+        // printf("length : %d\n", inform->num_len);
+        // printf("dot : %d\n", inform->is_dot);
+        // printf("zero : %d\n", inform->zero_flag);
+        // printf("minus : %d\n", inform->minus_flag);
 
-int     main()
+int main()
 {
-    // ft_printf("-->|%-4.d|<--\n", -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", -4, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", -3, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", -2, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", -1, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", 0, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", 1, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", 2, -135); //-->|-135|<--
-    // ft_printf("-->|%-4.*d|<--\n", 3, -135); //-->|-135|<--
-    ft_printf("-->|%-4.*d|<--\n", 4, -135);	 //->|-0135|<--
-    // ft_printf("-->|%-4.0d|<--\n", -135); //-->|-135|<--
-    // ft_printf("-->|%-4.1d|<--\n", -135); //-->|-135|<--
-    // ft_printf("-->|%-4.2d|<--\n", -135); //-->|-135|<--
-    // ft_printf("-->|%-4.3d|<--\n", -135); //-->|-135|<--
-     ft_printf("-->|%-4.4d|<--\n", -135);	 //->|-0135|<--
-    // ft_printf("-->|%-4d|<--\n", -135); //-->|-135|<--
-    // ft_printf("-->|%-3.d|<--\n", -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", -4, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", -3, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", -2, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", -1, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", 0, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", 1, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", 2, -135); //-->|-135|<--
-    // ft_printf("-->|%-3.*d|<--\n", 3, -135); //-->|-135|<--
-    ft_printf("-->|%-3.*d|<--\n", 4, -135);	 //->|-0135|<--
-    return 0;
+    int d;
+    int num1;
+    int num2;
+
+    d = 135;
+    num1 = printf(">%-4.d<\n",d);
+    num2 = ft_printf(">%-4.d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.*d<\n",6,d);
+    num2 = ft_printf(">%-4.*d<\n",6,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.1d<\n",d);
+    num2 = ft_printf(">%-4.1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.2d<\n",d);
+    num2 = ft_printf(">%-4.2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.3d<\n",d);
+    num2 = ft_printf(">%-4.3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.4d<\n",d);
+    num2 = ft_printf(">%-4.4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4d<\n",d);
+    num2 = ft_printf(">%-4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.d<\n",d);
+    num2 = ft_printf(">%-3.d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.*d<\n",6,d);
+    num2 = ft_printf(">%-3.*d<\n",6,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.1d<\n",d);
+    num2 = ft_printf(">%-3.1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.2d<\n",d);
+    num2 = ft_printf(">%-3.2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.3d<\n",d);
+    num2 = ft_printf(">%-3.3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.4d<\n",d);
+    num2 = ft_printf(">%-3.4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3d<\n",d);
+    num2 = ft_printf(">%-3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.d<\n",d);
+    num2 = ft_printf(">%-2.d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.*d<\n",6,d);
+    num2 = ft_printf(">%-2.*d<\n",6,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.1d<\n",d);
+    num2 = ft_printf(">%-2.1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.2d<\n",d);
+    num2 = ft_printf(">%-2.2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.3d<\n",d);
+    num2 = ft_printf(">%-2.3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.4d<\n",d);
+    num2 = ft_printf(">%-2.4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2d<\n",d);
+    num2 = ft_printf(">%-2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.d<\n",d);
+    num2 = ft_printf(">%-1.d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.*d<\n",6,d);
+    num2 = ft_printf(">%-1.*d<\n",6,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.1d<\n",d);
+    num2 = ft_printf(">%-1.1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.2d<\n",d);
+    num2 = ft_printf(">%-1.2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.3d<\n",d);
+    num2 = ft_printf(">%-1.3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.4d<\n",d);
+    num2 = ft_printf(">%-1.4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1d<\n",d);
+    num2 = ft_printf(">%-1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.d<\n",d);
+    num2 = ft_printf(">%.d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.*d<\n",6,d);
+    num2 = ft_printf(">%.*d<\n",6,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.1d<\n",d);
+    num2 = ft_printf(">%.1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.2d<\n",d);
+    num2 = ft_printf(">%.2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.3d<\n",d);
+    num2 = ft_printf(">%.3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.4d<\n",d);
+    num2 = ft_printf(">%.4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%.0d<\n",d);
+    num2 = ft_printf(">%.0d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.d<\n", 10,d);
+    num2 = ft_printf(">%*.d<\n", 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.*d<\n",6, 10,d);
+    num2 = ft_printf(">%*.*d<\n",6, 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.1d<\n", 10,d);
+    num2 = ft_printf(">%*.1d<\n", 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.2d<\n", 10,d);
+    num2 = ft_printf(">%*.2d<\n", 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.3d<\n", 10,d);
+    num2 = ft_printf(">%*.3d<\n", 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.4d<\n", 10,d);
+    num2 = ft_printf(">%*.4d<\n", 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%*.0d<\n", 10,d);
+    num2 = ft_printf(">%*.0d<\n", 10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.d<\n", d);
+    num2 = ft_printf(">%0.d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.*d<\n",6, d);
+    num2 = ft_printf(">%0.*d<\n",6, d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.1d<\n", d);
+    num2 = ft_printf(">%0.1d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.2d<\n", d);
+    num2 = ft_printf(">%0.2d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.3d<\n", d);
+    num2 = ft_printf(">%0.3d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.4d<\n", d);
+    num2 = ft_printf(">%0.4d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0.0d<\n", d);
+    num2 = ft_printf(">%0.0d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.d<\n", d);
+    num2 = ft_printf(">%1.d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.*d<\n",6, d);
+    num2 = ft_printf(">%1.*d<\n",6, d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.1d<\n", d);
+    num2 = ft_printf(">%1.1d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.2d<\n", d);
+    num2 = ft_printf(">%1.2d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.3d<\n", d);
+    num2 = ft_printf(">%1.3d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.4d<\n", d);
+    num2 = ft_printf(">%1.4d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%1.0d<\n", d);
+    num2 = ft_printf(">%1.0d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.d<\n", d);
+    num2 = ft_printf(">%2.d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.*d<\n",6, d);
+    num2 = ft_printf(">%2.*d<\n",6, d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.1d<\n", d);
+    num2 = ft_printf(">%2.1d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.2d<\n", d);
+    num2 = ft_printf(">%2.2d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.3d<\n", d);
+    num2 = ft_printf(">%2.3d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.4d<\n", d);
+    num2 = ft_printf(">%2.4d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%2.2d<\n", d);
+    num2 = ft_printf(">%2.2d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.d<\n", d);
+    num2 = ft_printf(">%3.d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.*d<\n",6, d);
+    num2 = ft_printf(">%3.*d<\n",6, d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.1d<\n", d);
+    num2 = ft_printf(">%3.1d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.2d<\n", d);
+    num2 = ft_printf(">%3.2d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.3d<\n", d);
+    num2 = ft_printf(">%3.3d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.4d<\n", d);
+    num2 = ft_printf(">%3.4d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%3.2d<\n", d);
+    num2 = ft_printf(">%3.2d<\n", d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.d<\n", d);
+    num2 = ft_printf(">%4.d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.*d<\n",6, d);
+    num2 = ft_printf(">%4.*d<\n",6, d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.1d<\n", d);
+    num2 = ft_printf(">%4.1d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.2d<\n", d);
+    num2 = ft_printf(">%4.2d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.3d<\n", d);
+    num2 = ft_printf(">%4.3d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.4d<\n", d);
+    num2 = ft_printf(">%4.4d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%4.0d<\n", d);
+    num2 = ft_printf(">%4.0d<\n", d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.d<\n",10,d);
+    num2 = ft_printf(">%0*.d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.*d<\n",10,6,d);
+    num2 = ft_printf(">%0*.*d<\n",10,6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.0d<\n",10,d);
+    num2 = ft_printf(">%0*.0d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.1d<\n",10,d);
+    num2 = ft_printf(">%0*.1d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.2d<\n",10,d);
+    num2 = ft_printf(">%0*.2d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.3d<\n",10,d);
+    num2 = ft_printf(">%0*.3d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*.4d<\n",10,d);
+    num2 = ft_printf(">%0*.4d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%0*d<\n",10,d);
+    num2 = ft_printf(">%0*d<\n",10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.d<\n",d);
+    num2 = ft_printf(">%00.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.*d<\n",6,d);
+    num2 = ft_printf(">%00.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.0d<\n",d);
+    num2 = ft_printf(">%00.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.1d<\n",d);
+    num2 = ft_printf(">%00.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.2d<\n",d);
+    num2 = ft_printf(">%00.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.3d<\n",d);
+    num2 = ft_printf(">%00.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00.4d<\n",d);
+    num2 = ft_printf(">%00.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%00d<\n",d);
+    num2 = ft_printf(">%00d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.d<\n",d);
+    num2 = ft_printf(">%01.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.*d<\n",6,d);
+    num2 = ft_printf(">%01.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.0d<\n",d);
+    num2 = ft_printf(">%01.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.1d<\n",d);
+    num2 = ft_printf(">%01.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.2d<\n",d);
+    num2 = ft_printf(">%01.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.3d<\n",d);
+    num2 = ft_printf(">%01.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01.4d<\n",d);
+    num2 = ft_printf(">%01.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%01d<\n",d);
+    num2 = ft_printf(">%01d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.d<\n",d);
+    num2 = ft_printf(">%02.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.*d<\n",6,d);
+    num2 = ft_printf(">%02.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.0d<\n",d);
+    num2 = ft_printf(">%02.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.1d<\n",d);
+    num2 = ft_printf(">%02.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.2d<\n",d);
+    num2 = ft_printf(">%02.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.3d<\n",d);
+    num2 = ft_printf(">%02.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02.4d<\n",d);
+    num2 = ft_printf(">%02.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%02d<\n",d);
+    num2 = ft_printf(">%02d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.d<\n",d);
+    num2 = ft_printf(">%03.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.*d<\n",6,d);
+    num2 = ft_printf(">%03.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.0d<\n",d);
+    num2 = ft_printf(">%03.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.1d<\n",d);
+    num2 = ft_printf(">%03.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.2d<\n",d);
+    num2 = ft_printf(">%03.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.3d<\n",d);
+    num2 = ft_printf(">%03.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03.4d<\n",d);
+    num2 = ft_printf(">%03.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%03d<\n",d);
+    num2 = ft_printf(">%03d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.d<\n",d);
+    num2 = ft_printf(">%04.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.*d<\n",6,d);
+    num2 = ft_printf(">%04.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.0d<\n",d);
+    num2 = ft_printf(">%04.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.1d<\n",d);
+    num2 = ft_printf(">%04.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.2d<\n",d);
+    num2 = ft_printf(">%04.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.3d<\n",d);
+    num2 = ft_printf(">%04.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04.4d<\n",d);
+    num2 = ft_printf(">%04.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%04d<\n",d);
+    num2 = ft_printf(">%04d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.d<\n",d);
+    num2 = ft_printf(">%--4.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.*d<\n",6,d);
+    num2 = ft_printf(">%--4.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.0d<\n",d);
+    num2 = ft_printf(">%--4.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.1d<\n",d);
+    num2 = ft_printf(">%--4.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.2d<\n",d);
+    num2 = ft_printf(">%--4.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.3d<\n",d);
+    num2 = ft_printf(">%--4.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4.4d<\n",d);
+    num2 = ft_printf(">%--4.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--4d<\n",d);
+    num2 = ft_printf(">%--4d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.d<\n",d);
+    num2 = ft_printf(">%--3.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.*d<\n",6,d);
+    num2 = ft_printf(">%--3.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.0d<\n",d);
+    num2 = ft_printf(">%--3.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.1d<\n",d);
+    num2 = ft_printf(">%--3.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.2d<\n",d);
+    num2 = ft_printf(">%--3.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.3d<\n",d);
+    num2 = ft_printf(">%--3.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3.4d<\n",d);
+    num2 = ft_printf(">%--3.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--3d<\n",d);
+    num2 = ft_printf(">%--3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.d<\n",d);
+    num2 = ft_printf(">%--2.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.*d<\n",6,d);
+    num2 = ft_printf(">%--2.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.0d<\n",d);
+    num2 = ft_printf(">%--2.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.1d<\n",d);
+    num2 = ft_printf(">%--2.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.2d<\n",d);
+    num2 = ft_printf(">%--2.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.3d<\n",d);
+    num2 = ft_printf(">%--2.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2.4d<\n",d);
+    num2 = ft_printf(">%--2.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--2d<\n",d);
+    num2 = ft_printf(">%--2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.d<\n",d);
+    num2 = ft_printf(">%--1.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.*d<\n",6,d);
+    num2 = ft_printf(">%--1.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.0d<\n",d);
+    num2 = ft_printf(">%--1.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.1d<\n",d);
+    num2 = ft_printf(">%--1.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.2d<\n",d);
+    num2 = ft_printf(">%--1.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.3d<\n",d);
+    num2 = ft_printf(">%--1.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1.4d<\n",d);
+    num2 = ft_printf(">%--1.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%--1d<\n",d);
+    num2 = ft_printf(">%--1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.d<\n",d);
+    num2 = ft_printf(">%-.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.*d<\n",6,d);
+    num2 = ft_printf(">%-.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.0d<\n",d);
+    num2 = ft_printf(">%-.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.1d<\n",d);
+    num2 = ft_printf(">%-.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.2d<\n",d);
+    num2 = ft_printf(">%-.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.3d<\n",d);
+    num2 = ft_printf(">%-.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-.4d<\n",d);
+    num2 = ft_printf(">%-.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-d<\n",d);
+    num2 = ft_printf(">%-d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.d<\n",10,d);
+    num2 = ft_printf(">%-*.d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.*d<\n",6,10,d);
+    num2 = ft_printf(">%-*.*d<\n",6,10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.0d<\n",10,d);
+    num2 = ft_printf(">%-*.0d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.1d<\n",10,d);
+    num2 = ft_printf(">%-*.1d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.2d<\n",10,d);
+    num2 = ft_printf(">%-*.2d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.3d<\n",10,d);
+    num2 = ft_printf(">%-*.3d<\n",10,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*.4d<\n",10,d); // error(-)
+    num2 = ft_printf(">%-*.4d<\n",10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-*d<\n",10,d);
+    num2 = ft_printf(">%-*d<\n",10,d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.d<\n",d);
+    num2 = ft_printf(">%-1.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.*d<\n",6,d);
+    num2 = ft_printf(">%-1.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.0d<\n",d);
+    num2 = ft_printf(">%-1.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.1d<\n",d);
+    num2 = ft_printf(">%-1.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.2d<\n",d);
+    num2 = ft_printf(">%-1.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.3d<\n",d);
+    num2 = ft_printf(">%-1.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1.4d<\n",d);
+    num2 = ft_printf(">%-1.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-1d<\n",d);
+    num2 = ft_printf(">%-1d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.d<\n",d);
+    num2 = ft_printf(">%-2.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.*d<\n",6,d);
+    num2 = ft_printf(">%-2.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.0d<\n",d);
+    num2 = ft_printf(">%-2.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.1d<\n",d);
+    num2 = ft_printf(">%-2.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.2d<\n",d);
+    num2 = ft_printf(">%-2.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.3d<\n",d);
+    num2 = ft_printf(">%-2.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2.4d<\n",d);
+    num2 = ft_printf(">%-2.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-2d<\n",d);
+    num2 = ft_printf(">%-2d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.d<\n",d);
+    num2 = ft_printf(">%-3.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.*d<\n",6,d);
+    num2 = ft_printf(">%-3.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.0d<\n",d);
+    num2 = ft_printf(">%-3.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.1d<\n",d);
+    num2 = ft_printf(">%-3.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.2d<\n",d);
+    num2 = ft_printf(">%-3.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.3d<\n",d);
+    num2 = ft_printf(">%-3.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3.4d<\n",d);
+    num2 = ft_printf(">%-3.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-3d<\n",d);
+    num2 = ft_printf(">%-3d<\n",d);
+    printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.d<\n",d);
+    num2 = ft_printf(">%-4.d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.*d<\n",6,d);
+    num2 = ft_printf(">%-4.*d<\n",6,d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.0d<\n",d);
+    num2 = ft_printf(">%-4.0d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.1d<\n",d);
+    num2 = ft_printf(">%-4.1d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.2d<\n",d);
+    num2 = ft_printf(">%-4.2d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.3d<\n",d);
+    num2 = ft_printf(">%-4.3d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    num1 = printf(">%-4.4d<\n",d);
+    num2 = ft_printf(">%-4.4d<\n",d);
+	printf("%d\n",num1);
+    printf("%d\n",num2);
+    printf("%d\n",printf("hello world"));
 }

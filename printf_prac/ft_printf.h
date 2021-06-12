@@ -7,41 +7,44 @@
 #include <unistd.h>
 
 typedef struct inform {
-    int type;
-    int length;
-    int flag;
+    int type; //1 정수 2 char 3문자열
+    int precision;
     int width;
+    int zero_flag;
+    int minus_flag;
     int num;
-    int dot;
-    int dot_num;
-    int cnt;
-    int result_cnt;
+    int num_len;
+    int is_dot;
+    int res_len;
 }   inform_list;
 
-void    ft_write(char *str);
-int     ft_strlen(char *str);
+void    ft_left_zero_value(char *res, inform_list *inform);
+void    ft_right_zero_value(char *res, inform_list *inform);
+void    ft_precision_zero_value(char *res, inform_list *inform);
+void    ft_zero_printf(char **res, inform_list *inform);
+void    ft_zero_value(char *res, inform_list *inform);
+void    ft_zero_except_print(inform_list *inform, char *res);
+void    ft_left_precision_value_apt(char *res, inform_list *inform, int r_len);
+void    ft_left_precision_value(char *res, inform_list *inform, int r_len);
+void    ft_right_precision_value_apt(char *res, inform_list *inform, int gap);
+void    ft_right_precision_value(char *res, inform_list *inform, int r_len);
+int     ft_num(va_list ap);
 char	*ft_strdup(const char *str);
-char    *ft_forward(char *str);
+int		ft_atoi(const char *str);
 int     ft_int_length(int num);
+int     ft_strlen(const char *str);
+void    ft_write(char *str);
 void    ft_init(inform_list *inform);
-void    ft_type(inform_list *inform, char *buf);
-void    ft_length(inform_list *inform, va_list ap);
-void    ft_flag(inform_list *inform, char *buf);
-void    ft_width(inform_list *inform, char *buf, va_list ap);
-int    ft_res_strlen(inform_list *inform, char *str);
-int    ft_int_setting_printf(inform_list *inform, char *str);
-void    ft_int_flag_arr(inform_list *inform, int temp, int len, char *str);
-void    ft_int_put_value(inform_list *inform, int temp, int len, char *str);
-int    ft_int_print(inform_list *inform, char *str);
-int     ft_printf(const char *str, ...);
-void    ft_int_zero(inform_list *inform, char *str);
-int    ft_minus(inform_list *inform, char *res);
-int    ft_minus_int_print(inform_list *inform, char *str);
-int    ft_minus_int_setting_printf(inform_list *inform, char *str);
-void    ft_minus_int_flag_arr(inform_list *inform, int temp, int len, char *str);
-void    ft_dot(inform_list *inform, char *buf);
-void    ft_inform(inform_list *inform, char *buf ,va_list ap);
-void    ft_dot_flag(inform_list *inform);
-void    ft_dot(inform_list *inform, char *buf);
+int    ft_forward(char *str,int i);
+int     ft_width(char *str, va_list ap, inform_list *inform);
+int     ft_precision(char *str, va_list ap, inform_list *inform);
+int     ft_flag(int i, char *str,inform_list *inform);
+int     ft_star_width(va_list ap,inform_list *inform);
+int     ft_star_precision(va_list ap, inform_list *inform);
+void    ft_zero_minus(char **res,inform_list *inform);
+void    ft_zero_value(char *res, inform_list *inform);
+void    ft_ignore_zero(char **res,inform_list *inform);
+void    ft_precision_value(char *res,inform_list *inform);
+void    ft_num_value(char *res,inform_list *inform);
 
 #endif
