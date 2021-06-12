@@ -10,7 +10,7 @@ void    ft_int_setting(inform_list *inform, va_list ap, char *buf)
             inform->width *= -1;
 }
 
-int    ft_int_main(va_list ap, inform_list *inform, char *buf)
+int    ft_int_main(va_list ap, inform_list *inform, char *buf) //25줄 애매
 {
     char *res;
     int i;

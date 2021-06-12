@@ -52,7 +52,7 @@ int     ft_flag(int i, char *str,inform_list *inform)
     }    
 }
 
-int     ft_precision(char *str, va_list ap, inform_list *inform)
+int     ft_precision(char *str, va_list ap, inform_list *inform) //수정 필요.
 {
     int i;
     int num;

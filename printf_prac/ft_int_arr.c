@@ -27,7 +27,7 @@ void    ft_left_precision_value_apt(char *res, inform_list *inform, int r_len)
     res[len] = '\0';
 }
 
-void    ft_left_precision_value(char *res, inform_list *inform, int r_len)
+void    ft_left_precision_value(char *res, inform_list *inform, int r_len) // 수정 필요 31줄.
 {
     int temp;
     int len;
@@ -85,7 +85,7 @@ void    ft_right_precision_value_apt(char *res, inform_list *inform, int gap)
         res[len--] = ' ';   
 }
 
-void    ft_right_precision_value(char *res, inform_list *inform, int r_len)
+void    ft_right_precision_value(char *res, inform_list *inform, int r_len) //25줄 애매
 {
     int temp;
     int len;

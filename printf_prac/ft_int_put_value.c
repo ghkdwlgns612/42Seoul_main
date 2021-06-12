@@ -23,7 +23,7 @@ void    ft_num_value(char *res,inform_list *inform)
 }
 
 
-void    ft_precision_value(char *res,inform_list *inform)
+void    ft_precision_value(char *res,inform_list *inform) //25줄 애매
 {
     int temp;
     int gap;
@@ -51,7 +51,7 @@ void    ft_precision_value(char *res,inform_list *inform)
         res[len--] = '0';
 }
 
-void    ft_ignore_zero(char **res,inform_list *inform)
+void    ft_ignore_zero(char **res,inform_list *inform) //수정 필요.
 {
     if ((inform->width > inform->precision && inform->precision > inform->num_len) || (inform->width > inform->precision && inform->width > inform->num_len)) //width할당, -플래그 확인, pre적용 후, 양음확인 or width할당, -플래그 확인, pre미적용, 양음확인
     {
@@ -107,7 +107,7 @@ void    ft_zero_value(char *res, inform_list *inform)
         res[len] = '0';
 }
 
-void    ft_zero_minus(char **res,inform_list *inform)
+void    ft_zero_minus(char **res,inform_list *inform) //24줄 애매
 {
     if (inform->width > inform->num_len)
     {

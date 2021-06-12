@@ -31,7 +31,7 @@ void    ft_char_input(char *res, inform_list *inform)
     res[i] = '\0';
 }
 
-int    ft_char_main(va_list ap, inform_list *inform, char *buf)
+int    ft_char_main(va_list ap, inform_list *inform, char *buf) //27줄 수정 필요.
 {
     char *res;
     int i;
@@ -43,13 +43,7 @@ int    ft_char_main(va_list ap, inform_list *inform, char *buf)
     i = ft_side_write(buf, i,inform) + 1;
     i = ft_flag(i, buf, inform);
     ft_char_setting(inform,ap,&buf[i]);
-            // printf("width : %d\n", inform->width);
-        // printf("preci : %d\n", inform->precision);
-        // printf("num : %d\n", inform->num);
-        // printf("length : %d\n", inform->num_len);
-        // printf("dot : %d\n", inform->is_dot);
-        // printf("zero : %d\n", inform->zero_flag);
-        // printf("minus : %d\n", inform->minus_flag);
+
     if (inform->width > 0)
         res = (char *)malloc(inform->width + 1);
     else

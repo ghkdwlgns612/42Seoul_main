@@ -54,7 +54,7 @@ void    ft_zero_except_print(inform_list *inform, char *res)
         res[0] = '\0';
 }
 
-void    ft_zero_printf(char **res, inform_list *inform)
+void    ft_zero_printf(char **res, inform_list *inform) //24줄 애매
 {
     if (inform->width && inform->width > inform->precision)
     {
