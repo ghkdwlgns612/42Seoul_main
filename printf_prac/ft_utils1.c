@@ -13,24 +13,35 @@ int     ft_int_length(int num)
     return (cnt);
 }
 
-int     ft_strlen(const char *str)
+int     ft_strlen(const char *str,inform_list *inform)
 {
 	int     i;
-
+	int j;
 	i = 0;
-	while (str[i] != 0)
-		i++;
-	return (i);
+	j = inform->width;
+	if (inform->type == 2 && inform->alpha == '\0')
+	{
+		while (!(str[i] == '\0' && i > inform->width - 1))
+			i++;
+		if (inform->width != 0)
+		{
+			return (i);
+		}
+		else
+			return (i + 1);
+				
+	}
+	else
+		while (str[i])
+			i++;
+		return (i);
 }
 
-void    ft_write(char *str)
+void    ft_write2(char *str, size_t size)
 {
-    int i;
-
-    i = 0;
-    while (str[i])
-        write(1,&str[i++],1);
+	write(1,str, size);
 }
+
 
 int				ft_atoi(const char *str)
 {
