@@ -29,7 +29,7 @@ int    ft_int_main(va_list ap, inform_list *inform, char *buf) //25줄 애매
         else
             ft_zero_minus(&res,inform);
     }
-   ft_write2(res, (size_t)ft_strlen(res,inform));
+   ft_write(res, (size_t)ft_strlen(res,inform));
     inform->res_len += ft_strlen(res,inform);
     i = ft_forward(buf, i);
    free(res);

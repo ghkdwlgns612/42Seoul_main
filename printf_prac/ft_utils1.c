@@ -37,7 +37,7 @@ int     ft_strlen(const char *str,inform_list *inform)
 		return (i);
 }
 
-void    ft_write2(char *str, size_t size)
+void    ft_write(char *str, size_t size)
 {
 	write(1,str, size);
 }

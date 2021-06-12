@@ -1,5 +1,5 @@
 #include "ft_printf.h"
-
+//5개
 void    ft_left_zero_value(char *res, inform_list *inform)
 {
     int i;
