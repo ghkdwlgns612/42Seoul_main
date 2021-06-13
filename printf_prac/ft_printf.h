@@ -59,6 +59,9 @@ int    ft_int_main(va_list ap, inform_list *inform, char *str);
 void    ft_char_setting(inform_list *inform, va_list ap, char *buf);
 int    ft_char_main(va_list ap, inform_list *inform, char *buf);
 void    ft_char_input(char *res, inform_list *inform);
+int    ft_str_main(va_list ap, inform_list *inform, char *buf);
+void    ft_str_input(char *res, inform_list *inform);
+void    ft_str_setting(inform_list *inform, va_list ap, char *buf);
 
 int     ft_printf(const char *str, ...);
 
