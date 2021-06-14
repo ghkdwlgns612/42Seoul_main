@@ -22,7 +22,7 @@ int    ft_side_write(char *str, int i,inform_list *inform)
 
 int    ft_forward(char *str,int i)
 {
-    while (str[i] != 'd' && str[i] != 'c' && str[i] != 's')
+    while (str[i] != 'd' && str[i] != 'c' && str[i] != 's' && str[i] != 'i' && str[i] != 'u' && str[i] != 'p' && str[i] != 'x' && str[i] != '%' && str[i] != 'X')
         i++;
     i++;
     return (i);

@@ -16,9 +16,8 @@ int     ft_int_length(int num)
 int     ft_strlen(const char *str,inform_list *inform)
 {
 	int     i;
-	int j;
+	
 	i = 0;
-	j = inform->width;
 	if (inform->type == 2 && inform->alpha == '\0')
 	{
 		while (!(str[i] == '\0' && i > inform->width - 1))
@@ -32,9 +31,11 @@ int     ft_strlen(const char *str,inform_list *inform)
 				
 	}
 	else
+	{
 		while (str[i])
 			i++;
 		return (i);
+	}
 }
 
 void    ft_write(char *str, size_t size)

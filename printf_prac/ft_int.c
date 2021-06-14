@@ -4,7 +4,10 @@ void    ft_int_setting(inform_list *inform, va_list ap, char *buf)
 {
     inform->width = ft_width(buf, ap, inform);
     inform->precision = ft_precision(buf, ap, inform);
-    inform->num = va_arg(ap,int);
+    if (inform->unsigned_flag == 1)
+        inform->num = va_arg(ap,unsigned int);
+    else    
+        inform->num = va_arg(ap,int);
     inform->num_len = ft_int_length(inform->num);
     if (inform->width < 0)
             inform->width *= -1;
@@ -29,10 +32,10 @@ int    ft_int_main(va_list ap, inform_list *inform, char *buf) //25줄 애매
         else
             ft_zero_minus(&res,inform);
     }
-   ft_write(res, (size_t)ft_strlen(res,inform));
+    ft_write(res, (size_t)ft_strlen(res,inform));
     inform->res_len += ft_strlen(res,inform);
     i = ft_forward(buf, i);
-   free(res);
+    free(res);
     i = ft_side_write(buf, i,inform);
     return(inform->res_len);
 }

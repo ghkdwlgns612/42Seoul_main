@@ -17,6 +17,9 @@ typedef struct inform {
     int is_dot;
     int res_len;
     char alpha;
+    char *str;
+    int unsigned_flag;
+    long long pointer;
 }   inform_list;
 
 void    ft_left_zero_value(char *res, inform_list *inform);
@@ -40,6 +43,7 @@ void    ft_write(char *str, size_t size);
 
 void    ft_init(inform_list *inform);
 void    ft_type(inform_list *inform, char *str);
+void    ft_type_inner(inform_list *inform, char alpha);
 int    ft_select(inform_list *inform, va_list ap, char *str);
 int    ft_forward(char *str,int i);
 int     ft_width(char *str, va_list ap, inform_list *inform);
@@ -59,6 +63,14 @@ int    ft_int_main(va_list ap, inform_list *inform, char *str);
 void    ft_char_setting(inform_list *inform, va_list ap, char *buf);
 int    ft_char_main(va_list ap, inform_list *inform, char *buf);
 void    ft_char_input(char *res, inform_list *inform);
+int    ft_str_main(va_list ap, inform_list *inform, char *buf);
+void    ft_str_input(char *res, inform_list *inform);
+void    ft_str_setting(inform_list *inform, va_list ap, char *buf);
+int     ft_percent_main(char *str);
+int     ft_pointer_main(va_list ap,inform_list *inform, char *str);
+void    ft_pointer_setting(inform_list *inform, va_list ap, char *buf);
+void    ft_pointer_precision(char **res,inform_list *inform);
+void    ft_pointer_width(char **res,inform_list *inform);
 
 int     ft_printf(const char *str, ...);
 
