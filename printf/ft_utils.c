@@ -1,63 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ji-park <gudor123@nate.com>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/02 03:43:51 by ji-park           #+#    #+#             */
+/*   Updated: 2021/01/02 03:43:53 by ji-park          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void    ft_write(char *str)
+int				pf_strlen(char *str)
 {
-    while (*str)
-        write(1,str++,1);
-    write(1,"\n",1);
-}
+	int i;
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
+	if (str == NULL)
+		return (0);
 	i = 0;
 	while (str[i] != 0)
 		i++;
 	return (i);
 }
 
-
-char	*ft_strdup(const char *str)
+void			pf_bzero(void *ptr, size_t size)
 {
-	size_t	len;
-	size_t	i;
-	char	*ret;
+	int				i;
+	unsigned char	*startptr;
 
-	len = 0;
-	while (str[len])
-		len++;
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (ret == 0)
-		return (0);
+	startptr = (unsigned char *)ptr;
 	i = 0;
-	while (i < len)
+	while (size--)
 	{
-		ret[i] = str[i];
+		startptr[i] = 0;
 		i++;
 	}
-	ret[i] = '\0';
-	return (ret);
 }
 
-char    *ft_forward(char *str)
+void			do_itoa(unsigned int tmp, t_format *t_node, int len)
 {
-    char *buf;
-    
-    buf = ft_strdup(str);
-    while (*buf != '\0' && *buf != '%')
-        buf++;
-    return (buf);
+	while (tmp > 0)
+	{
+		t_node->num[len--] = (tmp % 10) + 48;
+		tmp = tmp / 10;
+	}
 }
 
-
-int     ft_int_length(int num)
+long long		check_size(long long n)
 {
-    int cnt = 0;
-    while (num)
-    {
-        num /= 10;
-        cnt++;
-    }
-    return (cnt);
+	long long		i;
+
+	i = 0;
+	if (n < 0)
+		n = n * -1;
+	else if (n == 0)
+		return (1);
+	while (n > 0)
+	{
+		n = n / 10;
+		i++;
+	}
+	return (i);
 }

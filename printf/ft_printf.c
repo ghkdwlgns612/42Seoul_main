@@ -1,195 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/14 14:21:02 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/14 14:21:15 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int    ft_res_strlen(inform_list *inform, char *str)
+int		ft_printf(const char *format, ...)
 {
-    if (inform->flag == 2)
-        return (inform->width + 1);
-    else
-        return (ft_strlen(str) + 1);
+	int			size;
+	t_format	*t_node;
+
+	t_node = (t_format*)malloc(sizeof(t_format));
+	va_start(t_node->ap, format);
+	init_firstnode(t_node, (char *)format);
+	start_printf(t_node);
+	if (t_node->spec == '0')
+	{
+		va_end(t_node->ap);
+		free(t_node);
+		return (-1);
+	}
+	va_end(t_node->ap);
+	size = t_node->nums;
+	free(t_node);
+	return (size);
 }
 
-int    ft_int_print(inform_list *inform, char *str)
+void	ft_putchar(char c)
 {
-    int temp = inform->num;
-    int len;
-
-    if (inform->flag == 3) //아무것도 없을 경우.
-    {
-        len = ft_int_setting_printf(inform,str);
-        ft_int_put_value(inform,temp,len,str);
-    }
-    else if (inform->flag == 2) //왼쪽정렬
-    {
-        len = ft_int_setting_printf(inform,str) + 1;
-        ft_int_put_value(inform,temp,len,str);
-    }
-    else if (inform->flag == 1) //0채우기
-    {
-        len = ft_int_setting_printf(inform,str);
-        ft_int_put_value(inform,temp,len,str);
-    }
-    len = ft_res_strlen(inform, str);
-    ft_write(str);
-    return(len);
+	write(1, &c, 1);
 }
 
-void    ft_inform(inform_list *inform, char *buf ,va_list ap)
+void	ft_putstr(t_format *t_node)
 {
-        ft_init(inform);
-        ft_type(inform, buf);
-        ft_width(inform, buf,ap);
-        ft_length(inform,buf,ap);
-        ft_flag(inform, buf);
-        ft_dot(inform, buf);
+	int i;
+
+	i = 0;
+	if (t_node->spec == 'c' && t_node->num[0] == '\0')
+	{
+		while (i < t_node->max_size)
+		{
+			write(1, &t_node->result[i], 1);
+			i++;
+		}
+		t_node->nums += t_node->max_size;
+		return ;
+	}
+	while (t_node->result[i] != 0)
+	{
+		write(1, &t_node->result[i], 1);
+		i++;
+	}
+	t_node->nums += pf_strlen(t_node->result);
 }
-
-int     ft_printf(const char *str, ...)
-{
-    va_list ap;
-    inform_list *my_inform;
-    char *buf = ft_strdup(str);
-    char *res;
-    int len;
-    va_start(ap,str);
-    while (*buf)
-    {
-        my_inform = (inform_list *)malloc(sizeof(inform_list));
-        ft_inform(my_inform,buf,ap);
-        if (my_inform->type == 1)
-        {
-            if (my_inform->num < 0)
-            {
-                if (my_inform->width == 0)
-                    res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
-                else
-                    res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
-                len = ft_minus_int_print(my_inform, res);
-            }
-            else
-            {
-                if (my_inform->width == 0)
-                    res = (char *)malloc(sizeof(char) * (my_inform->length + 1));
-                else
-                    res = (char *)malloc(sizeof(char) * (my_inform->width + 1));
-                len = ft_int_print(my_inform, res);
-            }
-            buf = ft_forward(buf);
-        }
-        // printf("type :%d\n",my_inform->type); // 1은 int형, 2는 char형, 3은 char *형
-        // printf("len :%d\n",my_inform->length); // 문자 및 숫자의 길이
-        // printf("width :%d\n",my_inform->width); // 중간 인자에 대한 것
-        // printf("flag :%d\n",my_inform->flag); // 1은 0채우기, 2는 왼쪽정렬, 3은 아무 플래그없음.
-        // printf("num : %d\n",my_inform->num);
-        // printf("dot : %d\n",my_inform->dot);
-        // printf("dot_num : %d\n", my_inform->dot_num);
-        free(res);
-        free(my_inform);
-        break ;
-    }
-    return (len);
-}
-
-int main()
-{
-    int num1;
-    int num2;
-
-    num1 = ft_printf("%20d\n",2147483647);
-    num2 = printf("%20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",2147483647);
-    num2 = printf("%20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",2147483647);
-    num2 = printf("%-20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",2147483647);
-    num2 =printf("%020d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",2147483647);
-    num2 = printf("%0-20d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",2147483647);
-    num2 = printf("%-020d\n",2147483647);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",0);
-    num2 = printf("%20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",0);
-    num2 = printf("%20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",0);
-    num2 = printf("%-20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",0);
-    num2 =printf("%020d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",0);
-    num2 = printf("%0-20d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",0);
-    num2 = printf("%-020d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",-123456);
-    num2 = printf("%20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%20d\n",-123456);
-    num2 = printf("%20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-20d\n",-123456);
-    num2 = printf("%-20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%020d\n",-123456);
-    num2 =printf("%020d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%0-20d\n",-123456);
-    num2 = printf("%0-20d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%-020d\n",-123456);
-    num2 = printf("%-020d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.3d\n",123456);
-    num2 = printf("%.3d\n",123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.9d\n",123456);
-    num2 = printf("%.9d\n",123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.3d\n",0);
-    num2 = printf("%.3d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.9d\n",0);
-    num2 = printf("%.9d\n",0);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.3d\n",-123456);
-    num2 = printf("%.3d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    num1 = ft_printf("%.9d\n",-123456);
-    num2 = printf("%.9d\n",-123456);
-    printf("%d\n",num1);
-    printf("%d\n",num2);
-    return 0;
-}
-

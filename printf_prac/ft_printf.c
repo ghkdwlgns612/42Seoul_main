@@ -5,12 +5,8 @@ void    ft_type_inner(inform_list *inform, char alpha)
     int i;
 
     i = 0;
-    if (alpha == 'd' || alpha == 'i' || alpha == 'u')
-    {
-        if (alpha == 'u')
-            inform->unsigned_flag == 1;
+    if (alpha == 'd' || alpha == 'i')
         inform->type = 1;
-    }
     else if (alpha == 'c')
         inform->type = 2;
     else if (alpha == 's')
@@ -28,7 +24,6 @@ void    ft_type(inform_list *inform, char *str)
     int i;
 
     i = 0;
-    inform->unsigned_flag = 0;
     while (str[i])
     {
         ft_type_inner(inform, str[i]);
@@ -43,14 +38,14 @@ int    ft_select(inform_list *inform, va_list ap, char *str)
         return (ft_int_main(ap,inform,str));
     else if (inform->type == 2)
         return (ft_char_main(ap,inform,str));
-    else if (inform->type == 3)
-        return (ft_str_main(ap,inform,str));
-    else if (inform->type == 4)
-        return (ft_pointer_main(ap,inform,str));
+    // else if (inform->type == 3)
+    //     return (ft_str_main(ap,inform,str));
+    // else if (inform->type == 4)
+    //     return (ft_pointer_main(ap,inform,str));
     // else if (inform->type == 5)
     //     return (ft_hex_main());
     else if (inform->type == 6)
-        return (ft_percent_main(str));
+        return (ft_percent_main(ap,inform,str));
     else
         return (ft_int_main(ap,inform,str));   
 }
@@ -70,12 +65,4 @@ int     ft_printf(const char *str, ...)
     free(inform);
     free(buf);
     return (result);
-}
-
-int main()
-{
-    void *integer = 1234;
-    printf("|%5.5p|\n",integer);
-    // ft_printf("|%9p|\n",integer);
-    return (0);
 }

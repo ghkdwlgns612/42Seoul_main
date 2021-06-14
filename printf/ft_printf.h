@@ -1,47 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ji-park <gudor123@nate.com>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/02 01:18:28 by ji-park           #+#    #+#             */
+/*   Updated: 2021/01/02 03:45:02 by ji-park          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
+# include <stdio.h>
+# include <stdarg.h>
+# include <unistd.h>
+# include <stdlib.h>
 
-typedef struct inform {
-    int type;
-    int length;
-    int flag;
-    int width;
-    int num;
-    int dot;
-    int dot_num;
-    int cnt;
-    int result_cnt;
-}   inform_list;
+typedef	struct	s_format
+{
+	char		*str;
+	char		flag[4];
+	char		spec;
+	char		num[21];
+	char		*result;
+	va_list		ap;
+	int			wid;
+	int			prec;
+	int			size;
+	int			max_size;
+	int			nums;
+}				t_format;
 
-void    ft_write(char *str);
-int     ft_strlen(char *str);
-char	*ft_strdup(const char *str);
-char    *ft_forward(char *str);
-int     ft_int_length(int num);
-void    ft_init(inform_list *inform);
-void    ft_type(inform_list *inform, char *buf);
-void    ft_length(inform_list *inform, char *buf, va_list ap);
-void    ft_flag(inform_list *inform, char *buf);
-void    ft_width(inform_list *inform, char *buf, va_list ap);
-int    ft_res_strlen(inform_list *inform, char *str);
-int    ft_int_setting_printf(inform_list *inform, char *str);
-void    ft_int_flag_arr(inform_list *inform, int temp, int len, char *str);
-void    ft_int_put_value(inform_list *inform, int temp, int len, char *str);
-int    ft_int_print(inform_list *inform, char *str);
-int     ft_printf(const char *str, ...);
-void    ft_int_zero(inform_list *inform, char *str);
-int    ft_minus(inform_list *inform, char *res);
-int    ft_minus_int_print(inform_list *inform, char *str);
-int    ft_minus_int_setting_printf(inform_list *inform, char *str);
-void    ft_minus_int_flag_arr(inform_list *inform, int temp, int len, char *str);
-void    ft_dot(inform_list *inform, char *buf);
-void    ft_inform(inform_list *inform, char *buf ,va_list ap);
-void    ft_dot_flag(inform_list *inform);
-void    ft_dot(inform_list *inform, char *buf);
+extern	char	g_hex_b[17];
+extern	char	g_hex_s[17];
+
+void			exception_null(t_format *t_node, int num);
+void			p_exception_null(t_format *t_node, int num);
+void			negative_d(t_format *t_node, int num);
+void			positive_d(t_format *t_node, int num);
+void			n_judge_max(t_format *t_node);
+void			init_zero(t_format *t_node);
+void			d_check_null(t_format *t_node);
+void			check_null(t_format *t_node, char **str);
+void			pf_bzero(void *ptr, size_t size);
+void			p_flag_minus(t_format *t_node, char *str);
+void			p_noflag(t_format *t_node, char *str);
+void			percent_flag_zero(t_format *t_node, char c);
+void			s_noflag(t_format *t_node, char *str);
+void			s_flag_zero(t_format *t_node, char *str);
+void			s_flag_minus(t_format *t_node, char *str);
+void			c_noflag(t_format *t_node, char c);
+void			c_flag_zero(t_format *t_node, char c);
+void			c_flag_minus(t_format *t_node, char c);
+void			n_flag_zero(t_format *t_node, char *str);
+void			n_flag_zero_2(t_format *t_node, char *str);
+void			n_flag_minus(t_format *t_node, char *str);
+void			n_noflag(t_format *t_node, char *str);
+void			flag_zero(t_format *t_node, char *str);
+void			flag_minus(t_format *t_node, char *str);
+void			noflag(t_format *t_node, char *str);
+int				pf_strlen(char *str);
+void			judge_max(t_format *t_node);
+void			ft_output_x(t_format *t_node);
+void			ft_output_u(t_format *t_node);
+void			ft_output_p(t_format *t_node);
+void			ft_output_s(t_format *t_node);
+void			ft_output_d(t_format *t_node);
+void			ft_output_c(t_format *t_node);
+void			ft_output_percent(t_format *t_node);
+void			select_spec(t_format *t_node);
+long long		check_size(long long n);
+void			do_itoa(unsigned int tmp, t_format *t_node, int len);
+void			d_to_str(t_format *t_node, int n);
+void			h_to_str(long long addr, t_format *t_node);
+void			u_to_str(t_format *t_node, unsigned int n);
+void			sx_to_str(t_format *t_node, unsigned int addr);
+void			bx_to_str(t_format *t_node, unsigned int addr);
+void			check_spec(t_format *t_node);
+void			ft_output(t_format *t_node);
+int				check_star(t_format *t_node);
+void			check_wid(t_format *t_node);
+void			check_prec(t_format *t_node);
+void			check_percent(t_format *t_node);
+void			ft_putnbr(int n);
+void			ft_putchar(char c);
+void			ft_putstr(t_format *t_node);
+void			init_firstnode(t_format *t_node, char *format);
+void			init_node(t_format *t_node);
+void			check_flag(t_format *t_node);
+void			start_printf(t_format *t_node);
+void			two_flag(t_format *t_node);
+int				ft_printf(const char *format, ...);
 
 #endif
