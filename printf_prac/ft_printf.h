@@ -66,11 +66,14 @@ void    ft_char_input(char *res, inform_list *inform);
 int    ft_str_main(va_list ap, inform_list *inform, char *buf);
 void    ft_str_input(char *res, inform_list *inform);
 void    ft_str_setting(inform_list *inform, va_list ap, char *buf);
+<<<<<<< HEAD
 int     ft_percent_main(char *str);
 int     ft_pointer_main(va_list ap,inform_list *inform, char *str);
 void    ft_pointer_setting(inform_list *inform, va_list ap, char *buf);
 void    ft_pointer_precision(char **res,inform_list *inform);
 void    ft_pointer_width(char **res,inform_list *inform);
+=======
+>>>>>>> 2c8e4daa36dfc84942b6e6a3c1e18ce039c23c5c
 
 int     ft_printf(const char *str, ...);
 
