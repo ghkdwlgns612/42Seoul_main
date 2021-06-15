@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_nd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ji-park <gudor123@nate.com>                +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 00:13:04 by ji-park           #+#    #+#             */
-/*   Updated: 2021/01/02 00:13:07 by ji-park          ###   ########.fr       */
+/*   Updated: 2021/06/15 10:04:40 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	n_noflag(t_format *t_node, char *str)
 		size = t_node->size;
 		if (t_node->size <= t_node->prec)
 			size = t_node->prec + 1;
-		while (t_node->wid > size + i)
+		while (size + i < t_node->wid)
 			t_node->result[i++] = ' ';
 		t_node->result[i++] = '-';
 		while (t_node->size + j - 1 < t_node->prec)
@@ -48,7 +48,7 @@ void	n_flag_minus(t_format *t_node, char *str)
 	{
 		str++;
 		t_node->result[i++] = '-';
-		while (t_node->prec > t_node->size + i - 2)
+		while (t_node->size + i - 2 < t_node->prec)
 			t_node->result[i++] = '0';
 		while (*str != 0)
 			t_node->result[i++] = *str++;

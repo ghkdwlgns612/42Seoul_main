@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ji-park <gudor123@nate.com>                +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 01:18:28 by ji-park           #+#    #+#             */
-/*   Updated: 2021/01/02 03:45:02 by ji-park          ###   ########.fr       */
+/*   Updated: 2021/06/15 09:56:57 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,30 @@
 
 typedef	struct	s_format
 {
-	char		*str;
-	char		flag[4];
-	char		spec;
-	char		num[21];
-	char		*result;
+	char		*str; // 들어온 format을 저장하는 곳.
+	char		flag[4]; // flag[0] = -플래그, flag[1] = 0플래그,flag[2] = .플래그,flag[3] = *플래그
+	char		spec; // 어떤 타입으로 출력할지 결정.
+	char		num[21]; //출력할 것들을 임시로 저장하는 buffer.
+	char		*result; //출력할 결과를 저장.
 	va_list		ap;
-	int			wid;
-	int			prec;
-	int			size;
-	int			max_size;
-	int			nums;
+	int			wid; // 폭을 구함. atoi와 비슷
+	int			prec; //.뒤에 붙은 숫자(precision)
+	int			size; //문자의 길이.
+	int			max_size; //전체 출력 공간.(|    |)
+	int			nums; //출력할 문자의 총 길이.
 }				t_format;
 
 extern	char	g_hex_b[17];
 extern	char	g_hex_s[17];
 
-void			exception_null(t_format *t_node, int num);
-void			p_exception_null(t_format *t_node, int num);
+void			exception_null(t_format *t_node, int num); //null출력 (.있고 pre = 0 값도 0)
+void			p_exception_null(t_format *t_node, int num); // 0x빼고 null출력
 void			negative_d(t_format *t_node, int num);
 void			positive_d(t_format *t_node, int num);
 void			n_judge_max(t_format *t_node);
 void			init_zero(t_format *t_node);
-void			d_check_null(t_format *t_node);
-void			check_null(t_format *t_node, char **str);
-void			pf_bzero(void *ptr, size_t size);
+void			check_null(t_format *t_node, char **str); //%s일 때 str에 (null)넣고 길이 6
+void			pf_bzero(void *ptr, size_t size); //zero로 채워주는 함수.
 void			p_flag_minus(t_format *t_node, char *str);
 void			p_noflag(t_format *t_node, char *str);
 void			percent_flag_zero(t_format *t_node, char c);

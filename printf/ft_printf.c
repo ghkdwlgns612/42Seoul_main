@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/14 14:21:02 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/06/14 14:21:15 by jihuhwan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_printf.h"
 
 int		ft_printf(const char *format, ...)
@@ -45,6 +33,7 @@ void	ft_putstr(t_format *t_node)
 	i = 0;
 	if (t_node->spec == 'c' && t_node->num[0] == '\0')
 	{
+		printf("%s",t_node->num);
 		while (i < t_node->max_size)
 		{
 			write(1, &t_node->result[i], 1);
@@ -59,4 +48,11 @@ void	ft_putstr(t_format *t_node)
 		i++;
 	}
 	t_node->nums += pf_strlen(t_node->result);
+}
+
+
+int		main()
+{
+	ft_printf("%4c\n",'A');
+	return 0;
 }
