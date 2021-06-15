@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 01:18:28 by ji-park           #+#    #+#             */
-/*   Updated: 2021/06/15 09:56:57 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/06/15 15:20:53 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef	struct	s_format
 	int			max_size; //전체 출력 공간.(|    |)
 	int			nums; //출력할 문자의 총 길이.
 }				t_format;
+
 
 extern	char	g_hex_b[17];
 extern	char	g_hex_s[17];

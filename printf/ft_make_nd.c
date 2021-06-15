@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 00:13:04 by ji-park           #+#    #+#             */
-/*   Updated: 2021/06/15 10:04:40 by jihuhwan         ###   ########.fr       */
+/*   Created: 2021/06/15 11:50:35 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:50:42 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	n_noflag(t_format *t_node, char *str)
+void	n_noflag(t_format *inform, char *str)
 {
 	int i;
 	int j;
@@ -23,23 +23,23 @@ void	n_noflag(t_format *t_node, char *str)
 	if (str != NULL)
 	{
 		str++;
-		size = t_node->size;
-		if (t_node->size <= t_node->prec)
-			size = t_node->prec + 1;
-		while (size + i < t_node->wid)
-			t_node->result[i++] = ' ';
-		t_node->result[i++] = '-';
-		while (t_node->size + j - 1 < t_node->prec)
+		size = inform->size;
+		if (inform->size <= inform->prec)
+			size = inform->prec + 1;
+		while (size + i < inform->wid)
+			inform->result[i++] = ' ';
+		inform->result[i++] = '-';
+		while (inform->size + j - 1 < inform->prec)
 		{
-			t_node->result[i++] = '0';
+			inform->result[i++] = '0';
 			j++;
 		}
 		while (*str != 0)
-			t_node->result[i++] = *str++;
+			inform->result[i++] = *str++;
 	}
 }
 
-void	n_flag_minus(t_format *t_node, char *str)
+void	n_flag_minus(t_format *inform, char *str)
 {
 	int i;
 
@@ -47,53 +47,53 @@ void	n_flag_minus(t_format *t_node, char *str)
 	if (str != NULL)
 	{
 		str++;
-		t_node->result[i++] = '-';
-		while (t_node->size + i - 2 < t_node->prec)
-			t_node->result[i++] = '0';
+		inform->result[i++] = '-';
+		while (inform->size + i - 2 < inform->prec)
+			inform->result[i++] = '0';
 		while (*str != 0)
-			t_node->result[i++] = *str++;
-		while (i < t_node->max_size)
-			t_node->result[i++] = ' ';
+			inform->result[i++] = *str++;
+		while (i < inform->max_size)
+			inform->result[i++] = ' ';
 	}
 }
 
-void	n_flag_zero(t_format *t_node, char *str)
+void	n_flag_zero(t_format *inform, char *str)
 {
 	int i;
 	int j;
 
 	i = 0;
 	str++;
-	j = t_node->max_size - t_node->size;
-	if (t_node->flag[2] == 1)
+	j = inform->max_size - inform->size;
+	if (inform->flag[2] == 1)
 	{
-		if (t_node->prec >= t_node->size)
-			j = t_node->max_size - t_node->prec - 1;
+		if (inform->prec >= inform->size)
+			j = inform->max_size - inform->prec - 1;
 		while (j-- > 0)
-			t_node->result[i++] = ' ';
-		t_node->result[i++] = '-';
-		j = t_node->prec - t_node->size + 1;
+			inform->result[i++] = ' ';
+		inform->result[i++] = '-';
+		j = inform->prec - inform->size + 1;
 		while (j-- > 0)
-			t_node->result[i++] = '0';
+			inform->result[i++] = '0';
 		while (*str != 0)
-			t_node->result[i++] = *str++;
+			inform->result[i++] = *str++;
 	}
 	else
 	{
-		n_flag_zero_2(t_node, str);
+		n_flag_zero_2(inform, str);
 	}
 }
 
-void	n_flag_zero_2(t_format *t_node, char *str)
+void	n_flag_zero_2(t_format *inform, char *str)
 {
 	int i;
 	int j;
 
 	i = 0;
-	j = t_node->max_size - t_node->size;
-	t_node->result[i++] = '-';
+	j = inform->max_size - inform->size;
+	inform->result[i++] = '-';
 	while (j-- > 0)
-		t_node->result[i++] = '0';
+		inform->result[i++] = '0';
 	while (*str != 0)
-		t_node->result[i++] = *str++;
+		inform->result[i++] = *str++;
 }

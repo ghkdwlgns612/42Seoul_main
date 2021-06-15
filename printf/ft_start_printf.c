@@ -1,58 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_start_printf.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 11:52:22 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 14:01:52 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void	start_printf(t_format *t_node)
+void	start_printf(t_format *inform)
 {
-	while (*t_node->str != 0)
+	while (*inform->str != 0)
 	{
-		if (*t_node->str == '%')
+		if (*inform->str == '%')
 		{
-			t_node->str++;
-			check_flag(t_node);
-			check_wid(t_node);
-			check_prec(t_node);
-			check_spec(t_node);
-			if (t_node->spec == '0')
+			inform->str++;
+			check_flag(inform);
+			check_wid(inform);
+			check_prec(inform);
+			check_spec(inform);
+			if (inform->spec == '0')
 				return ;
-			two_flag(t_node);
-			ft_output(t_node);
-			ft_putstr(t_node);
-			init_node(t_node);
+			two_flag(inform);
+			ft_output(inform);
+			ft_putstr(inform);
+			init_node(inform);
 		}
 		else
 		{
-			ft_putchar(*t_node->str);
-			t_node->str++;
-			t_node->nums++;
+			ft_putchar(*inform->str);
+			inform->str++;
+			inform->nums++;
 		}
 	}
 }
 
-void	ft_output(t_format *t_node)
+void	ft_output(t_format *inform)
 {
-	if (t_node->spec == 'c')
-		ft_output_c(t_node);
-	else if (t_node->spec == 's')
-		ft_output_s(t_node);
-	else if (t_node->spec == 'd')
-		ft_output_d(t_node);
-	else if (t_node->spec == 'i')
-		ft_output_d(t_node);
-	else if (t_node->spec == 'c')
-		ft_output_c(t_node);
-	else if (t_node->spec == 'p')
-		ft_output_p(t_node);
-	else if (t_node->spec == 'u')
-		ft_output_u(t_node);
-	else if (t_node->spec == 'x')
-		ft_output_x(t_node);
-	else if (t_node->spec == 'X')
-		ft_output_x(t_node);
-	else if (t_node->spec == '%')
-		ft_output_percent(t_node);
+	if (inform->spec == 'c')
+		ft_output_c(inform);
+	else if (inform->spec == 's')
+		ft_output_s(inform);
+	else if (inform->spec == 'd')
+		ft_output_d(inform);
+	else if (inform->spec == 'i')
+		ft_output_d(inform);
+	else if (inform->spec == 'c')
+		ft_output_c(inform);
+	else if (inform->spec == 'p')
+		ft_output_p(inform);
+	else if (inform->spec == 'u')
+		ft_output_u(inform);
+	else if (inform->spec == 'x')
+		ft_output_x(inform);
+	else if (inform->spec == 'X')
+		ft_output_x(inform);
+	else if (inform->spec == '%')
+		ft_output_percent(inform);
 }
 
-void	two_flag(t_format *t_node)
+void	two_flag(t_format *inform)
 {
-	if (t_node->flag[0] == 1 && t_node->flag[1] == 1)
-		t_node->flag[1] = 0;
+	if (inform->flag[0] == 1 && inform->flag[1] == 1)
+		inform->flag[1] = 0;
 }

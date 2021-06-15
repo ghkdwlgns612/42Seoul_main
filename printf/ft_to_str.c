@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_to_str.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 11:54:48 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:54:55 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 char		g_hex_s[17] = "0123456789abcdef";
 char		g_hex_b[17] = "0123456789ABCDEF";
 
-void	d_to_str(t_format *t_node, int n)
+void	d_to_str(t_format *inform, int n)
 {
 	int				len;
 	unsigned int	tmp;
 
 	if (n == 0)
 	{
-		t_node->num[0] = '0';
-		t_node->num[1] = 0;
-		t_node->size = 1;
+		inform->num[0] = '0';
+		inform->num[1] = 0;
+		inform->size = 1;
 		return ;
 	}
 	len = check_size(n);
@@ -20,37 +32,37 @@ void	d_to_str(t_format *t_node, int n)
 	{
 		tmp = n * -1;
 		len++;
-		t_node->num[0] = '-';
+		inform->num[0] = '-';
 	}
 	else
 		tmp = n;
-	t_node->size = len;
-	t_node->num[len] = 0;
+	inform->size = len;
+	inform->num[len] = 0;
 	len--;
-	do_itoa(tmp, t_node, len);
+	do_itoa(tmp, inform, len);
 }
 
-void	u_to_str(t_format *t_node, unsigned int n)
+void	u_to_str(t_format *inform, unsigned int n)
 {
 	int				len;
 	unsigned int	tmp;
 
 	if (n == 0)
 	{
-		t_node->num[0] = '0';
-		t_node->num[1] = 0;
-		t_node->size = 1;
+		inform->num[0] = '0';
+		inform->num[1] = 0;
+		inform->size = 1;
 		return ;
 	}
 	len = check_size(n);
 	tmp = n;
-	t_node->size = len;
-	t_node->num[len] = 0;
+	inform->size = len;
+	inform->num[len] = 0;
 	len--;
-	do_itoa(tmp, t_node, len);
+	do_itoa(tmp, inform, len);
 }
 
-void	h_to_str(long long addr, t_format *t_node)
+void	h_to_str(long long addr, t_format *inform)
 {
 	long long	temp;
 	int			len;
@@ -63,27 +75,27 @@ void	h_to_str(long long addr, t_format *t_node)
 		len++;
 	}
 	len = len == 0 ? 3 : len + 2;
-	t_node->size = len;
+	inform->size = len;
 	addr = temp;
 	while (addr != 0)
 	{
-		t_node->num[--len] = g_hex_s[addr % 16];
+		inform->num[--len] = g_hex_s[addr % 16];
 		addr /= 16;
 	}
-	t_node->num[0] = '0';
-	t_node->num[1] = 'x';
-	t_node->num[2] = temp == 0 ? '0' : t_node->num[2];
+	inform->num[0] = '0';
+	inform->num[1] = 'x';
+	inform->num[2] = temp == 0 ? '0' : inform->num[2];
 }
 
-void	sx_to_str(t_format *t_node, unsigned int addr)
+void	sx_to_str(t_format *inform, unsigned int addr)
 {
 	long long	temp;
 	int			len;
 
 	if (addr == 0)
 	{
-		t_node->num[0] = '0';
-		t_node->size = 1;
+		inform->num[0] = '0';
+		inform->size = 1;
 		return ;
 	}
 	len = 0;
@@ -94,24 +106,24 @@ void	sx_to_str(t_format *t_node, unsigned int addr)
 		len++;
 	}
 	len = len == 0 ? 0 : len;
-	t_node->size = len;
+	inform->size = len;
 	addr = temp;
 	while (addr != 0)
 	{
-		t_node->num[--len] = g_hex_s[addr % 16];
+		inform->num[--len] = g_hex_s[addr % 16];
 		addr /= 16;
 	}
 }
 
-void	bx_to_str(t_format *t_node, unsigned int addr)
+void	bx_to_str(t_format *inform, unsigned int addr)
 {
 	long long	temp;
 	int			len;
 
 	if (addr == 0)
 	{
-		t_node->num[0] = '0';
-		t_node->size = 1;
+		inform->num[0] = '0';
+		inform->size = 1;
 		return ;
 	}
 	len = 0;
@@ -122,11 +134,11 @@ void	bx_to_str(t_format *t_node, unsigned int addr)
 		len++;
 	}
 	len = len == 0 ? 0 : len;
-	t_node->size = len;
+	inform->size = len;
 	addr = temp;
 	while (addr != 0)
 	{
-		t_node->num[--len] = g_hex_b[addr % 16];
+		inform->num[--len] = g_hex_b[addr % 16];
 		addr /= 16;
 	}
 }

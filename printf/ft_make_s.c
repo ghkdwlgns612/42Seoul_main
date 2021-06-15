@@ -3,83 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   ft_make_s.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ji-park <gudor123@nate.com>                +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 00:17:10 by ji-park           #+#    #+#             */
-/*   Updated: 2021/01/03 16:14:24 by ji-park          ###   ########.fr       */
+/*   Created: 2021/06/15 11:53:25 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:53:33 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	s_noflag(t_format *t_node, char *str)
+void	s_noflag(t_format *inform, char *str)
 {
 	int i;
 	int size;
 
 	i = 0;
-	size = t_node->size;
-	if (t_node->flag[2] == 1)
+	size = inform->size;
+	if (inform->flag[2] == 1)
 	{
-		if (t_node->prec < t_node->size)
-			size = t_node->prec;
+		if (inform->prec < inform->size)
+			size = inform->prec;
 	}
 	if (str != NULL)
 	{
-		while (size + i < t_node->wid)
+		while (size + i < inform->wid)
 		{
-			t_node->result[i++] = ' ';
+			inform->result[i++] = ' ';
 		}
 		while (*str != 0 && size > 0)
 		{
-			t_node->result[i++] = *str++;
+			inform->result[i++] = *str++;
 			size--;
 		}
 	}
 }
 
-void	s_flag_minus(t_format *t_node, char *str)
+void	s_flag_minus(t_format *inform, char *str)
 {
 	int i;
 	int j;
 
 	i = 0;
 	j = 0;
-	if (t_node->flag[2] == 1)
+	if (inform->flag[2] == 1)
 	{
-		while (j < t_node->size && i < t_node->prec)
-			t_node->result[i++] = str[j++];
+		while (j < inform->size && i < inform->prec)
+			inform->result[i++] = str[j++];
 	}
 	else
 	{
-		while (j < t_node->size)
-			t_node->result[i++] = str[j++];
+		while (j < inform->size)
+			inform->result[i++] = str[j++];
 	}
-	while (i < t_node->wid)
-		t_node->result[i++] = ' ';
+	while (i < inform->wid)
+		inform->result[i++] = ' ';
 }
 
-void	s_flag_zero(t_format *t_node, char *str)
+void	s_flag_zero(t_format *inform, char *str)
 {
 	int i;
 	int size;
 
 	i = 0;
-	size = t_node->size;
-	if (t_node->flag[2] == 1)
+	size = inform->size;
+	if (inform->flag[2] == 1)
 	{
-		if (t_node->prec < t_node->size)
-			size = t_node->prec;
+		if (inform->prec < inform->size)
+			size = inform->prec;
 	}
 	if (str != NULL)
 	{
-		while (size + i < t_node->wid)
+		while (size + i < inform->wid)
 		{
-			t_node->result[i++] = '0';
+			inform->result[i++] = '0';
 		}
 		while (*str != 0 && size > 0)
 		{
-			t_node->result[i++] = *str++;
+			inform->result[i++] = *str++;
 			size--;
 		}
 	}

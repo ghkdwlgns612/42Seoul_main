@@ -1,37 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_maxsize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 11:50:55 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:51:02 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void	judge_max(t_format *t_node)
+void	judge_max(t_format *inform)
 {
-	if (t_node->prec > t_node->wid)
+	if (inform->prec > inform->wid)
 	{
-		if (t_node->prec > t_node->size)
-			t_node->max_size = t_node->prec;
+		if (inform->prec > inform->size)
+			inform->max_size = inform->prec;
 		else
-			t_node->max_size = t_node->size;
+			inform->max_size = inform->size;
 	}
 	else
 	{
-		if (t_node->wid > t_node->size)
-			t_node->max_size = t_node->wid;
+		if (inform->wid > inform->size)
+			inform->max_size = inform->wid;
 		else
-			t_node->max_size = t_node->size;
+			inform->max_size = inform->size;
 	}
 }
 
-void	n_judge_max(t_format *t_node)
+void	n_judge_max(t_format *inform)
 {
-	if (t_node->prec > t_node->wid)
+	if (inform->prec > inform->wid)
 	{
-		if (t_node->prec > t_node->size)
-			t_node->max_size = t_node->prec + 1;
+		if (inform->prec > inform->size)
+			inform->max_size = inform->prec + 1;
 		else
-			t_node->max_size = t_node->size;
+			inform->max_size = inform->size;
 	}
 	else
 	{
-		if (t_node->wid > t_node->size)
-			t_node->max_size = t_node->wid;
+		if (inform->wid > inform->size)
+			inform->max_size = inform->wid;
 		else
-			t_node->max_size = t_node->size;
+			inform->max_size = inform->size;
 	}
 }

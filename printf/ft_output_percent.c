@@ -3,56 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   ft_output_percent.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ji-park <gudor123@nate.com>                +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/02 00:50:41 by ji-park           #+#    #+#             */
-/*   Updated: 2021/01/03 17:30:13 by ji-park          ###   ########.fr       */
+/*   Created: 2021/06/15 11:51:30 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:51:39 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_output_percent(t_format *t_node)
+void	ft_output_percent(t_format *inform)
 {
 	int		i;
 	char	a;
 
 	a = '%';
-	t_node->size = 1;
-	judge_max(t_node);
-	i = t_node->max_size;
-	if ((t_node->result = (char *)malloc(sizeof(char) * (i + 1))) == 0)
+	inform->size = 1;
+	judge_max(inform);
+	i = inform->max_size;
+	if ((inform->result = (char *)malloc(sizeof(char) * (i + 1))) == 0)
 		return ;
-	pf_bzero(t_node->result, t_node->max_size + 1);
-	if (t_node->flag[0] == 1)
+	pf_bzero(inform->result, inform->max_size + 1);
+	if (inform->flag[0] == 1)
 	{
-		c_flag_minus(t_node, a);
+		c_flag_minus(inform, a);
 	}
-	else if (t_node->flag[1] == 1)
+	else if (inform->flag[1] == 1)
 	{
-		percent_flag_zero(t_node, a);
+		percent_flag_zero(inform, a);
 	}
 	else
 	{
-		c_noflag(t_node, a);
+		c_noflag(inform, a);
 	}
 }
 
-void	percent_flag_zero(t_format *t_node, char c)
+void	percent_flag_zero(t_format *inform, char c)
 {
 	int i;
 	int size;
 
 	i = 0;
-	size = t_node->size;
-	if (t_node->flag[2] == 1)
+	size = inform->size;
+	if (inform->flag[2] == 1)
 	{
-		if (t_node->prec < t_node->size)
-			size = t_node->prec + 1;
+		if (inform->prec < inform->size)
+			size = inform->prec + 1;
 	}
-	while (size + i < t_node->wid)
+	while (size + i < inform->wid)
 	{
-		t_node->result[i++] = '0';
+		inform->result[i++] = '0';
 	}
-	t_node->result[i++] = c;
+	inform->result[i++] = c;
 }

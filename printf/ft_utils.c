@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 11:52:38 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:52:45 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int				pf_strlen(char *str)
@@ -26,11 +38,11 @@ void			pf_bzero(void *ptr, size_t size)
 	}
 }
 
-void			do_itoa(unsigned int tmp, t_format *t_node, int len)
+void			do_itoa(unsigned int tmp, t_format *inform, int len)
 {
 	while (tmp > 0)
 	{
-		t_node->num[len--] = (tmp % 10) + 48;
+		inform->num[len--] = (tmp % 10) + 48;
 		tmp = tmp / 10;
 	}
 }

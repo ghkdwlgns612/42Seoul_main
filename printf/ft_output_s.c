@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_output_s.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 11:54:13 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:54:19 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void	check_null(t_format *t_node, char **str)
+void	check_null(t_format *inform, char **str)
 {
-	t_node->size = 6;
+	inform->size = 6;
 	*str = "(null)";
 }
 
-void	ft_output_s(t_format *t_node)
+void	ft_output_s(t_format *inform)
 {
 	char	*str;
 	int		i;
 
-	str = va_arg(t_node->ap, char *);
-	t_node->size = pf_strlen(str);
-	if (t_node->size == 0 && str == NULL)
-		check_null(t_node, &str);
-	judge_max(t_node);
-	i = t_node->max_size;
-	if ((t_node->result = (char *)malloc(sizeof(char) * (i + 1))) == 0)
+	str = va_arg(inform->ap, char *);
+	inform->size = pf_strlen(str);
+	if (inform->size == 0 && str == NULL)
+		check_null(inform, &str);
+	judge_max(inform);
+	i = inform->max_size;
+	if ((inform->result = (char *)malloc(sizeof(char) * (i + 1))) == 0)
 		return ;
-	pf_bzero(t_node->result, t_node->max_size + 1);
-	if (t_node->flag[0] == 1)
-		s_flag_minus(t_node, str);
-	else if (t_node->flag[1] == 1)
-		s_flag_zero(t_node, str);
+	pf_bzero(inform->result, inform->max_size + 1);
+	if (inform->flag[0] == 1)
+		s_flag_minus(inform, str);
+	else if (inform->flag[1] == 1)
+		s_flag_zero(inform, str);
 	else
-		s_noflag(t_node, str);
+		s_noflag(inform, str);
 }

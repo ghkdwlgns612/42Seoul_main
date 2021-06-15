@@ -44,8 +44,8 @@ int    ft_select(inform_list *inform, va_list ap, char *str)
     //     return (ft_pointer_main(ap,inform,str));
     // else if (inform->type == 5)
     //     return (ft_hex_main());
-    else if (inform->type == 6)
-        return (ft_percent_main(ap,inform,str));
+    // else if (inform->type == 6)
+    //     return (ft_percent_main(ap,inform,str));
     else
         return (ft_int_main(ap,inform,str));   
 }
@@ -56,13 +56,23 @@ int     ft_printf(const char *str, ...)
     inform_list *inform;
     char *buf;
     int result;
+    int i;
 
+    i = 0;
     buf = ft_strdup(str);
     inform = (inform_list *)(malloc)(sizeof(inform_list));
     va_start(ap,str);
-    result = ft_select(inform,ap,buf);
+        result = ft_select(inform,ap,&buf[i]);
+        while (buf[i] && buf[i] != 'd' && buf[i] != 'c')
+            i++;
+        while (buf[i])
     va_end(ap);
     free(inform);
     free(buf);
     return (result);
 }
+
+// int main()
+// {
+//     ft_printf("|%11.d|",0);
+// }

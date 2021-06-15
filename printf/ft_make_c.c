@@ -1,44 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_make_c.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/15 11:50:10 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/06/15 11:50:17 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void	c_noflag(t_format *t_node, char c)
+void	c_noflag(t_format *inform, char c)
 {
 	int i;
 	int size;
 
 	i = 0;
-	size = t_node->size;
-	while (size + i < t_node->wid)
+	size = inform->size;
+	while (size + i < inform->wid)
 	{
-		t_node->result[i++] = ' ';
+		inform->result[i++] = ' ';
 	}
-	t_node->result[i++] = c;
+	inform->result[i++] = c;
 }
 
-void	c_flag_minus(t_format *t_node, char c)
+void	c_flag_minus(t_format *inform, char c)
 {
 	int i;
 
 	i = 0;
-	t_node->result[i++] = c;
-	while (i < t_node->wid)
-		t_node->result[i++] = ' ';
+	inform->result[i++] = c;
+	while (i < inform->wid)
+		inform->result[i++] = ' ';
 }
 
-void	c_flag_zero(t_format *t_node, char c)
+void	c_flag_zero(t_format *inform, char c)
 {
 	int i;
 	int size;
 
 	i = 0;
-	size = t_node->size;
-	if (t_node->flag[2] == 1)
+	size = inform->size;
+	if (inform->flag[2] == 1)
 	{
-		if (t_node->prec < t_node->size)
-			size = t_node->prec;
+		if (inform->prec < inform->size)
+			size = inform->prec;
 	}
-	while (size + i < t_node->wid)
+	while (size + i < inform->wid)
 	{
-		t_node->result[i++] = '0';
+		inform->result[i++] = '0';
 	}
-	t_node->result[i++] = c;
+	inform->result[i++] = c;
 }
