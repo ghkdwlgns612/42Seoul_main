@@ -1,27 +1,81 @@
 #include "utils/utils.h"
 #include <stdio.h>
 
-void		signal_handle(int a)
+void	connection_terminate(pid_t server_pid)
 {
-    printf("hello");
+	int	i;
+
+	i = 8;
+	while (i--)
+	{
+		usleep(50);
+		kill(server_pid, SIGUSR2);
+	}
+	exit(0);
 }
 
-int			main(int argc, char **argv)
+void	send_bit(char *s, pid_t pid)
 {
-	if (argc != 3)
-	{
-		ft_putstr_fd("Not match argument number\n", STDERR_FILENO);
-		return (1);
-	}
-	if (argv[2][0] == '\0')
-	{
-		ft_putstr_fd("Please input!!\n", STDERR_FILENO);
-		return (1);
-	}
-    ft_putstr_fd("client pid:", STDOUT_FILENO);
-	ft_putnbr_fd(getpid(), STDOUT_FILENO);
-    ft_putchar_fd('\n', STDOUT_FILENO);
-    signal(SIGINT, signal_handle);
-    kill(ft_atoi(argv[1]), SIGINT);
+	static int				i = 8;
+	static unsigned char	c;
+	static char				*str;
+	static pid_t			server_pid;
 
+	if (s)
+	{
+		str = s; //abc
+		server_pid = pid; //1563
+		c = *str; //a(97)
+	}
+	if (!i) // i==0일떄 실행
+	{
+		i = 8;
+		c = *(++str);
+		if (!c)
+			connection_terminate(server_pid);
+	}
+	if (c && c >> --i & 0x01)
+		kill(server_pid, SIGUSR1);
+	else if (c)
+		kill(server_pid, SIGUSR2);
+}
+
+void	sig_handler(int sig, siginfo_t *siginfo, void *unused)
+{
+	static int	recv_bytes = 0;
+
+	(void)siginfo;
+	(void)unused;
+	if (sig == SIGUSR1)
+	{
+    	write(1,"a",1);
+		ft_putstr_fd("\rReceive Acks : ", 1);
+		ft_putnbr_fd(++recv_bytes, 1);
+	}
+	
+	send_bit(0, 0);
+}
+
+int	main(int argc, char **argv)
+{
+	struct sigaction	e;
+
+	if (argc != 3 || !(100 <= ft_atoi(argv[1]) && ft_atoi(argv[1]) <= 99998))
+	{
+		ft_putstr_fd("Usage : ./client [99 < Server PID < 99999] [Message]", 1);
+		return (1);
+	}
+	if (!ft_strlen(argv[2]))
+		exit(0);
+	e.sa_flags = SA_SIGINFO;
+	e.sa_sigaction = sig_handler;
+	sigaction(SIGUSR1, &e, 0);
+	sigaction(SIGUSR2, &e, 0);
+	ft_putstr_fd("Send Bytes   : ", 1);
+	ft_putnbr_fd(ft_strlen(argv[2]), 1);
+	ft_putchar_fd('\n', 1);
+	send_bit(argv[2], ft_atoi(argv[1]));
+	while (1)
+		pause();
+	return (0);
 }
