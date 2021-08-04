@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jihuhwan <jihuhwan@student.42seoul.kr      +#+  +:+       +#+         #
+#    By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/07 14:38:44 by jihuhwan          #+#    #+#              #
 #    Updated: 2021/05/11 11:55:48 by jihuhwan         ###   ########.fr        #

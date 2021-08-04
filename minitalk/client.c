@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../utils/utils.h"
+#include "utils.h"
 
 void	change_bit(int server_pid, char code)
 {
@@ -29,7 +29,7 @@ void	change_bit(int server_pid, char code)
 			if (kill(server_pid, SIGUSR2) == -1)
 				ft_putstr_fd("SIGUSR2 Error\n", 1);
 		}
-		usleep(50);
+		usleep(100);
 		mask /= 2;
 	}
 }
@@ -48,8 +48,6 @@ void	send(pid_t pid, char *str)
 int	main(int argc, char **argv)
 {
 	pid_t	pid;
-	char	*mssg;
-	int		i;
 
 	pid = ft_atoi(argv[1]);
 	if (argc != 3)

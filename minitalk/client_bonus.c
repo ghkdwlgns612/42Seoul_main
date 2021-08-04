@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../utils/utils.h"
+#include "utils.h"
 
 void	change_bit(int server_pid, char code)
 {

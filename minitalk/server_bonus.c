@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../utils/utils.h"
+#include "utils.h"
 
 void	sig_handler(int sig, siginfo_t *siginfo, void *unused)
 {
