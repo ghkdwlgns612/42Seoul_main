@@ -1,15 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/04 17:35:38 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/08/04 17:40:43 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4095
-
-# endif
-
-# ifndef OPEN_MAX
-#  define OPEN_MAX 10200
-
-# endif
 
 # include <stdlib.h>
 # include <fcntl.h>
