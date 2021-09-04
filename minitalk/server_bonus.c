@@ -21,7 +21,7 @@ void	sig_handler(int sig, siginfo_t *siginfo, void *unused)
 	if (cnt == 0)
 		cnt = 128;
 	if (sig == SIGUSR1)
-		res += cnt;
+		res += cnt; 
 	cnt /= 2;
 	if (cnt == 0)
 	{

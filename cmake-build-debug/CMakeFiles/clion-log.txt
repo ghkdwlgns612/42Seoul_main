@@ -1,0 +1,2 @@
+CMakeLists.txt not found in C:\42Seoul_main Select CMakeLists.txt
+Toolchains are not configured Configure Disable profile
