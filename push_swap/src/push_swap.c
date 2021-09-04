@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "../push.h"
 
 int main() {
     printf("%d",12);
