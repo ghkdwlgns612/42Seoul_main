@@ -4,7 +4,7 @@ void    ft_print_swap(char name)
 {
     if (name == 'A')
 		ft_putendl_fd("sa", 1);
-	else if (name == 'B')
+    else if (name == 'B')
 		ft_putendl_fd("sb", 1);
 }
 
@@ -35,8 +35,10 @@ void    one_stack_swap(t_stack **stack, char name)
     ft_print_swap(name);
 }
 
-void    all_stack_swap(t_stack **stack_a, t_stack **stack_b)
+void    all_stack_swap(t_stack **stack_a, t_stack **stack_b, char name)
 {
-    one_stack_swap(stack_a,'A');
-    one_stack_swap(stack_b,'B');
+    one_stack_swap(stack_a,name);
+    one_stack_swap(stack_b,name);
+    if (name == 'C')
+        ft_putendl_fd("ss", 1);
 }

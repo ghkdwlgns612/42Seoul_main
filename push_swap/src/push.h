@@ -37,6 +37,9 @@ void	    ft_error();
 int ft_check(const char *str);
 
 void    one_stack_swap(t_stack **stack, char name);
-void    all_stack_swap(t_stack **stack_a, t_stack **stack_b);
+void    all_stack_swap(t_stack **stack_a, t_stack **stack_b, char name);
+void    ft_print_swap(char name);
 
+void    one_stack_rotate(t_stack **stack, char name);
+void    ft_print_rotate(char name);
 # endif
