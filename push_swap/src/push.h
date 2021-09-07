@@ -41,5 +41,12 @@ void    all_stack_swap(t_stack **stack_a, t_stack **stack_b, char name);
 void    ft_print_swap(char name);
 
 void    one_stack_rotate(t_stack **stack, char name);
+void    all_stack_rotate(t_stack **stack_a, t_stack **stack_b, char name);
 void    ft_print_rotate(char name);
+
+void    one_stack_reverse_rotate(t_stack **stack, char name);
+void    all_stack_reverse_rotate(t_stack **stack_a, t_stack **stack_b, char name);
+void    ft_print_reverse_rotate(char name);
+
+
 # endif

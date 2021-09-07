@@ -46,12 +46,15 @@ int main(int argc, char *argv[])
         // printf("bottom_prev_value : %d\n", a->bottom->prev->value);
         // printf("bottom_value : %d\n", a->bottom->value);
 
-        one_stack_rotate(&a,'A');
+        one_stack_reverse_rotate(&a,'A');
 
         // printf("top_value : %d\n", a->top->value);
         // printf("top_next_value : %d\n", a->top->next->value);
         // printf("bottom_prev_value : %d\n", a->bottom->prev->value);
-        // printf("bottom_value : %d\n", a->bottom->value);   
+        // printf("bottom_value : %d\n", a->bottom->value);
+
+        // printf("bottom_value : %d\n", a->bottom->value);
+        // printf("bottom_value : %d\n", a->bottom->value);
         free_all(a,b);
     }
     return 0;

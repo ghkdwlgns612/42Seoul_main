@@ -14,9 +14,6 @@ void    one_stack_rotate(t_stack **stack, char name)
     last = (*stack)->bottom;
     (*stack)->top = next;
     next->prev = NULL;
-    // printf("temp : %d\n",temp->value);
-    // printf("next : %d\n",next->value);
-    // printf("last : %d\n",last->value);
     
     if ((*stack)->size == 2)
     {
@@ -36,13 +33,16 @@ void    one_stack_rotate(t_stack **stack, char name)
 
 void    all_stack_rotate(t_stack **stack_a, t_stack **stack_b, char name)
 {
-
+    one_stack_rotate(stack_a,name);
+    one_stack_rotate(stack_b,name);
+    if (name == 'C')
+        ft_putendl_fd("rr", 1); 
 }
 
 void    ft_print_rotate(char name)
 {
     if (name == 'A')
-        ft_putendl_fd("pa", 1);
+        ft_putendl_fd("ra", 1);
     else if (name == 'B')
-        ft_putendl_fd("pb", 1);
+        ft_putendl_fd("rb", 1);
 }
