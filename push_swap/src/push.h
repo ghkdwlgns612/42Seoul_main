@@ -35,4 +35,8 @@ void	    ft_putendl_fd(char *s, int fd);
 void	    ft_error();
 
 int ft_check(const char *str);
+
+void    one_stack_swap(t_stack **stack, char name);
+void    all_stack_swap(t_stack **stack_a, t_stack **stack_b);
+
 # endif

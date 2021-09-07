@@ -60,6 +60,7 @@ bool    extract_value(char *str, t_node **node, t_stack **stack_a)
         link_node(node, &temp_node, stack_a);
         i++;
         free(*temp);
+        (*stack_a)->size++;
     }
     free(temp);
     return true;
