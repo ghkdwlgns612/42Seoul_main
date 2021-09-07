@@ -6,7 +6,9 @@ RFLAGS = rm -f
 
 NAME = push.a
 
-SRCS = src/push_swap.c
+SRCS = ./src/push_swap.c	\
+		./src/utils/ft_split.c	\
+		./src/utils/util1.c
 
 OBJS = $(SRCS:.c:.o)
 
@@ -16,4 +18,5 @@ all : $(NAME)
 			$(CC) $(CFLAGS)	-c $<
 
 $(NAME) : $(OBJS)
-	ar cr $(NAME) $(OBJS)
+	ar rc $(NAME) $(OBJS)
+
