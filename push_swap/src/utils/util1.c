@@ -3,7 +3,6 @@
 void	ft_error()
 {
 	ft_putendl_fd("Error", 2);
-    printf("error");
 	exit(0);
 }
 

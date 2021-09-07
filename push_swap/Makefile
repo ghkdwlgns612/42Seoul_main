@@ -8,7 +8,8 @@ NAME = push.a
 
 SRCS = ./src/push_swap.c	\
 		./src/utils/ft_split.c	\
-		./src/utils/util1.c
+		./src/utils/util1.c		\
+		./src/check_init/*	\
 
 OBJS = $(SRCS:.c:.o)
 
