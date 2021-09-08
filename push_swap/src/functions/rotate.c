@@ -1,21 +1,21 @@
 #include "../push.h"
 
-void    one_stack_rotate(t_stack **stack, char name)
+void    one_stack_rotate(t_stack *stack, char name)
 {
     t_node *temp;
     t_node *next;
     t_node *last;
 
-    if ((*stack)->size < 2)
+    if ((stack)->size < 2)
         return ;
 
-    temp = (*stack)->top;
-    next = (*stack)->top->next;
-    last = (*stack)->bottom;
-    (*stack)->top = next;
+    temp = (stack)->top;
+    next = (stack)->top->next;
+    last = (stack)->bottom;
+    (stack)->top = next;
     next->prev = NULL;
     
-    if ((*stack)->size == 2)
+    if ((stack)->size == 2)
     {
         temp->prev = next;
         temp->next = NULL;
@@ -27,11 +27,11 @@ void    one_stack_rotate(t_stack **stack, char name)
         last->next = temp;
         temp->prev = last;
     }
-    (*stack)->bottom = temp;
+    (stack)->bottom = temp;
     ft_print_rotate(name);
 }
 
-void    all_stack_rotate(t_stack **stack_a, t_stack **stack_b, char name)
+void    all_stack_rotate(t_stack *stack_a, t_stack *stack_b, char name)
 {
     one_stack_rotate(stack_a,name);
     one_stack_rotate(stack_b,name);
