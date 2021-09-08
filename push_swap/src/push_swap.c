@@ -1,7 +1,29 @@
 #include "push.h"
 
+bool    is_sorted(t_stack *stack)
+{
+    t_node	*node;
 
-static void	free_stack(t_stack *stack)
+	node = stack->top;
+	while (node != NULL)
+	{
+		if (node->next != NULL)
+		{
+			if (node->value > node->next->value)
+				return false;
+		}
+		if (node->next != NULL)
+			node = node->next;
+		else
+			break ;
+	}
+	if (node->value == stack->bottom->value)
+		return true;
+	else
+		return false;
+}
+
+void	free_stack(t_stack *stack)
 {
 	t_node	*node;
 	t_node	*temp;
@@ -41,27 +63,33 @@ int main(int argc, char *argv[])
         if (!a)
             ft_error();
         a->top = link_stack(&a,argc,argv);
-        printf("top_value : %d\n", a->top->value);
-        printf("top_next_value : %d\n", a->top->next->value);
-        printf("bottom_prev_value : %d\n", a->bottom->prev->value);
-        printf("bottom_value : %d\n", a->bottom->value);
-
-        
-        push(a,b,'A');        
-
-        printf("a->top_value : %d\n", a->top->value);
-        printf("a->top_next_value : %d\n", a->top->next->value);
-        printf("a->bottom_prev_value : %d\n", a->bottom->prev->value);
-        printf("a->bottom_value : %d\n", a->bottom->value);
-
-        printf("b->top_value : %d\n", b->top->value);
-        printf("b->top_next_value : %d\n", b->top->next->value);
-        printf("b->bottom_prev_value : %d\n", b->bottom->prev->value);
-        printf("b->bottom_value : %d\n", b->bottom->value);
-
-        // printf("bottom_value : %d\n", a->bottom->value);
-        // printf("bottom_value : %d\n", a->bottom->value);
+        ft_check_duplicate(a->top);
+        if (!is_sorted(a) || a->size == 1)
+        {
+            free_all(a,b);
+            return 0;
+        }
+        push_swap(a,b);
         free_all(a,b);
+        // printf("top_value : %d\n", a->top->value);
+        // printf("top_next_value : %d\n", a->top->next->value);
+        // printf("bottom_prev_value : %d\n", a->bottom->prev->value);
+        // printf("bottom_value : %d\n", a->bottom->value);
+
+        // push(a,b,'A');        
+
+        // printf("a->top_value : %d\n", a->top->value);
+        // printf("a->top_next_value : %d\n", a->top->next->value);
+        // printf("a->bottom_prev_value : %d\n", a->bottom->prev->value);
+        // printf("a->bottom_value : %d\n", a->bottom->value);
+
+        // printf("b->top_value : %d\n", b->top->value);
+        // printf("b->top_next_value : %d\n", b->top->next->value);
+        // printf("b->bottom_prev_value : %d\n", b->bottom->prev->value);
+        // printf("b->bottom_value : %d\n", b->bottom->value);
+
+        // printf("bottom_value : %d\n", a->bottom->value);
+        // printf("bottom_value : %d\n", a->bottom->value);
     }
     return 0;
 }

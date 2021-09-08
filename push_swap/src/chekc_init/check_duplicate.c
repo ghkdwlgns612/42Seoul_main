@@ -18,3 +18,25 @@ int ft_check(const char *str) { //str -> 부호 제외하고 10자리인지 확�
         ft_error();
     return (int)ret;
 }
+
+void    ft_check_duplicate(t_node *node)
+{
+    t_node *temp;
+    int     value;
+    while (node->next != NULL)
+    {
+        temp = node->next;
+        value =  node->value;
+        while (temp != NULL)
+        {
+            if (temp->value == value)
+                ft_error();
+            if (temp->next == NULL)
+                break ;
+            temp = temp->next;
+        }
+        node = node->next;
+    }
+    while (node->prev != NULL)
+        node = node->prev;
+}

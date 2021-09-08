@@ -22,8 +22,20 @@ typedef struct  s_stack
     t_node      *bottom;
 }               t_stack;
 
+typedef struct  s_inform
+{
+    long        pivot_min;
+    long        pivot_max;
+    int         ra;
+    int         rb;
+    int         pa;
+    int         pb;
+}               t_inform;
+
+
 t_stack			*init_stack(void);
 t_node	        *init_node(void);
+t_inform        *init_inform(void);
 void            link_node(t_node **node, t_node **temp_node, t_stack **stack_a);
 bool            extract_value(char *str, t_node **node, t_stack **stack_a);
 t_node          *link_stack(t_stack **stack_a, int argc, char **argv);
@@ -35,7 +47,7 @@ void	        ft_putendl_fd(char *s, int fd);
 void	        ft_error();
 
 int             ft_check(const char *str);
-void            ft_dup_check(t_stack *stack);
+void            ft_check_duplicate(t_node *node);
 
 void            one_stack_swap(t_stack *stack, char name);
 void            all_stack_swap(t_stack *stack_a, t_stack *stack_b, char name);
@@ -53,5 +65,12 @@ void            one_size_push(t_stack *poped, t_stack *pushed);
 void            general_push(t_stack *poped, t_stack *pushed);
 void            push(t_stack *poped, t_stack *pushed, char name);
 void            ft_print_push(char name);
+
+int     get_min_value(t_stack *stack);
+int     get_max_value(t_stack *stack);
+void    a_to_b(int rotate_num, t_stack *a, t_stack *b, t_inform *inform);
+
+void    push_swap(t_stack *a, t_stack *b);
+
 
 # endif

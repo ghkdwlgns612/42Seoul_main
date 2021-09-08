@@ -26,6 +26,22 @@ t_node	*init_node(void)
 	return (node);
 }
 
+t_inform    *init_inform(void)
+{
+    t_inform    *inform;
+
+    inform = (t_inform *)malloc(sizeof(t_inform));
+    if (!inform)
+        return (NULL);
+    inform->pivot_max = 0;
+    inform->pivot_min = 0;
+    inform->ra = 0;
+    inform->rb = 0;
+    inform->pa = 0;
+    inform->pb = 0;
+    return (inform);
+}
+
 void    link_node(t_node **node, t_node **temp_node, t_stack **stack_a)
 {
     if (!*node)
