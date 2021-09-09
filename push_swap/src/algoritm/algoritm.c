@@ -1,48 +1,55 @@
 #include "../push.h"
 
-int     get_max_value(t_stack *stack)
+int     get_max_value(int size, t_node *node)
 {
-    t_node *node;
-    int res;
+	int	max;
 
-    node = stack->top;
-    res = node->value;
-    while (node != NULL)
-    {
-        if (res < node->value)
-            res = node->value;
-        if (node->next != NULL)
-            node = node->next;
-        else
-            break ;
-    }
-    while (node->prev != NULL)
-        node = node->prev;
-    return res;
+	max = node->value;
+	while (size--)
+	{
+		if (max < node->value)
+			max = node->value;
+		if (node->next)
+			node = node->next;
+		else
+			break ;
+	}
+	while (node->prev)
+		node = node->prev;
+	return (max);
 }
 
-int     get_min_value(t_stack *stack)
+int     get_min_value(int size, t_node *node)
 {
-    t_node *node;
-    int res;
+	int	min;
 
-    node = stack->top;
-    res = node->value;
-    while (node != NULL)
-    {
-        if (res > node->value)
-            res = node->value;
-        if (node->next != NULL)
-            node = node->next;
-        else
-            break ;
-    }
-    while (node->prev != NULL)
-        node = node->prev;
-    return res;
+	min = node->value;
+	while (size--)
+	{
+		if (min > node->value)
+			min = node->value;
+		if (node->next)
+			node = node->next;
+		else
+			break ;
+	}
+	while (node->prev)
+		node = node->prev;
+	return (min);
+}
+
+void    make_pivot(int rotate_num, t_inform *inform, t_stack *stack)
+{
+    long max;
+    long min;
+
+    max = get_max_value(rotate_num, stack->top);
+    min = get_min_value(rotate_num, stack->top);
+    inform->pivot_max = (min + max) / 2;
+    inform->pivot_min = (inform->pivot_max + min) / 2;
 }
 
 void    push_swap(t_stack *a, t_stack *b)
 {
-    a_to_b(a->size, a, b, inform);
+    a_to_b(a->size, a, b);
 }

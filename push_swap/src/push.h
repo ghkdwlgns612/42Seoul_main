@@ -66,11 +66,11 @@ void            general_push(t_stack *poped, t_stack *pushed);
 void            push(t_stack *poped, t_stack *pushed, char name);
 void            ft_print_push(char name);
 
-int     get_min_value(t_stack *stack);
-int     get_max_value(t_stack *stack);
-void    a_to_b(int rotate_num, t_stack *a, t_stack *b, t_inform *inform);
+int             get_min_value(int size, t_node *node);
+int             get_max_value(int size, t_node *node);
+void            a_to_b(int rotate_num, t_stack *a, t_stack *b);
 
-void    push_swap(t_stack *a, t_stack *b);
+void            push_swap(t_stack *a, t_stack *b);
 
 
 # endif
