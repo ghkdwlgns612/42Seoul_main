@@ -19,22 +19,22 @@ void    one_size_push(t_stack *poped, t_stack *pushed)
 
 void    general_push(t_stack *poped, t_stack *pushed)
 {
-        if (pushed->size == 0)
-        {
-            pushed->top = poped->top;
-            pushed->bottom = pushed->top;
-            poped->top = poped->top->next;
-            pushed->top->next = NULL;
-            poped->top->prev = NULL;
-        }
-        else
-        {
-            pushed->top->prev = poped->top;
-            poped->top = poped->top->next;
-            poped->top->prev = NULL;
-            pushed->top->prev->next = pushed->top;
-            pushed->top = pushed->top->prev;
-        }
+    if (pushed->size == 0)
+    {
+        pushed->top = poped->top;
+        pushed->bottom = pushed->top;
+        poped->top = poped->top->next;
+        pushed->top->next = NULL;
+        poped->top->prev = NULL;
+    }
+    else
+    {
+        pushed->top->prev = poped->top;
+        poped->top = poped->top->next;
+        poped->top->prev = NULL;
+        pushed->top->prev->next = pushed->top;
+        pushed->top = pushed->top->prev;
+    }
 }
 
 void    push(t_stack *poped, t_stack *pushed, char name)

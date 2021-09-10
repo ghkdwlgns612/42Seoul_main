@@ -1,5 +1,47 @@
 #include "../push.h"
 
+int		bubble_sort(int value[])
+{
+	int	i;
+	int	j;
+	int	tmp;
+
+	i = 5;
+	while (--i > 0)
+	{
+		j = -1;
+		while (++j < i)
+		{
+			if (value[j] > value[j + 1])
+			{
+				tmp = value[j + 1];
+				value[j + 1] = value[j];
+				value[j] = tmp;
+			}
+		}
+	}
+	return value[2];
+}
+
+int		get_mid_value(t_node *node)
+{	
+	int	i;
+	int	value[5];
+
+	i = -1;
+	while (++i < 5)
+	{
+		value[i] = node->value;
+		if (node->next)
+			node = node->next;
+		else
+			break ;
+	}
+	while (node->prev)
+		node = node->prev;
+	return bubble_sort(value);
+}
+
 int     get_max_value(int size, t_node *node)
 {
 	int	max;
@@ -51,5 +93,8 @@ void    make_pivot(int rotate_num, t_inform *inform, t_stack *stack)
 
 void    push_swap(t_stack *a, t_stack *b)
 {
-    a_to_b(a->size, a, b);
+	int res_cnt;
+
+	res_cnt = 0;
+    a_to_b(a->size, a, b, &res_cnt);
 }

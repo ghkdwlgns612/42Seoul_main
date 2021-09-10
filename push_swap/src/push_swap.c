@@ -64,12 +64,13 @@ int main(int argc, char *argv[])
             ft_error();
         a->top = link_stack(&a,argc,argv);
         ft_check_duplicate(a->top);
-        if (!is_sorted(a) || a->size == 1)
+        if (is_sorted(a) || a->size == 1)
         {
             free_all(a,b);
             return 0;
         }
         push_swap(a,b);
+
         free_all(a,b);
         // printf("top_value : %d\n", a->top->value);
         // printf("top_next_value : %d\n", a->top->next->value);

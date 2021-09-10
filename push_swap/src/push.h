@@ -68,9 +68,16 @@ void            ft_print_push(char name);
 
 int             get_min_value(int size, t_node *node);
 int             get_max_value(int size, t_node *node);
-void            a_to_b(int rotate_num, t_stack *a, t_stack *b);
+int		        get_mid_value(t_node *node);
+void            a_to_b(int rotate_num, t_stack *a, t_stack *b, int *res_cnt);
+void            b_to_a(int rotate_num, t_stack *a, t_stack *b, int *res_cnt);
 
 void            push_swap(t_stack *a, t_stack *b);
+void            make_pivot(int rotate_num, t_inform *inform, t_stack *stack);
 
+void            one_two_three(int rotate_num, t_stack *a, t_stack *b, char name);
+void            three_b(t_stack *a, t_stack *b);
+void            three_a(t_stack *a);
+void            five(t_stack *a, t_stack *b,char name);
 
 # endif

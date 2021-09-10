@@ -1,6 +1,48 @@
 #include "../push.h"
 
-void    ft_push_rotate_a(t_stack *a, t_stack *b, t_inform *inform)
+bool    special_case_b(int rotate_num, t_stack *a, t_stack *b)
+{
+    if (rotate_num <= 3)
+    {
+        one_two_three(rotate_num,a,b,'B');
+        return false;
+    }
+    else if (rotate_num == 5)
+    {
+        five(a,b,'B');
+        return false;
+    }
+    else
+        return true;
+}
+
+void    rollbacks_ra(t_stack *a, t_stack *b, t_inform *inform)
+{
+    int rrr;
+    int rev_a;
+
+    rrr = inform->rb;
+    rev_a = inform->ra - inform->rb;
+    while (rrr--)
+        all_stack_reverse_rotate(a,b,'C');
+    while (rev_a--)
+        one_stack_reverse_rotate(a, 'A');
+}
+
+void    rollbacks_rb(t_stack *a, t_stack *b, t_inform *inform)
+{
+    int rrr;
+    int rev_b;
+    
+    rrr = inform->ra;
+    rev_b = inform->rb - inform->ra;
+    while (rrr--)
+        all_stack_reverse_rotate(a,b,'C');
+    while (rev_b--)
+        one_stack_reverse_rotate(b,'B');
+}
+
+void    ft_push_rotate_b(t_stack *a, t_stack *b, t_inform *inform)
 {
     if (b->top->value < inform->pivot_min)
     {
@@ -11,7 +53,7 @@ void    ft_push_rotate_a(t_stack *a, t_stack *b, t_inform *inform)
     {
         push(b,a,'A');
         inform->pa++;
-        if (b->top->value < inform->pivot_max)
+        if (a->top->value < inform->pivot_max)
         {
             one_stack_rotate(a,'A');
             inform->ra++;
@@ -19,27 +61,28 @@ void    ft_push_rotate_a(t_stack *a, t_stack *b, t_inform *inform)
     }
 }
 
-void    b_to_a(int rotate_num, t_stack *a, t_stack *b)
+void    b_to_a(int rotate_num, t_stack *a, t_stack *b, int *res_cnt)
 {
     int         temp;
-    int         temp_ra;
-    int         temp_rb;
     t_inform    *inform;
 
+    (*res_cnt)++;
     inform = init_inform();
     temp = rotate_num;
-    if (temp < 2)
+    if (!special_case_b(rotate_num, a, b))
+    {
+        free(inform);
         return ;
+    }
     make_pivot(rotate_num, inform, b);
     while (temp--)
-        ft_push_rotate_b();
-    a_to_b(inform->pa - inform->ra,a,b);
-    temp_ra = inform->ra;
-    temp_rb = inform->rb;
-    while (temp_ra--)
-        ft_roll_back_a();
-    while (temp_rb--)
-        ft_roll_back_b();
-    a_to_b(inform->ra,a,b);
-    b_to_a(inform->rb,a,b);    
+        ft_push_rotate_b(a,b,inform);
+    a_to_b(inform->pa - inform->ra,a,b,res_cnt);
+    if (inform->ra > inform->rb)
+        rollbacks_ra(a,b,inform);
+    else
+        rollbacks_rb(a,b,inform);
+    a_to_b(inform->ra,a,b,res_cnt);
+    b_to_a(inform->rb,a,b,res_cnt);
+    free(inform);
 }
