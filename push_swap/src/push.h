@@ -79,5 +79,7 @@ void            one_two_three(int rotate_num, t_stack *a, t_stack *b, char name)
 void            three_b(t_stack *a, t_stack *b);
 void            three_a(t_stack *a);
 void            five(t_stack *a, t_stack *b,char name);
+void		    arg_five(t_stack *a, t_stack *b);
+void            two(t_stack *a, t_stack *b, char name);
 
 # endif

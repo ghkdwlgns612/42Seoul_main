@@ -2,7 +2,6 @@
 
 void	three_top_min_a(t_stack *a, int max)
 {
-
 	if (a->size == 3)
 	{
 		if (a->top->next->value == max)

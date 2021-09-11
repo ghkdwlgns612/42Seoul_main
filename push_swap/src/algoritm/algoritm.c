@@ -96,5 +96,8 @@ void    push_swap(t_stack *a, t_stack *b)
 	int res_cnt;
 
 	res_cnt = 0;
-    a_to_b(a->size, a, b, &res_cnt);
+	if (a->size == 5)
+		arg_five(a,b);
+	else
+   		a_to_b(a->size, a, b, &res_cnt);
 }

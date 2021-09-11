@@ -33,7 +33,7 @@ void    rollback_ra(t_stack *a, t_stack *b, t_inform *inform, int *res_cnt)
     else
     {
         while (rrr--)
-            all_stack_reverse_rotate(a,b,'C');
+            one_stack_reverse_rotate(b, 'B');
     }
 }
 
@@ -42,8 +42,8 @@ void    rollback_rb(t_stack *a, t_stack *b, t_inform *inform, int *res_cnt)
     int rrr;
     int rev_b;
 
-    rrr = inform->rb;
-    rev_b = inform->ra - inform->rb;
+    rrr = inform->ra;
+    rev_b = inform->rb - inform->ra;
     if ((*res_cnt) > 0)
     {
         while (rrr--)
@@ -53,8 +53,9 @@ void    rollback_rb(t_stack *a, t_stack *b, t_inform *inform, int *res_cnt)
     }
     else
     {
+        rrr = inform->rb;
         while (rrr--)
-            all_stack_reverse_rotate(a,b,'C');
+            one_stack_reverse_rotate(b, 'B');
     }
 }
 
@@ -84,20 +85,20 @@ void    a_to_b(int rotate_num, t_stack *a, t_stack *b, int *res_cnt)
 
     inform = init_inform();
     temp = rotate_num;
-    if (!special_case_a(rotate_num, a, b))
+    if (!special_case_a(rotate_num, a, b)) //rotate_num = 1,2,3,5면 실행하고 종료
     {
         free(inform);
         return ;
     }
-    make_pivot(rotate_num, inform, a);
+    make_pivot(rotate_num, inform, a); //더블 피봇 생성
     while (temp--)
-        ft_push_rotate_a(a,b,inform);
-    if (inform->ra > inform->rb)
+        ft_push_rotate_a(a,b,inform); //선별작업(제일 큰 그룹은 ra, 중간은 pb->rb, 제일 작은 것은 pb)
+    if (inform->ra > inform->rb) //정렬 후 되돌리기 작업을 최소화하기 위해선택
         rollback_ra(a,b,inform,res_cnt);
     else
         rollback_rb(a,b,inform,res_cnt);
-    a_to_b(inform->ra,a,b,res_cnt);
-    b_to_a(inform->rb,a,b,res_cnt);
-    b_to_a(inform->pb - inform->rb,a,b,res_cnt);
+    a_to_b(inform->ra,a,b,res_cnt); //a스택 계속 정렬(1,2,3,5나올때까지)
+    b_to_a(inform->rb,a,b,res_cnt); //b스택 정렬해서 a로 보내줌
+    b_to_a(inform->pb - inform->rb,a,b,res_cnt); //나머지 제일작은 정렬 후 a로 보내줌.
     free(inform);
 }

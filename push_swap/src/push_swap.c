@@ -62,35 +62,15 @@ int main(int argc, char *argv[])
         b = init_stack();
         if (!a)
             ft_error();
-        a->top = link_stack(&a,argc,argv);
-        ft_check_duplicate(a->top);
-        if (is_sorted(a) || a->size == 1)
+        a->top = link_stack(&a,argc,argv); //할당 된 a스택을 넘겨서 argv[1]의 원소들을 파싱하여 링크드 리스트로 만들어줍니다. 
+        ft_check_duplicate(a->top); //중복체크와 유효한 범위를 가지는지 체크
+        if (is_sorted(a) || a->size == 1) //정렬되어있거나 크기가 1인것은 바로 종료
         {
             free_all(a,b);
             return 0;
         }
-        push_swap(a,b);
-
+        push_swap(a,b); //여기까지 왔으면 정렬을 해보자.
         free_all(a,b);
-        // printf("top_value : %d\n", a->top->value);
-        // printf("top_next_value : %d\n", a->top->next->value);
-        // printf("bottom_prev_value : %d\n", a->bottom->prev->value);
-        // printf("bottom_value : %d\n", a->bottom->value);
-
-        // push(a,b,'A');        
-
-        // printf("a->top_value : %d\n", a->top->value);
-        // printf("a->top_next_value : %d\n", a->top->next->value);
-        // printf("a->bottom_prev_value : %d\n", a->bottom->prev->value);
-        // printf("a->bottom_value : %d\n", a->bottom->value);
-
-        // printf("b->top_value : %d\n", b->top->value);
-        // printf("b->top_next_value : %d\n", b->top->next->value);
-        // printf("b->bottom_prev_value : %d\n", b->bottom->prev->value);
-        // printf("b->bottom_value : %d\n", b->bottom->value);
-
-        // printf("bottom_value : %d\n", a->bottom->value);
-        // printf("bottom_value : %d\n", a->bottom->value);
     }
     return 0;
 }

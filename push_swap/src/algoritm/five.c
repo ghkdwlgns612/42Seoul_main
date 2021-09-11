@@ -39,7 +39,7 @@ void    sort_a(int size, t_stack *a, t_stack *b)
 	mid = get_mid_value(a->top);
 	while (size--)
 	{
-		if (a->top->value >= mid)
+		if (a->top->value < mid)
 		{
 			push(a, b, 'B');
 			push_num++;
@@ -49,11 +49,34 @@ void    sort_a(int size, t_stack *a, t_stack *b)
 			one_stack_rotate(a, 'A');
 			rotate++;
 		}
-		if (push_num == 3)
+		if (push_num == 2)
 			break ;
 	}
 	while (rotate--)
 		one_stack_reverse_rotate(a, 'A');
+}
+
+void		arg_five(t_stack *a, t_stack *b)
+{
+	int	pb;
+	int	mid;
+
+	pb = 0;
+	mid = get_mid_value(a->top);
+	while (1)
+	{
+		if (a->top->value < mid)
+		{
+			push(a, b, 'B');
+			pb++;
+		}
+		else
+			one_stack_rotate(a, 'A');
+		if (pb == 2)
+			break ;
+	}
+	three_a(a);
+	two(a, b, 'A');
 }
 
 void    five(t_stack *a, t_stack *b,char name)
