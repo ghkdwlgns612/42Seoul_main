@@ -7,11 +7,6 @@ bool    special_case_a(int rotate_num, t_stack *a, t_stack *b)
         one_two_three(rotate_num,a,b,'A');
         return false;
     }
-    else if (rotate_num == 5)
-    {
-        five(a,b,'A');
-        return false;
-    }
     else
         return true;
 }
@@ -61,7 +56,7 @@ void    rollback_rb(t_stack *a, t_stack *b, t_inform *inform, int *res_cnt)
 
 void    ft_push_rotate_a(t_stack *a, t_stack *b, t_inform *inform)
 {
-    if (a->top->value >= inform->pivot_max)
+    if (a->top->value > inform->pivot_max)
     {
         one_stack_rotate(a,'A');
         inform->ra++;
@@ -70,7 +65,7 @@ void    ft_push_rotate_a(t_stack *a, t_stack *b, t_inform *inform)
     {
         push(a,b,'B');
         inform->pb++;
-        if (b->top->value >= inform->pivot_min)
+        if (b->top->value > inform->pivot_min)
         {
             one_stack_rotate(b,'B');
             inform->rb++;
