@@ -76,7 +76,7 @@ void		arg_five(t_stack *a, t_stack *b)
 			break ;
 	}
 	three_a(a);
-	two(a, b, 'A');
+	two(a, b, 'B');
 }
 
 void    five(t_stack *a, t_stack *b,char name)
