@@ -3,61 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/15 13:47:16 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/09/12 21:35:44 by jihuhwan         ###   ########.fr       */
+/*   Created: 2021/09/13 06:38:41 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/13 07:04:19 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../bonus.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+int	ft_strlen_gnl(char *s)
 {
-	char	*str;
-	int		s1_len;
-	int		s2_len;
-	int		s1_index;
-	int		s2_index;
-
-	if (s1 == 0 || s2 == 0)
-		return (0);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (str == 0)
-		return (0);
-	s1_index = 0;
-	while (s1_index < s1_len)
-	{
-		str[s1_index] = s1[s1_index];
-		s1_index++;
-	}
-	s2_index = 0;
-	while (s2_index < s2_len)
-		str[s1_index++] = s2[s2_index++];
-	str[s1_index] = '\0';
-	free(s1);
-	return (str);
-}
-
-char	*ft_strdup(char *str)
-{
-	size_t	len;
-	size_t	i;
-	char	*ret;
+	int	len;
 
 	len = 0;
-	while (str[len])
-		len++;
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (ret == 0)
+	if (!s)
 		return (0);
-	i = 0;
-	while (i < len)
-	{
-		ret[i] = str[i];
-		i++;
-	}
-	ret[i] = '\0';
-	return (ret);
+	while (s[len])
+		len++;
+	return (len);
+}
+
+char	*ft_strjoin_gnl(char *save, char *buff)
+{
+	int		i;
+	int		j;
+	int		save_len;
+	int		buff_len;
+	char	*dest;
+
+	save_len = ft_strlen_gnl(save);
+	buff_len = ft_strlen_gnl(buff);
+	dest = (char *)malloc(save_len + buff_len + 1);
+	if (!(dest))
+		return (NULL);
+	i = -1;
+	while (++i < save_len)
+		dest[i] = save[i];
+	j = -1;
+	while (++j < buff_len)
+		dest[i + j] = buff[j];
+	dest[i + j] = '\0';
+	free(save);
+	return (dest);
 }

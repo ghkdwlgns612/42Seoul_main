@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 21:59:27 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/09/12 22:09:19 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/09/13 06:17:40 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../bonus.h"
@@ -70,7 +70,6 @@ bool	extract_value(char *str, t_node **node, t_stack **stack_a)
 		temp_node->value = ft_check(temp[i]);
 		link_node(node, &temp_node, stack_a);
 		i++;
-		free(*temp);
 		(*stack_a)->size++;
 	}
 	free(temp);

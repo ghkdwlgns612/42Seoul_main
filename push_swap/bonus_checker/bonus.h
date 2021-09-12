@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 22:18:17 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/09/12 22:22:34 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/09/13 06:45:26 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ t_stack			*init_stack(void);
 t_node			*init_node(void);
 t_node			*link_stack(t_stack **stack_a, int argc, char **argv);
 
-char			*ft_strdup(char *str);
 size_t			ft_strlen(const char *str);
-char			*ft_strjoin(char *s1, char *s2);
+int				ft_strlen_gnl(char *s);
+char			*ft_strjoin_gnl(char *save, char *buff);
 bool			ft_strcmp(char *s1, char *s2);
 int				get_next_line(int fd, char **line);
 char			**ft_split(char const *s, char c);

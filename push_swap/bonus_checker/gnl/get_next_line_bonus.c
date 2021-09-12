@@ -3,87 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/12 21:34:04 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/09/12 21:43:57 by jihuhwan         ###   ########.fr       */
+/*   Created: 2021/09/13 06:37:04 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/13 07:10:39 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../bonus.h"
 
-int	ft_newline(char *str)
+int	is_newline(char *save)
 {
 	int	i;
 
+	if (!save)
+		return (0);
 	i = 0;
-	while (str[i])
+	while (save[i])
 	{
-		if (str[i] == '\n')
-			return (i);
+		if (save[i] == '\n')
+			return (1);
 		i++;
 	}
-	return (-1);
-}
-
-int	ft_split_line(char **line, char **static_str, int flag)
-{
-	char	*temp;
-	int		len;
-
-	(*static_str)[flag] = 0;
-	len = ft_strlen(*static_str + flag + 1);
-	*line = ft_strdup(*static_str);
-	if (len == 0)
-	{
-		free(*static_str);
-		*static_str = 0;
-		return (1);
-	}
-	temp = ft_strdup(*static_str + flag + 1);
-	free(*static_str);
-	*static_str = temp;
-	return (1);
-}
-
-int	ft_return(char **static_str, char **line)
-{
-	int	flag;
-
-	flag = ft_newline(*static_str);
-	if (*static_str && flag >= 0)
-		return (ft_split_line(line, static_str, flag));
-	else if (*static_str)
-	{
-		*line = *static_str;
-		*static_str = 0;
-		return (0);
-	}
-	*line = ft_strdup("");
 	return (0);
+}
+
+char	*get_line(char *save)
+{
+	int		i;
+	int		dest_len;
+	char	*dest;
+
+	dest_len = 0;
+	while (save[dest_len] != '\n' && save[dest_len])
+		dest_len++;
+	dest = (char *)malloc(dest_len + 1);
+	if (!(dest))
+		return (NULL);
+	i = -1;
+	while (++i < dest_len)
+		dest[i] = save[i];
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*get_save(char *save)
+{
+	int		i;
+	int		j;
+	int		save_len;
+	char	*dest;
+
+	save_len = ft_strlen_gnl(save);
+	i = 0;
+	while (save[i] != '\n' && save[i])
+		i++;
+	if (!save[i])
+	{
+		free(save);
+		return (NULL);
+	}
+	i++;
+	dest = (char *)malloc(save_len - i + 1);
+	if (!(dest))
+		return (NULL);
+	j = 0;
+	while (save[i])
+		dest[j++] = save[i++];
+	dest[j] = '\0';
+	free(save);
+	return (dest);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	ssize_t			read_index;
-	static char		*str[OPEN_MAX];
-	char			buf[BUFFER_SIZE + 1];
-	int				flag;
+	char		*buff;
+	static char	*save[OPEN_MAX];
+	int			read_len;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	buff = (char *)malloc(BUFFER_SIZE + 1);
+	if (fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE <= 0 || !(buff))
 		return (-1);
-	read_index = read(fd, buf, BUFFER_SIZE);
-	while (read_index > 0)
+	read_len = 1;
+	while (!is_newline(save[fd]) && read_len != 0)
 	{
-		if (str[fd] == 0)
-			str[fd] = ft_strdup("");
-		buf[read_index] = '\0';
-		str[fd] = ft_strjoin(str[fd], buf);
-		flag = ft_newline(str[fd]);
-		if (flag >= 0)
-			return (ft_split_line(line, &str[fd], flag));
-		read_index = read(fd, buf, BUFFER_SIZE);
+		read_len = read(fd, buff, BUFFER_SIZE);
+		if ((read_len) < 0)
+			return (-1);
+		buff[read_len] = '\0';
+		save[fd] = ft_strjoin_gnl(save[fd], buff);
+		if (!(save[fd]))
+			return (-1);
 	}
-	if (read_index < 0)
-		return (-1);
-	return (ft_return(&str[fd], line));
+	free(buff);
+	*line = get_line(save[fd]);
+	save[fd] = get_save(save[fd]);
+	if (!save[fd])
+		return (0);
+	return (1);
 }
