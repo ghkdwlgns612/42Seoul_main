@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 21:47:51 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 21:52:49 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "bonus.h"
 
-bool		ft_strcmp(char *s1, char *s2)
+bool	ft_strcmp(char *s1, char *s2)
 {
-	int index;
+	int		index;
 
 	index = 0;
 	while (s1[index] == s2[index])
@@ -17,10 +28,9 @@ bool		ft_strcmp(char *s1, char *s2)
 		return (true);
 }
 
-
-bool    is_sorted(t_stack *stack)
+bool	is_sorted(t_stack *stack)
 {
-    t_node	*node;
+	t_node	*node;
 
 	node = stack->top;
 	while (node != NULL)
@@ -28,7 +38,7 @@ bool    is_sorted(t_stack *stack)
 		if (node->next != NULL)
 		{
 			if (node->value > node->next->value)
-				return false;
+				return (false);
 		}
 		if (node->next != NULL)
 			node = node->next;
@@ -36,35 +46,35 @@ bool    is_sorted(t_stack *stack)
 			break ;
 	}
 	if (node->value == stack->bottom->value)
-		return true;
+		return (true);
 	else
-		return false;
+		return (false);
 }
 
 void	check_functions(char *buf, t_stack *a, t_stack *b)
 {
 	if (!ft_strcmp("pa", buf))
-        push(b,a);
-    else if (!ft_strcmp("pb", buf))
-        push(a,b);
+		push(b, a);
+	else if (!ft_strcmp("pb", buf))
+		push(a, b);
 	else if (!ft_strcmp("sa", buf))
-        one_stack_swap(a);
-    else if (!ft_strcmp("sb", buf))
-        one_stack_swap(b);
-    else if (!ft_strcmp("ss", buf))
-        all_stack_swap(a,b);
-    else if (!ft_strcmp("ra", buf))
-        one_stack_rotate(a);
-    else if (!ft_strcmp("rb", buf))
-        one_stack_rotate(b);
-    else if (!ft_strcmp("rr", buf))
-        all_stack_rotate(a,b);
-    else if (!ft_strcmp("rra", buf))
-        one_stack_reverse_rotate(a);
-    else if (!ft_strcmp("rrb", buf))
-        one_stack_reverse_rotate(b);
-    else if (!ft_strcmp("rrr", buf))
-        all_stack_reverse_rotate(a,b);
+		one_stack_swap(a);
+	else if (!ft_strcmp("sb", buf))
+		one_stack_swap(b);
+	else if (!ft_strcmp("ss", buf))
+		all_stack_swap(a, b);
+	else if (!ft_strcmp("ra", buf))
+		one_stack_rotate(a);
+	else if (!ft_strcmp("rb", buf))
+		one_stack_rotate(b);
+	else if (!ft_strcmp("rr", buf))
+		all_stack_rotate(a, b);
+	else if (!ft_strcmp("rra", buf))
+		one_stack_reverse_rotate(a);
+	else if (!ft_strcmp("rrb", buf))
+		one_stack_reverse_rotate(b);
+	else if (!ft_strcmp("rrr", buf))
+		all_stack_reverse_rotate(a, b);
 	else
 		ft_error();
 }

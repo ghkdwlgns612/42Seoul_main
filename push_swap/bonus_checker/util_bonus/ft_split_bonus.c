@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 12:10:09 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/09 16:25:28 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/09/12 21:45:55 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../bonus.h"
 
-size_t		word_num(const char *str, char c)
+size_t	word_num(const char *str, char c)
 {
 	size_t	i;
 	size_t	num;
@@ -33,9 +32,9 @@ size_t		word_num(const char *str, char c)
 	return (num);
 }
 
-void		ft_strcpy(char *dest, char const *src, size_t start, size_t last)
+void	ft_strcpy(char *dest, char const *src, size_t start, size_t last)
 {
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	while (start < last)
@@ -47,7 +46,7 @@ void		ft_strcpy(char *dest, char const *src, size_t start, size_t last)
 	dest[i] = '\0';
 }
 
-void		*mem_free(char **fail_arr, size_t num)
+void	*mem_free(char **fail_arr, size_t num)
 {
 	size_t	i;
 
@@ -61,7 +60,7 @@ void		*mem_free(char **fail_arr, size_t num)
 	return (NULL);
 }
 
-void		semi_split(const char *origin_str, char c, char **split_str)
+void	semi_split(const char *origin_str, char c, char **split_str)
 {
 	size_t	i;
 	size_t	j;
@@ -90,7 +89,7 @@ void		semi_split(const char *origin_str, char c, char **split_str)
 	}
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**str;
 	size_t	num;

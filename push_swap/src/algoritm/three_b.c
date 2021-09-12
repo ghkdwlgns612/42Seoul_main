@@ -1,5 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   three_b.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 20:11:14 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 20:13:06 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../include/push.h"
-
 
 void	three_top_min_b(t_stack *b, int max)
 {
@@ -44,8 +54,7 @@ void	three_bottom_min_b(t_stack *b, int max)
 		one_stack_swap(b, 'B');
 }
 
-
-void    three_b(t_stack *a, t_stack *b)
+void	three_b(t_stack *a, t_stack *b)
 {
 	int	min;
 	int	max;

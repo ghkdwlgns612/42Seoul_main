@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   three_a.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 20:07:40 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 20:10:53 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../include/push.h"
 
 void	three_top_min_a(t_stack *a, int max)
@@ -61,14 +72,13 @@ void	three_bottom_min_a(t_stack *a, int max)
 	}
 }
 
-void    three_a(t_stack *a)
+void	three_a(t_stack *a)
 {
- 	int	min;
+	int	min;
 	int	max;
 
 	min = get_min_value(3, a->top);
 	max = get_max_value(3, a->top);
-	
 	if (a->top->value == min)
 		three_top_min_a(a, max);
 	else if (a->top->next->value == min)

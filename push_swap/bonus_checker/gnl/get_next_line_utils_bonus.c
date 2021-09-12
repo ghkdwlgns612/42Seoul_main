@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 13:47:16 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/05/18 15:18:35 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/09/12 21:35:44 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../bonus.h"
 
-char		*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	int		s1_len;
@@ -41,7 +40,7 @@ char		*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-char		*ft_strdup(char *str)
+char	*ft_strdup(char *str)
 {
 	size_t	len;
 	size_t	i;

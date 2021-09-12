@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 20:40:34 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 20:43:13 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../include/push.h"
 
-void	ft_error()
+void	ft_error(void)
 {
 	ft_putendl_fd("Error", 2);
 	exit(0);
 }
 
-int				ft_minus(char c)
+int	ft_minus(char c)
 {
 	if (c == '+' || c == '-')
 	{
@@ -15,7 +26,6 @@ int				ft_minus(char c)
 	}
 	return (1);
 }
-
 
 void	ft_putendl_fd(char *s, int fd)
 {
@@ -28,8 +38,7 @@ void	ft_putendl_fd(char *s, int fd)
 	write(fd, "\n", 1);
 }
 
-
-long long				ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	int			i;
 	int			minus;
@@ -55,7 +64,6 @@ long long				ft_atoi(const char *str)
 	return (minus * res);
 }
 
-
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -63,5 +71,5 @@ size_t	ft_strlen(const char *str)
 	i = 0;
 	while (str[i] != 0)
 		i++;
-    return (i);
+	return (i);
 }

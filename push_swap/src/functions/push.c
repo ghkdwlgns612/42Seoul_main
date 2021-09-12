@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 21:17:25 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 21:20:18 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../include/push.h"
 
-void    one_size_push(t_stack *poped, t_stack *pushed)
+void	one_size_push(t_stack *poped, t_stack *pushed)
 {
 	if (pushed->size == 0)
 	{
@@ -17,43 +28,43 @@ void    one_size_push(t_stack *poped, t_stack *pushed)
 	poped->bottom = NULL;
 }
 
-void    general_push(t_stack *poped, t_stack *pushed)
+void	general_push(t_stack *poped, t_stack *pushed)
 {
-    if (pushed->size == 0)
-    {
-        pushed->top = poped->top;
-        pushed->bottom = pushed->top;
-        poped->top = poped->top->next;
-        pushed->top->next = NULL;
-        poped->top->prev = NULL;
-    }
-    else
-    {
-        pushed->top->prev = poped->top;
-        poped->top = poped->top->next;
-        poped->top->prev = NULL;
-        pushed->top->prev->next = pushed->top;
-        pushed->top = pushed->top->prev;
-    }
+	if (pushed->size == 0)
+	{
+		pushed->top = poped->top;
+		pushed->bottom = pushed->top;
+		poped->top = poped->top->next;
+		pushed->top->next = NULL;
+		poped->top->prev = NULL;
+	}
+	else
+	{
+		pushed->top->prev = poped->top;
+		poped->top = poped->top->next;
+		poped->top->prev = NULL;
+		pushed->top->prev->next = pushed->top;
+		pushed->top = pushed->top->prev;
+	}
 }
 
-void    push(t_stack *poped, t_stack *pushed, char name)
+void	push(t_stack *poped, t_stack *pushed, char name)
 {
-    if (poped->size == 0)
-        return ;
-    if (poped->size == 1)
-        one_size_push(poped,pushed);
-    else
-        general_push(poped,pushed);
-    pushed->size++;
+	if (poped->size == 0)
+		return ;
+	if (poped->size == 1)
+		one_size_push(poped, pushed);
+	else
+		general_push(poped, pushed);
+	pushed->size++;
 	poped->size--;
-    ft_print_push(name);
+	ft_print_push(name);
 }
 
-void    ft_print_push(char name)
+void	ft_print_push(char name)
 {
-    if (name == 'A')
-        ft_putendl_fd("pa", 1);
-    else if (name == 'B')
-        ft_putendl_fd("pb", 1);
+	if (name == 'A')
+		ft_putendl_fd("pa", 1);
+	else if (name == 'B')
+		ft_putendl_fd("pb", 1);
 }

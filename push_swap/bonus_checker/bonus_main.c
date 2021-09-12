@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus_main.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 21:53:09 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 21:55:10 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "bonus.h"
 
 void	free_stack(t_stack *stack)
@@ -21,24 +32,25 @@ void	free_stack(t_stack *stack)
 	free(stack);
 }
 
-void		free_all(t_stack *a, t_stack *b)
+void	free_all(t_stack *a, t_stack *b)
 {
 	free_stack(a);
 	free_stack(b);
 }
 
-int     main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-    t_stack *a;
-    t_stack *b;
-    if (argc > 1)
-    {
-        a = init_stack();
-        b = init_stack();
-        a->top = link_stack(&a,argc,argv);
-        ft_check_duplicate(a->top);
-        checker(a,b);
-        free_all(a,b);
-    }
-    return 0;
+	t_stack	*a;
+	t_stack	*b;
+
+	if (argc > 1)
+	{
+		a = init_stack();
+		b = init_stack();
+		a->top = link_stack(&a, argc, argv);
+		ft_check_duplicate(a->top);
+		checker(a, b);
+		free_all(a, b);
+	}
+	return (0);
 }

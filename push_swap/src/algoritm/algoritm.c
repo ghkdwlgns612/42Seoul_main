@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algoritm.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 19:48:37 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/09/12 21:11:56 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../include/push.h"
 
-int		bubble_sort(int value[])
+int	bubble_sort(int value[])
 {
 	int	i;
 	int	j;
@@ -20,10 +31,10 @@ int		bubble_sort(int value[])
 			}
 		}
 	}
-	return value[2];
+	return (value[2]);
 }
 
-int		get_mid_value(t_node *node)
+int	get_mid_value(t_node *node)
 {	
 	int	i;
 	int	value[5];
@@ -39,10 +50,10 @@ int		get_mid_value(t_node *node)
 	}
 	while (node->prev)
 		node = node->prev;
-	return bubble_sort(value);
+	return (bubble_sort(value));
 }
 
-int     get_max_value(int size, t_node *node)
+int	get_max_value(int size, t_node *node)
 {
 	int	max;
 
@@ -61,7 +72,7 @@ int     get_max_value(int size, t_node *node)
 	return (max);
 }
 
-int     get_min_value(int size, t_node *node)
+int	get_min_value(int size, t_node *node)
 {
 	int	min;
 
@@ -80,24 +91,13 @@ int     get_min_value(int size, t_node *node)
 	return (min);
 }
 
-void    make_pivot(int rotate_num, t_inform *inform, t_stack *stack)
+void	make_pivot(int r_num, t_inform *inform, t_stack *stack)
 {
-    long max;
-    long min;
+	long	max;
+	long	min;
 
-    max = get_max_value(rotate_num, stack->top);
-    min = get_min_value(rotate_num, stack->top);
-    inform->pivot_max = (min + max) / 2;
-    inform->pivot_min = (inform->pivot_max + min) / 2;
-}
-
-void    push_swap(t_stack *a, t_stack *b)
-{
-	int res_cnt;
-
-	res_cnt = 0;
-	if (a->size == 5)
-		arg_five(a,b);
-	else
-   		a_to_b(a->size, a, b, &res_cnt);
+	max = get_max_value(r_num, stack->top);
+	min = get_min_value(r_num, stack->top);
+	inform->pivot_max = (min + max) / 2;
+	inform->pivot_min = (inform->pivot_max + min) / 2;
 }
