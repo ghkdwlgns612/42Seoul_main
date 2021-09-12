@@ -1,4 +1,4 @@
-#include "../include/push.h"
+#include "bonus.h"
 
 void    one_size_push(t_stack *poped, t_stack *pushed)
 {
@@ -37,7 +37,7 @@ void    general_push(t_stack *poped, t_stack *pushed)
     }
 }
 
-void    push(t_stack *poped, t_stack *pushed, char name)
+void    push(t_stack *poped, t_stack *pushed)
 {
     if (poped->size == 0)
         return ;
@@ -47,13 +47,4 @@ void    push(t_stack *poped, t_stack *pushed, char name)
         general_push(poped,pushed);
     pushed->size++;
 	poped->size--;
-    ft_print_push(name);
-}
-
-void    ft_print_push(char name)
-{
-    if (name == 'A')
-        ft_putendl_fd("pa", 1);
-    else if (name == 'B')
-        ft_putendl_fd("pb", 1);
 }

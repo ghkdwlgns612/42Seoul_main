@@ -1,6 +1,6 @@
-#include "../include/push.h"
+#include "../bonus.h"
 
-void    one_stack_rotate(t_stack *stack, char name)
+void    one_stack_rotate(t_stack *stack)
 {
     t_node *temp;
     t_node *next;
@@ -28,21 +28,10 @@ void    one_stack_rotate(t_stack *stack, char name)
         temp->prev = last;
     }
     (stack)->bottom = temp;
-    ft_print_rotate(name);
 }
 
-void    all_stack_rotate(t_stack *stack_a, t_stack *stack_b, char name)
+void    all_stack_rotate(t_stack *stack_a, t_stack *stack_b)
 {
-    one_stack_rotate(stack_a,name);
-    one_stack_rotate(stack_b,name);
-    if (name == 'C')
-        ft_putendl_fd("rr", 1); 
-}
-
-void    ft_print_rotate(char name)
-{
-    if (name == 'A')
-        ft_putendl_fd("ra", 1);
-    else if (name == 'B')
-        ft_putendl_fd("rb", 1);
+    one_stack_rotate(stack_a);
+    one_stack_rotate(stack_b);
 }

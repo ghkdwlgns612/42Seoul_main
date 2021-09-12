@@ -1,14 +1,6 @@
-#include "../include/push.h"
+#include "../bonus.h"
 
-void    ft_print_swap(char name)
-{
-    if (name == 'A')
-		ft_putendl_fd("sa", 1);
-    else if (name == 'B')
-		ft_putendl_fd("sb", 1);
-}
-
-void    one_stack_swap(t_stack *stack, char name)
+void    one_stack_swap(t_stack *stack)
 {
     t_node *temp;
     t_node *next;
@@ -32,13 +24,10 @@ void    one_stack_swap(t_stack *stack, char name)
         next->next->prev = temp;
         next->next = temp;
     }
-    ft_print_swap(name);
 }
 
-void    all_stack_swap(t_stack *stack_a, t_stack *stack_b, char name)
+void    all_stack_swap(t_stack *stack_a, t_stack *stack_b)
 {
     one_stack_swap(stack_a,name);
     one_stack_swap(stack_b,name);
-    if (name == 'C')
-        ft_putendl_fd("ss", 1);
 }

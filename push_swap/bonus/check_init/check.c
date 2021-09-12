@@ -1,20 +1,4 @@
-#include "../include/push.h"
-
-t_inform    *init_inform(void)
-{
-    t_inform    *inform;
-
-    inform = (t_inform *)malloc(sizeof(t_inform));
-    if (!inform)
-        return (NULL);
-    inform->pivot_max = 0;
-    inform->pivot_min = 0;
-    inform->ra = 0;
-    inform->rb = 0;
-    inform->pa = 0;
-    inform->pb = 0;
-    return (inform);
-}
+#include "bonus.h"
 
 int ft_check(const char *str) { //str -> 부호 제외하고 10자리인지 확인 -> long long변환 후 int_max , int_min랑 확인
     int i = 0;

@@ -1,0 +1,45 @@
+#include "bonus.h"
+
+void	check_operations(char *buf, t_stack *a, t_stack *b)
+{
+	if (!ft_strcmp("pa", buf))
+        push(b,a);
+    else if (!ft_strcmp("pb", buf))
+        push(a,b);
+	else if (!ft_strcmp("sa", buf))
+        one_stack_swap(a);
+    else if (!ft_strcmp("sb", buf))
+        one_stack_swap(b);
+    else if (!ft_strcmp("ss", buf))
+        all_stack_swap(a,b);
+    else if (!ft_strcmp("ra", buf))
+        one_stack_rotate(a);
+    else if (!ft_strcmp("rb", buf))
+        one_stack_rotate(b);
+    else if (!ft_strcmp("rr", buf))
+        all_stack_rotate(a,b);
+    else if (!ft_strcmp("rra", buf))
+        one_stack_reverse_rotate(a);
+    else if (!ft_strcmp("rrb", buf))
+        one_stack_reverse_rotate(b);
+    else if (!ft_strcmp("rrr", buf))
+        all_stack_reverse_rotate(a,b);
+	else
+		ft_error();
+}
+
+void	checker(t_stack *a, t_stack *b)
+{
+	char	*buf;
+
+	while (get_next_line(0, &buf) > 0)
+	{
+		check_functions(buf, a, b);
+		free(buf);
+	}
+	free(buf);
+	if (is_sorted(a) && !b->top)
+		ft_putendl_fd("OK", 1);
+	else
+		ft_putendl_fd("KO", 1);
+}

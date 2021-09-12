@@ -1,4 +1,4 @@
-#include "../push.h"
+#include "../include/push.h"
 
 int		bubble_sort(int value[])
 {

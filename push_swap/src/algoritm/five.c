@@ -1,4 +1,4 @@
-#include "../push.h"
+#include "../include/push.h"
 
 void		arg_five(t_stack *a, t_stack *b)
 {

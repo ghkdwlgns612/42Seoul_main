@@ -1,4 +1,4 @@
-#include "../push.h"
+#include "../include/push.h"
 
 bool    special_case_b(int rotate_num, t_stack *a, t_stack *b)
 {

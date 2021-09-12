@@ -1,4 +1,4 @@
-#include "../push.h"
+#include "../include/push.h"
 
 void	three_top_min_a(t_stack *a, int max)
 {

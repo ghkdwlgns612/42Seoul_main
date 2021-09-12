@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push.h"
+#include "../include/push.h"
 
 size_t		word_num(const char *str, char c)
 {
