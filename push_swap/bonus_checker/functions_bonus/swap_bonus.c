@@ -28,6 +28,6 @@ void    one_stack_swap(t_stack *stack)
 
 void    all_stack_swap(t_stack *stack_a, t_stack *stack_b)
 {
-    one_stack_swap(stack_a,name);
-    one_stack_swap(stack_b,name);
+    one_stack_swap(stack_a);
+    one_stack_swap(stack_b);
 }

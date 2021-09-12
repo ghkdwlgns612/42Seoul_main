@@ -1,4 +1,4 @@
-#include "bonus.h"
+#include "../bonus.h"
 
 void    one_size_push(t_stack *poped, t_stack *pushed)
 {

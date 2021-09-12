@@ -1,4 +1,4 @@
-#include "../bonus.h""
+#include "../bonus.h"
 
 int					ft_newline(char *str)
 {
@@ -56,8 +56,7 @@ int					get_next_line(int fd, char **line)
 	static char		*str[OPEN_MAX];
 	char			buf[BUFFER_SIZE + 1];
 	int				flag;
-	int				flag1;
-
+	
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	while ((read_index = read(fd, buf, BUFFER_SIZE)) > 0)

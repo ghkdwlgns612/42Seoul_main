@@ -1,28 +1,5 @@
 #include "bonus.h"
 
-bool    is_sorted(t_stack *stack)
-{
-    t_node	*node;
-
-	node = stack->top;
-	while (node != NULL)
-	{
-		if (node->next != NULL)
-		{
-			if (node->value > node->next->value)
-				return false;
-		}
-		if (node->next != NULL)
-			node = node->next;
-		else
-			break ;
-	}
-	if (node->value == stack->bottom->value)
-		return true;
-	else
-		return false;
-}
-
 void	free_stack(t_stack *stack)
 {
 	t_node	*node;

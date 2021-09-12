@@ -1,4 +1,4 @@
-#ifdef BONUS_H
+#ifndef BONUS_H
 # define BONUS_H
 
 # include <stdlib.h>
@@ -7,6 +7,14 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <stdbool.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 10200
+# endif
 
 typedef struct s_node 
 {
@@ -22,15 +30,16 @@ typedef struct  s_stack
     t_node      *bottom;
 }               t_stack;
 
-t_stack     *init_stack(void)
-t_node      *init_node(void)
-t_node      *link_stack(t_stack **stack_a, int argc, char **argv)
+t_stack     *init_stack(void);
+t_node      *init_node(void);
+t_node      *link_stack(t_stack **stack_a, int argc, char **argv);
 
 char		*ft_strdup(char *str);
 size_t		ft_strlen(const char *str);
 char		*ft_strjoin(char *s1, char *s2);
 bool		ft_strcmp(char *s1, char *s2);
 int			get_next_line(int fd, char **line);
+char		**ft_split(char const *s, char c);
 
 void	     ft_error();
 void	     ft_putendl_fd(char *s, int fd);

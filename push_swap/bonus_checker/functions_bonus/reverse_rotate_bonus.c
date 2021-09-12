@@ -1,4 +1,4 @@
-#include "bonus.h"
+#include "../bonus.h"
 
 void    one_stack_reverse_rotate(t_stack *stack)
 {
@@ -25,6 +25,6 @@ void    one_stack_reverse_rotate(t_stack *stack)
 
 void    all_stack_reverse_rotate(t_stack *stack_a, t_stack *stack_b)
 {
-    one_stack_reverse_rotate(stack_a,name);
-    one_stack_reverse_rotate(stack_b,name);
+    one_stack_reverse_rotate(stack_a);
+    one_stack_reverse_rotate(stack_b);
 }

@@ -1,6 +1,47 @@
 #include "bonus.h"
 
-void	check_operations(char *buf, t_stack *a, t_stack *b)
+bool		ft_strcmp(char *s1, char *s2)
+{
+	int index;
+
+	index = 0;
+	while (s1[index] == s2[index])
+	{
+		if (s1[index] == '\0' && s2[index] == '\0')
+			return (false);
+		index++;
+	}
+	if (s1[index] > s2[index])
+		return (true);
+	else
+		return (true);
+}
+
+
+bool    is_sorted(t_stack *stack)
+{
+    t_node	*node;
+
+	node = stack->top;
+	while (node != NULL)
+	{
+		if (node->next != NULL)
+		{
+			if (node->value > node->next->value)
+				return false;
+		}
+		if (node->next != NULL)
+			node = node->next;
+		else
+			break ;
+	}
+	if (node->value == stack->bottom->value)
+		return true;
+	else
+		return false;
+}
+
+void	check_functions(char *buf, t_stack *a, t_stack *b)
 {
 	if (!ft_strcmp("pa", buf))
         push(b,a);

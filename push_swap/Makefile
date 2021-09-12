@@ -13,10 +13,11 @@ SRCS_DIR = ./src	\
 			./src/functions		\
 			./src/utils			\
 
-BONUS_DIR = ./bonus	\
-			./bonus/check_init \
-			./bonus/functions \
-			./bonus/gnl	\
+BONUS_DIR = ./bonus_checker	\
+			./bonus_checker/check_init \
+			./bonus_checker/functions_bonus \
+			./bonus_checker/gnl	\
+			./bonus_checker/util_bonus \
 
 SRCS =	./src/push_swap.c	\
 		./src/utils/ft_split.c	\
@@ -35,17 +36,18 @@ SRCS =	./src/push_swap.c	\
 		./src/algoritm/three_a.c	\
 		./src/algoritm/three_b.c	\
 
-BONUS = ./bonus/check_init/check.c	\
-		./bonus/check_init/init.c	\
-		./bonus/functions/push.c	\
-		./bonus/functions/reverse_rotate.c	\
-		./bonus/functions/rotate.c	\
-		./bonus/functions/swap.c	\
-		./bonus/gnl/get_next_line_utils.c	\
-		./bonus/gnl/get_next_line.c	\
-		./bonus/bonus.c	\
-		./bonus/checker.c	\
-		./bonus/utils.c	\
+BONUS = ./bonus_checker/check_init/check_bonus.c	\
+		./bonus_checker/check_init/init_bonus.c	\
+		./bonus_checker/functions_bonus/push_bonus.c	\
+		./bonus_checker/functions_bonus/reverse_rotate_bonus.c	\
+		./bonus_checker/functions_bonus/rotate_bonus.c	\
+		./bonus_checker/functions_bonus/swap_bonus.c	\
+		./bonus_checker/gnl/get_next_line_utils_bonus.c	\
+		./bonus_checker/gnl/get_next_line_bonus.c	\
+		./bonus_checker/bonus_main.c	\
+		./bonus_checker/checker.c	\
+		./bonus_checker/util_bonus/ft_split_bonus.c 	\
+		./bonus_checker/util_bonus/utils_bonus.c	\
 
 OBJS = $(notdir $(SRCS:.c=.o))
 vpath %.c $(SRCS_DIR)
@@ -55,16 +57,16 @@ vpath %.c $(BONUS_DIR)
 
 all : $(NAME)
 
-bonus : $(BONUS_NAME)
+%.o : %.c
+	$(CC) $(CFLAGS) -o $@ -c $^
 
 $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(BONUS_NAME) : $(BONUS_OBJS)
-	$(CC) $(CFLAGS) -O $@ $^
+bonus : $(BONUS_NAME)
 
-%.o : %.c
-	$(CC) $(CFLAGS) -o $@ -c $^
+$(BONUS_NAME) : $(BONUS_OBJS)
+		$(CC) $(CFLAGS) -o $@ $^
 
 clean :
 	$(RFLAGS) -r $(OBJS) $(BONUS_OBJS)

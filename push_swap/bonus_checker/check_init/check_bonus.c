@@ -1,4 +1,4 @@
-#include "bonus.h"
+#include "../bonus.h"
 
 int ft_check(const char *str) { //str -> 부호 제외하고 10자리인지 확인 -> long long변환 후 int_max , int_min랑 확인
     int i = 0;

@@ -36,7 +36,7 @@ BON_OB = $(BON:.c=.o)
 all : $(NAME)
 
 %.o : %.c
-			$(CC) $(CFLAGS)	-c $<
+	$(CC) $(CFLAGS)	-c $<
 
 $(NAME) : $(OBJS)
 		ar cr $(NAME) $(OBJS)
