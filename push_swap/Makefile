@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 RFLAGS = rm -f
 
-#NORMI = norminette
+NORMI = norminette
 
 SRCS_DIR = ./src	\
 			./src/algoritm	\
@@ -57,8 +57,8 @@ vpath %.c $(SRCS_DIR)
 BONUS_OBJS = $(notdir $(BONUS:.c=.o))
 vpath %.c $(BONUS_DIR)
 
-#nor :
-#	$(NORMI) $(SRCS) $(BONUS)
+nor :
+	$(NORMI) $(SRCS) $(BONUS)
 
 all : $(NAME)
 
