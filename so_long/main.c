@@ -9,6 +9,16 @@ typedef struct s_data {
 	int		endian;
 }			t_data;
 
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}			t_vars;
+
+void	close(int key_code, t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+}
+
 void	my_mlx_pixel_put(t_data *data, int x,int y, int color)
 {
 	char *dst;
