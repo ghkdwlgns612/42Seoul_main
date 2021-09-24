@@ -9,7 +9,7 @@
 /*   Updated: 2021/09/13 07:10:39 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../bonus.h"
+#include "so_long.h"
 
 int	is_newline(char *save)
 {
@@ -77,11 +77,11 @@ char	*get_save(char *save)
 int	get_next_line(int fd, char **line)
 {
 	char		*buff;
-	static char	*save[OPEN_MAX];
+	static char	*save[10200];
 	int			read_len;
 
 	buff = (char *)malloc(BUFFER_SIZE + 1);
-	if (fd < 0 || fd > OPEN_MAX || !line || BUFFER_SIZE <= 0 || !(buff))
+	if (fd < 0 || fd > 10200 || !line || BUFFER_SIZE <= 0 || !(buff))
 		return (-1);
 	read_len = 1;
 	while (!is_newline(save[fd]) && read_len != 0)

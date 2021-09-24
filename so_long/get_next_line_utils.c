@@ -9,7 +9,7 @@
 /*   Updated: 2021/09/13 07:04:19 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../bonus.h"
+#include "so_long.h"
 
 int	ft_strlen_gnl(char *s)
 {
