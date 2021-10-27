@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   load_images.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 16:44:34 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/10/27 16:44:46 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
 void ft_startvalues(t_utilities *util)
 {
-  util->screen.mlx = mlx_init();
+  util->screen.mlx = mlx_init(); //소프트웨어와 디스플레이를 연결.
   util->exit.x = -1;
   util->exit.y = -1;
   util->player.x = -1;
@@ -10,8 +22,8 @@ void ft_startvalues(t_utilities *util)
   util->player.items = 0;
   util->player.steps = 0;
   util->time = 0;
-  util->state = 1;
-  util->keys.check = 1;
+  util->state = 1; //게임의 상태(시작인지 끝났는지)
+  util->keys.check = 1; 
 }
 
 void	ft_initplayer(t_utilities *util, int posx, int posy)
@@ -30,7 +42,7 @@ void	ft_initexit(t_utilities *util, int posx, int posy)
 	util->exit.x = posx;
 	util->exit.y = posy;
 }
-
+//mlx_xpm함수로 파일 디스크럽터를 생성해 그것을 이미지 포인터로 저장해놓고 get_addr로 색깔, 선의 크기, 엔디안을 저장합니다.
 void ft_load_images(t_utilities *util)
 {
   util->twall.ptr = mlx_xpm_file_to_image(util->screen.mlx, "img/wall1.xpm",
@@ -62,7 +74,7 @@ void ft_load_images(t_utilities *util)
 	util->tlose.addr = mlx_get_data_addr(util->tlose.ptr,
 			&util->tlose.bpp, &util->tlose.linelen, &util->tlose.endian);  
 }
-
+//img/en에있는 적이미지 4개를 생성합니다.
 void    ft_load_images1(t_utilities *res)
 {
     char    *temp;
@@ -98,7 +110,7 @@ t_utilities start(int fd, char *argv)
   
   util.map.height = result.rows;
   util.map.width = result.cols;
-  util.unitsize = 40;
+  util.unitsize = 100; //맵 중 하나의 image크기?
   ft_startvalues(&util);
   util.map.matrix = create_matrix(argv, fd, util.map.height, util.map.width);
 

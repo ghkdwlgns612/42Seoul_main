@@ -2,7 +2,7 @@ NAME = so_long
 
 CC = gcc
 
-CFLAG = -Wall -Werror -Wextra
+CFLAG = -Wall -Werror -Wextrax
 
 MLX_FLAGS =	-lmlx -framework OpenGL -framework AppKit -lm
 

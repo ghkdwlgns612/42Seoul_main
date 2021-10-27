@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_matrix.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/27 16:43:53 by jihuhwan          #+#    #+#             */
+/*   Updated: 2021/10/27 16:44:00 by jihuhwan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
-t_RowsCols matrix_row_col(int fd)
+t_RowsCols matrix_row_col(int fd) //.ber을 읽어들여 맵의 크키글 지정.
 {
     t_RowsCols  s;
     char        *line;
@@ -24,6 +36,7 @@ t_RowsCols matrix_row_col(int fd)
     s.cols = col;
     return s;
 }
+
 char **create_matrix(char *path, int fd, int rows, int cols)
 {
     int ret;
@@ -52,7 +65,6 @@ char **create_matrix(char *path, int fd, int rows, int cols)
         {
            ft_exit("map must be rectangular!");
         }
-        
         while (j < cols)
         {
             matrix[i][j] = line[j];
