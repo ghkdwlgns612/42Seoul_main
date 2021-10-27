@@ -4,14 +4,42 @@ CC = gcc
 
 CFLAG = -Wall -Werror -Wextra
 
-SRCS = main.c get_next_line.c get_next_line_utils.c \
+MLX_FLAGS =	-lmlx -framework OpenGL -framework AppKit -lm
 
-OBJS = $(SRCS:.c=.o)
+SRCS =	main.c \
+		get_next_line.c \
+		check_input.c \
+		check_norms.c \
+		create_matrix.c \
+		key_events.c \
+		load_images.c \
+		mlx_utils.c \
+		put_images.c \
+		win_lose.c \
+		utils/ft_gnl_strchr.c \
+		utils/ft_gnl_strjoin.c \
+		utils/ft_gnl_strlen.c \
+		utils/ft_itoa.c \
+		utils/ft_putstr_fd.c \
+		utils/ft_strjoin.c \
+		utils/ft_strlen.c
 
-all : $(NAME)
+OBJS = ${addprefix source/,$(SRCS:.c=.o)}
 
 $.o : $.c
-	$(CC) $(CFLAG) -lmlx -c  $< -o $@
+	${CC} ${CFLAG} -c  $< -o ${<:.c=.o}
 
-$(NAME) : $(OBJS)
-	$(CC) -L ./minilibx_mms_20200219 -lmlx -framework OpenGL -framework AppKit *.c
+${NAME} : ${OBJS}
+	make -C mlx
+	${CC} ${CFLAG} ${MLX_FLAGS} ${OBJS} -o ${NAME}
+
+all : ${NAME}
+
+clean :	
+		make clean -C mlx
+		@rm -rf ${OBJS}
+
+fclean :	clean
+			@rm -rf ${NAME}
+
+re :	fclean all

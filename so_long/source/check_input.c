@@ -1,4 +1,4 @@
-#include "../include/so_long.h"
+#include "../so_long.h"
 
 void	ft_checkinput1(t_utilities *res)
 {

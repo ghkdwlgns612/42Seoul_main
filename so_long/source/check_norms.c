@@ -1,4 +1,4 @@
-#include "../include/so_long.h"
+#include "../so_long.h"
 
 int     exit_count(t_utilities util)
 {
@@ -74,14 +74,4 @@ int    ft_check_extension(char *path, char *ext)
         && *(path + pathlen - 2) == *(ext + extlen - 2)
         && *(path + pathlen - 3) == *(ext + extlen - 3)
         && *(path + pathlen - 4) == *(ext + extlen - 4));
-}
-
-int     ft_strlen(char *str)
-{
-    int i = 0;
-
-    i = 0;
-    while (str[i] != 0)
-        i++;
-    return (i);
 }

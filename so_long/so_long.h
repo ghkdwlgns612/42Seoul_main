@@ -79,7 +79,7 @@ typedef struct s_utilities
     int			texx;
 	int			texy;
     int			unitsize;
-    int		    state; //game state(finished or not)
+    int		    state;
     double      time;
     int         frame;
     t_img		sprite;
@@ -99,7 +99,6 @@ typedef struct s_utilities
 }		        t_utilities;
 
 t_RowsCols      matrix_row_col(int fd);
-size_t	        ft_strlen(const char *s);
 int				get_next_line(int fd, char **line);
 char            *leftover(char *tmp);
 char            *the_line(char *tmp);
@@ -133,6 +132,12 @@ void	        ft_animateenemy(t_utilities *util);
 int             ft_check_extension(char *path, char *ext);
 int	            destroy_hook(int keycode, t_utilities *util);
 
-
+char            *ft_gnl_strchr(char *s, int c);
+char	        *ft_gnl_strjoin(char *s1, char *s2);
+size_t	        ft_gnl_strlen(char *str);
+char		    *ft_itoa(int n);
+void	        ft_putstr_fd(char *s, int fd);
+char	        *ft_strjoin(char *s1, char *s2);
+int             ft_strlen(char *str);
 
 #endif
