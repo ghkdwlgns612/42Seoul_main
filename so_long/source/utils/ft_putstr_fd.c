@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:47:09 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/27 16:47:16 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/27 18:31:08 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(s);
 	write(fd, s, len);

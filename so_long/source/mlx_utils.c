@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:45:12 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/27 16:45:21 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 13:07:03 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	ft_putspritepixel(t_utilities *res, int i, int j)
 	res->texy = (int)((float)res->x / res->unitsize * res->sprite.height);
 	if (ft_mlx_get_color(&res->sprite, res->texx, res->texy) != 0xFF000000)
 		ft_mlx_pixel_put(&res->screen, j * res->unitsize + res->y,
-		i * res->unitsize + res->x, ft_mlx_get_color(&res->sprite, res->texx, res->texy));
+			i * res->unitsize + res->x,
+			ft_mlx_get_color(&res->sprite, res->texx, res->texy));
 }

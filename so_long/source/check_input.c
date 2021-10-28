@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:43:23 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/27 16:43:31 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 12:57:04 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,3 @@ void	ft_checkinput4(t_utilities *res)
 		}
 	}
 }
-

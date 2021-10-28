@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_images.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:45:35 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/27 16:45:43 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 12:59:48 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	ft_render(t_utilities *util)
 		}
 		util->i++;
 	}
-	mlx_put_image_to_window(util->screen.mlx, util->screen.win, util->screen.img.ptr, 0, 0);
+	mlx_put_image_to_window(util->screen.mlx, util->screen.win,
+		util->screen.img.ptr, 0, 0);
 	ft_putmoves(util);
 	mlx_do_sync(util->screen.mlx);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:46:26 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/27 16:46:35 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/27 18:28:40 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*ft_gnl_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if (!(join = malloc(sizeof(char) *
-					(ft_gnl_strlen(s1) + ft_gnl_strlen(s2) + 1))))
+	join = malloc(sizeof(char) * ((ft_gnl_strlen(s1)) + ft_gnl_strlen(s2) + 1));
+	if (!join)
 		return (NULL);
 	i = 0;
 	j = 0;

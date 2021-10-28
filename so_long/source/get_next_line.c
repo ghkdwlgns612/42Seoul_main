@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihuhwan <jihuhwan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:44:07 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/27 16:44:13 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 12:58:49 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*the_line(char *tmp)
 	i = 0;
 	while (tmp && tmp[i] != '\n' && tmp[i] != '\0')
 		i++;
-	if (!(line = (char *)malloc(i + 1)))
+	line = (char *)malloc(i + 1);
+	if (!line)
 		return (NULL);
 	while (j < i)
 	{
@@ -50,7 +51,8 @@ char	*leftover(char *tmp)
 		free(tmp);
 		return (NULL);
 	}
-	if (!(ptr = (char *)malloc(ft_gnl_strlen(tmp) - i + 1)))
+	ptr = (char *)malloc(ft_gnl_strlen(tmp) - i + 1);
+	if (!ptr)
 		return (NULL);
 	i++;
 	while (tmp[i])
@@ -87,3 +89,4 @@ int		get_next_line(int fd, char **line)
 		return (0);
 	return (1);
 }
+
