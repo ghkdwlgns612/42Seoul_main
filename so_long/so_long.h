@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:42:58 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/28 14:41:26 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:33:29 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void			matrix_rows_cols(int fd, int rows, int cols);
 int				inner_character_check(char **matrix, int rows, int cols);
 int				border_character_check(char **matrix, int rows, int cols);
 void			ft_load_images(t_utilities *util);
+void			ft_load_images_end(t_utilities *util);
 void			ft_startvalues(t_utilities *util);
 int				ft_mlx_pressed(int keycode, t_keys *keys);
 int				ft_mlx_released(int keycode, t_keys *keys);

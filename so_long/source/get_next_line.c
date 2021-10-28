@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:44:07 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/28 12:58:49 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:20:39 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,19 @@ char	*leftover(char *tmp)
 	return (ptr);
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int			r;
 	char		*buf;
-	static char *tmp;
+	static char	*tmp;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (-1);
-	if (!(buf = (char *)malloc(BUFFER_SIZE + 1)))
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (fd < 0 || !line || BUFFER_SIZE <= 0 || !buf)
 		return (-1);
 	r = 1;
-	while ((r = read(fd, buf, BUFFER_SIZE)) > 0)
+	while (r > 0)
 	{
+		r = read(fd, buf, BUFFER_SIZE);
 		buf[r] = '\0';
 		tmp = ft_gnl_strjoin(tmp, buf);
 		if (ft_gnl_strchr(buf, '\n'))
@@ -89,4 +89,3 @@ int		get_next_line(int fd, char **line)
 		return (0);
 	return (1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:43:37 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/28 12:57:09 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:05:19 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	check_norms(t_utilities util)
 	else if (inner_character_check(util.map.matrix,
 			   	util.map.height, util.map.width) == 0)
 	{
-		ft_exit("The map must have only '1' '0' 'P' 'C' 'E' 'F' characters");
+		ft_exit("The map must have only '1' '0' 'P' 'C' 'E' characters");
 	}
 	else if (util.player.goal == 0)
 		ft_exit("There is no food in this map");

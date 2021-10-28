@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:44:57 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/28 14:34:11 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 15:52:14 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,23 @@ t_RowsCols	matrix_row_col(int fd)
 	return (s);
 }
 
+t_utilities	start(int fd, char *argv)
+{
+	t_utilities	util;
+	t_RowsCols	result;
+
+	result = matrix_row_col(fd);
+	util.map.height = result.rows;
+	util.map.width = result.cols;
+	util.unitsize = 100;
+	ft_startvalues(&util);
+	util.map.matrix = create_matrix(argv, fd, util.map.height, util.map.width);
+	ft_setmatrixcharacters(&util);
+	ft_load_images(&util);
+	ft_load_images_end(&util);
+	return (util);
+}
+
 int	main(int argc, char **argv)
 {
 	int			fd;
@@ -66,13 +83,12 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);
-		util = start(fd, argv[1]);
 		if (!(ft_check_extension(argv[1], ".ber")))
 			ft_exit("Invalid file format.");
+		util = start(fd, argv[1]);
 		if (check_norms(util) == 1)
 		{
 			util_screen_image(&util);
-			system("leaks so_long");
 			mlx_hook(util.screen.win, 2, 0, ft_mlx_pressed, &(util.keys));
 			mlx_hook(util.screen.win, 3, 0, ft_mlx_released, &(util.keys));
 			mlx_hook(util.screen.win, 17, 0, destroy_hook, &util);

@@ -6,7 +6,7 @@
 /*   By: jihuhwan <jihuhwan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 16:43:23 by jihuhwan          #+#    #+#             */
-/*   Updated: 2021/10/28 12:57:04 by jihuhwan         ###   ########.fr       */
+/*   Updated: 2021/10/28 16:00:58 by jihuhwan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void	ft_checkinput1(t_utilities *res)
 				res->map.matrix[res->player.x][res->player.y] = '0';
 			res->player.x--;
 			if (res->map.matrix[res->player.x][res->player.y] == 'E'
-				&& res->player.items >= res->player.goal)
+				&& res->player.items >= 1)
 				ft_triggervictory(res);
-			else if (res->map.matrix[res->player.x][res->player.y] == 'F')
-				ft_triggerloss(res);
 			res->map.matrix[res->player.x][res->player.y] = 'P';
 			res->keys.up = 0;
 		}
@@ -52,10 +50,8 @@ void	ft_checkinput2(t_utilities *res)
 				res->map.matrix[res->player.x][res->player.y] = '0';
 			res->player.y--;
 			if (res->map.matrix[res->player.x][res->player.y] == 'E'
-				&& res->player.items >= res->player.goal)
+				&& res->player.items >= 1)
 				ft_triggervictory(res);
-			else if (res->map.matrix[res->player.x][res->player.y] == 'F')
-				ft_triggerloss(res);
 			res->map.matrix[res->player.x][res->player.y] = 'P';
 			res->keys.right = 0;
 		}
@@ -77,10 +73,8 @@ void	ft_checkinput3(t_utilities *res)
 				res->map.matrix[res->player.x][res->player.y] = '0';
 			res->player.x++;
 			if (res->map.matrix[res->player.x][res->player.y] == 'E'
-				&& res->player.items >= res->player.goal)
+				&& res->player.items >= 1)
 				ft_triggervictory(res);
-			else if (res->map.matrix[res->player.x][res->player.y] == 'F')
-				ft_triggerloss(res);
 			res->map.matrix[res->player.x][res->player.y] = 'P';
 			res->keys.down = 0;
 		}
@@ -102,10 +96,8 @@ void	ft_checkinput4(t_utilities *res)
 				res->map.matrix[res->player.x][res->player.y] = '0';
 			res->player.y++;
 			if (res->map.matrix[res->player.x][res->player.y] == 'E'
-				&& res->player.items >= res->player.goal)
+				&& res->player.items >= 1)
 				ft_triggervictory(res);
-			else if (res->map.matrix[res->player.x][res->player.y] == 'F')
-				ft_triggerloss(res);
 			res->map.matrix[res->player.x][res->player.y] = 'P';
 			res->keys.left = 0;
 		}
